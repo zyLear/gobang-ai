@@ -10,8 +10,6 @@ import com.zylear.gobangai.bean.GobangConstants;
  */
 public class GobangChessScoreCoreV2 {
 
-    
-
 
     public static int getChessScore(int[][] tryChess, int calculateColor) {
         int whiteScore = 0;

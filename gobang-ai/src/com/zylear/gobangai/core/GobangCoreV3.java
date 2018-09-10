@@ -55,10 +55,13 @@ public class GobangCoreV3 {
 //            totalVisitedMap.put(chessCount, visitedMap);
 //        }
         String uniqueKeyV2 = GobangOperation.getUniqueKeyV2(tryChess);
-        BestPoint bestPoint = totalOptimizeMap.get(uniqueKeyV2);
-        if (bestPoint != null) {
-            return bestPoint;
-        }
+//        BestPoint bestPoint = totalOptimizeMap.get(uniqueKeyV2);
+//        if (bestPoint != null) {
+//            if (bestPoint.score > GobangConstants.LOSE_SCORE_SIGN) {
+//                return bestPoint;
+//            }
+//            System.out.println("lose .. key : " + uniqueKeyV2);
+//        }
 
         score = GobangCoreV3.minMax(tryChess, gameDepth, GobangConstants.ALPHA, GobangConstants.BETA, calculateColor);
         totalOptimizeMap.put(uniqueKeyV2, GobangCoreV3.bestPoint);
@@ -81,16 +84,29 @@ public class GobangCoreV3 {
 
 //        nodeCount++;
         depth--;
+
+//        if (depth == 1) {
+//
+//        }
+
         if (depth == 0) {
 //            bottomCount++;
+//            String tryUniqueKey = GobangOperation.getUniqueKeyV2(tryChess);
+//            BestPoint bestPoint = totalOptimizeMap.get(tryUniqueKey);
+//            if (bestPoint != null) {
+//                repeatedCount++;
+//                System.out.println("beat opponent key  score: " + bestPoint.score);
+//                return bestPoint.score;
+//            }
+//            int chessScore =
+//            visitedMap.put(tryUniqueKey, chessScore);
             String tryUniqueKey = GobangOperation.getUniqueKeyV2(tryChess);
             BestPoint bestPoint = totalOptimizeMap.get(tryUniqueKey);
             if (bestPoint != null) {
                 repeatedCount++;
+                System.out.println("beat my key  score: " + bestPoint.score);
                 return bestPoint.score;
             }
-//            int chessScore =
-//            visitedMap.put(tryUniqueKey, chessScore);
             return GobangChessScoreCoreV2.getChessScore(tryChess, calculateColor);
         }
 
