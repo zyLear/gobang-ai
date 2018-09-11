@@ -1,13 +1,14 @@
 package com.zylear.gobangai;
 
 
+import com.zylear.gobangai.bean.GobangConstants;
+import com.zylear.gobangai.bean.RecordPoint;
 import com.zylear.gobangai.bean.network.GobangOptimize;
 import com.zylear.gobangai.bean.network.GobangResponse;
 import com.zylear.gobangai.core.*;
 import com.zylear.gobangai.util.JsonUtil;
 import com.zylear.gobangai.util.OkHttpUtil;
 import okhttp3.Response;
-import okhttp3.ResponseBody;
 
 import javax.swing.*;
 import java.awt.*;
@@ -22,6 +23,8 @@ import java.util.List;
 @SuppressWarnings("serial")
 public class GobangPanel extends JPanel implements MouseListener {
 
+
+//    private List<BestPoint> bestPoints;
 
     public void changeComputerFirst() {
         isComputerFirst = !isComputerFirst;
@@ -66,7 +69,7 @@ public class GobangPanel extends JPanel implements MouseListener {
 
     public boolean isComputerFirst = true;
 
-    private ArrayList<BestPoint> bestPoints = new ArrayList<>();
+    private List<RecordPoint> recordPoints = new ArrayList<>(128);
     private int highScore;
 
     private int strategy = 1;
@@ -183,6 +186,7 @@ public class GobangPanel extends JPanel implements MouseListener {
         for (int a = 0; a < chessList.length; a++) {
             chessList[a] = null;
         }
+        recordPoints.clear();
 
         if (isComputerFirst) {
             allChess = new int[15][15];
@@ -209,7 +213,7 @@ public class GobangPanel extends JPanel implements MouseListener {
 
     private void syncChessInfo() {
         try {
-            Response response = OkHttpUtil.syncExecJsonPost("http://127.0.0.1/publish/admin/gobang/all-record","");
+            Response response = OkHttpUtil.syncExecJsonPost("http://127.0.0.1/publish/admin/gobang/all-record", "");
 //            System.out.println("response : " + response.body().string());
 
             GobangResponse records = JsonUtil.getObjectFromJson(response.body().string(), GobangResponse.class);
@@ -222,7 +226,7 @@ public class GobangPanel extends JPanel implements MouseListener {
                 map.put(gobangOptimize.getAllChess(), bestPoint);
             }
             GobangCoreV3.totalOptimizeMap = map;
-
+            response.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -277,7 +281,6 @@ public class GobangPanel extends JPanel implements MouseListener {
             return;
         }
         pressMark = true;
-        String colorName = isBlack ? "黑棋" : "白棋";
 
 
         //  isVisual=true;
@@ -308,7 +311,7 @@ public class GobangPanel extends JPanel implements MouseListener {
 
 
         //如果胜出则给出提示信息，不能继续下棋
-        handleWin(judgeWin, colorName);
+        handleWin(judgeWin, isBlack);
 
 
         // string1+="1";
@@ -442,8 +445,6 @@ public class GobangPanel extends JPanel implements MouseListener {
             noti.setText("用时：0.001秒");
         } else {
 
-            colorName = isBlack ? "黑棋" : "白棋";
-
             for (int i = 0; i < chessCount; i++) {
                 if (chessList[i].getColor() == Color.white)
                     tryChess[chessList[i].getX()][chessList[i].getY()] = 1;
@@ -455,7 +456,9 @@ public class GobangPanel extends JPanel implements MouseListener {
             System.out.println();
             System.out.println("电脑正在思考.....");
             bestPoint = calculate();
-            submit(bestPoint);
+            RecordPoint recordPoint = formRecordPoint(bestPoint, GobangOperation.getUniqueKeyV2(allChess));
+            recordPoints.add(recordPoint);
+            submit(recordPoint);
 
 //            bestPoint = GobangCore.calculate(tryChess, gameDepth, executeDepth, computerColor);
             time = (System.currentTimeMillis() - currentTime);
@@ -481,7 +484,7 @@ public class GobangPanel extends JPanel implements MouseListener {
 
 
         //如果胜出则给出提示信息，不能继续下棋
-        handleWin(judgeWin, colorName);
+        handleWin(judgeWin, isBlack);
 
         isBlack = !isBlack;
         pressMark = false;
@@ -489,15 +492,28 @@ public class GobangPanel extends JPanel implements MouseListener {
 
     }
 
-    private void submit(BestPoint bestPoint) {
+    private RecordPoint formRecordPoint(BestPoint bestPoint, String uniqueKeyV2) {
+        RecordPoint recordPoint = new RecordPoint();
+        recordPoint.x = bestPoint.x;
+        recordPoint.y = bestPoint.y;
+        recordPoint.score = bestPoint.score;
+        recordPoint.allChess = uniqueKeyV2;
+        return recordPoint;
+    }
+
+    private void submit(RecordPoint recordPoint) {
+
+//        bestPoints.add(bestPoint);
+
         GobangOptimize gobangOptimize = new GobangOptimize();
-        gobangOptimize.setAllChess(GobangOperation.getUniqueKeyV2(allChess));
-        gobangOptimize.setX(bestPoint.x);
-        gobangOptimize.setY(bestPoint.y);
-        gobangOptimize.setScore(bestPoint.score);
+        gobangOptimize.setAllChess(recordPoint.allChess);
+        gobangOptimize.setX(recordPoint.x);
+        gobangOptimize.setY(recordPoint.y);
+        gobangOptimize.setScore(recordPoint.score);
         try {
             Response response = OkHttpUtil.syncExecJsonPost("http://127.0.0.1/publish/admin/gobang/submit", JsonUtil.toJSONString(gobangOptimize));
             System.out.println("response : " + response);
+            response.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -515,15 +531,28 @@ public class GobangPanel extends JPanel implements MouseListener {
         return null;
     }
 
-    private void handleWin(boolean isWin, String colorName) {
+    private void handleWin(boolean isWin, boolean isBlack) {
         if (isWin) {
+            String colorName = isBlack ? "黑棋" : "白棋";
+            if ((isBlack && computerColor == WHITE) || (!isBlack && computerColor == BLACK)) {
+                for (int i = recordPoints.size() - 1; i > 0; i--) {
+                    if (recordPoints.get(i).score > GobangConstants.LOSE_SCORE_SIGN) {
+                        RecordPoint recordPoint = recordPoints.get(i);
+                        System.out.println("update lose score. key : " + recordPoint.allChess +
+                                "  old score: " + recordPoint.score);
+                        recordPoint.score = GobangConstants.LOSE_SCORE;
+                        submit(recordPoint);
+                        break;
+                    }
+                }
+            }
+
             String msg = String.format("恭喜，%s赢了！", colorName);
             JOptionPane.showMessageDialog(this, msg);
 
             gameOver = true;
             restart();
             pressMark = false;
-            return;
         }
     }
 

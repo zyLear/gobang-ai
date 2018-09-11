@@ -7,6 +7,7 @@ public class GobangConstants {
 
     public static final Integer WIN_SCORE = 10000000;
     public static final Integer LOSE_SCORE = -10000000;
+    public static final Integer LOSE_SCORE_SIGN = -8000000;
 
     public static final Integer FIFTEEN = 15;
     public static final int ROWS = 14;//棋盘行数

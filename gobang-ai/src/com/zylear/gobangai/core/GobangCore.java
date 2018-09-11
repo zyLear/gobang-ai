@@ -19,7 +19,6 @@ public class GobangCore {
 
     public static BestPoint calculate(int[][] tryChess, int gameDepth, int executeDepth, int calculateColor) {
 //        long currentTime = System.currentTimeMillis();
-        int score;
         BestPoint bestPoint = new BestPoint();
 //        score = GobangCore.execute(tryChess, executeDepth, executeDepth, GobangConstants.ALPHA, GobangConstants.BETA, calculateColor, bestPoint);
 //        if (score != GobangConstants.WIN_SCORE) {
@@ -31,7 +30,7 @@ public class GobangCore {
 //                System.out.println("对手算杀失败，正常博弈...");
 //
 
-                score = GobangCore.minMax(tryChess, gameDepth, gameDepth, GobangConstants.ALPHA, GobangConstants.BETA, calculateColor, bestPoint);
+        int score = GobangCore.minMax(tryChess, gameDepth, gameDepth, GobangConstants.ALPHA, GobangConstants.BETA, calculateColor, bestPoint);
 //            } else {
 //                System.out.println("对手算杀成功");
 //            }
