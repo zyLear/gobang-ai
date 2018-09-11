@@ -6,13 +6,19 @@ import com.zylear.gobangai.NullPoint;
 import com.zylear.gobangai.Point;
 import com.zylear.gobangai.bean.GobangConstants;
 
-import java.util.*;
-import java.util.function.Function;
+import java.util.HashMap;
+import java.util.Map;
 
 
 /**
  * try to add visited array to reduce duplicate calculate.
  * try to serialize 2d array.
+ *
+ * 20180911 update
+ * try to use the result calculated at the deepest point.
+ *
+ *
+ *
  * <p>
  * Created by xiezongyu on 2018/9/9.
  */
