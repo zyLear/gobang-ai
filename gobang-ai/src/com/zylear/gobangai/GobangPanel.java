@@ -5,6 +5,7 @@ import com.zylear.gobangai.bean.GobangConstants;
 import com.zylear.gobangai.bean.RecordPoint;
 import com.zylear.gobangai.bean.network.GobangOptimize;
 import com.zylear.gobangai.bean.network.GobangResponse;
+import com.zylear.gobangai.cache.GobangCache;
 import com.zylear.gobangai.core.*;
 import com.zylear.gobangai.util.JsonUtil;
 import com.zylear.gobangai.util.OkHttpUtil;
@@ -61,7 +62,7 @@ public class GobangPanel extends JPanel implements MouseListener {
     public static final int FIFTEEN = 15;
 
     public int gameDepth = 7;
-    public int executeDepth = 13;
+    public int executeDepth = 11;
     public boolean gamestart = false;
     boolean isVisual = false;
     private int Deadline = 60000;
@@ -225,7 +226,7 @@ public class GobangPanel extends JPanel implements MouseListener {
                 bestPoint.score = gobangOptimize.getScore();
                 map.put(gobangOptimize.getAllChess(), bestPoint);
             }
-            GobangCoreV3.totalOptimizeMap = map;
+            GobangCache.gobangOptimizeMap = map;
             response.close();
         } catch (Exception e) {
             e.printStackTrace();
@@ -235,7 +236,7 @@ public class GobangPanel extends JPanel implements MouseListener {
     }
 
 
-    public void goback() {
+    public void goBack() {
         if (chessCount == 0) return;
         chessList[chessCount - 1] = null;
         chessCount--;

@@ -5,9 +5,7 @@ import com.zylear.gobangai.GobangPanel.BestPoint;
 import com.zylear.gobangai.NullPoint;
 import com.zylear.gobangai.Point;
 import com.zylear.gobangai.bean.GobangConstants;
-
-import java.util.HashMap;
-import java.util.Map;
+import com.zylear.gobangai.cache.GobangCache;
 
 
 /**
@@ -17,7 +15,7 @@ import java.util.Map;
  * 20180911 update
  * try to use the result calculated at the deepest point.
  *
- *
+ * without execute calculate
  *
  * <p>
  * Created by xiezongyu on 2018/9/9.
@@ -38,7 +36,7 @@ public class GobangCoreV3 {
     //    private static Set<Integer> visited;
 //    private static Map<String, Integer> visitedMap  = new HashMap<>(10000000);
 //    private static Map<Integer, Map<String, Integer>> totalVisitedMap = new HashMap<>(15 * 15);
-    public static Map<String, BestPoint> totalOptimizeMap = new HashMap<>(10000000);
+
 
     public synchronized static BestPoint calculate(int[][] tryChess, int gameDepth, int executeDepth, int calculateColor) {
         maxExecuteDepth = executeDepth;
@@ -61,7 +59,7 @@ public class GobangCoreV3 {
 //            totalVisitedMap.put(chessCount, visitedMap);
 //        }
         String uniqueKeyV2 = GobangOperation.getUniqueKeyV2(tryChess);
-//        BestPoint bestPoint = totalOptimizeMap.get(uniqueKeyV2);
+//        BestPoint bestPoint = gobangOptimizeMap.get(uniqueKeyV2);
 //        if (bestPoint != null) {
 //            if (bestPoint.score > GobangConstants.LOSE_SCORE_SIGN) {
 //                return bestPoint;
@@ -69,8 +67,8 @@ public class GobangCoreV3 {
 //            System.out.println("lose .. key : " + uniqueKeyV2);
 //        }
 
-        score = GobangCoreV3.minMax(tryChess, gameDepth, GobangConstants.ALPHA, GobangConstants.BETA, calculateColor);
-        totalOptimizeMap.put(uniqueKeyV2, GobangCoreV3.bestPoint);
+        score = minMax(tryChess, gameDepth, GobangConstants.ALPHA, GobangConstants.BETA, calculateColor);
+        GobangCache.gobangOptimizeMap.put(uniqueKeyV2, GobangCoreV3.bestPoint);
 
         System.out.println("v3 分数：" + score +
                 "   bottomCount:" + bottomCount +
@@ -98,7 +96,7 @@ public class GobangCoreV3 {
         if (depth == 0) {
 //            bottomCount++;
 //            String tryUniqueKey = GobangOperation.getUniqueKeyV2(tryChess);
-//            BestPoint bestPoint = totalOptimizeMap.get(tryUniqueKey);
+//            BestPoint bestPoint = gobangOptimizeMap.get(tryUniqueKey);
 //            if (bestPoint != null) {
 //                repeatedCount++;
 //                System.out.println("beat opponent key  score: " + bestPoint.score);
@@ -107,7 +105,7 @@ public class GobangCoreV3 {
 //            int chessScore =
 //            visitedMap.put(tryUniqueKey, chessScore);
             String tryUniqueKey = GobangOperation.getUniqueKeyV2(tryChess);
-            BestPoint bestPoint = totalOptimizeMap.get(tryUniqueKey);
+            BestPoint bestPoint = GobangCache.gobangOptimizeMap.get(tryUniqueKey);
             if (bestPoint != null) {
                 repeatedCount++;
                 System.out.println("beat my key  score: " + bestPoint.score);

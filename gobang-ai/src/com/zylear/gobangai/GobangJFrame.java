@@ -92,7 +92,7 @@ public class GobangJFrame extends JFrame {
                 } else if (obj == btn2 || obj == item2) {
                     // System.out.println("悔棋...");
                     JOptionPane.showMessageDialog(start, "不想给你悔棋");
-                    // start.goback();
+                    // start.goBack();
 
 
                 } else if (obj == btn3 || obj == item3)
