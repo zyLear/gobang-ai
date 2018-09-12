@@ -383,7 +383,7 @@ public class GobangExecuteTryChessCore {
     }
 
     private static int getExecuteTryPointScore(int[][] tryChess, int xIndex, int yIndex, int c) {
-        int d = 0 - c;
+        int d = -c;
         int max = 0;
         int t = 0;
         ////////////////////////////
@@ -495,6 +495,423 @@ public class GobangExecuteTryChessCore {
 
 
         return max;
+    }
+
+    public static boolean getTryPointsV2(int[][] tryChess, NullPoint[] tryPoints, NullPoint mark, int calculateColor) {
+
+        for (int o = 0; o < 225; o++)
+            tryPoints[o] = new NullPoint();
+
+
+        int[][] tempNull = new int[15][15];
+
+        mark.count = 0;
+
+
+        int max = 0;
+
+        for (int x = 0; x < GobangConstants.FIFTEEN; x++) {
+            for (int y = 0; y < GobangConstants.FIFTEEN; y++) {
+                if (tryChess[x][y] == 0) {
+
+                    if (GobangOperation.isInside(x - 1, y)) {
+                        if (tryChess[x - 1][y] != 0) {
+                            tempNull[x][y] = getExecuteTryPointScoreV2(tryChess, x, y, calculateColor);
+                            if (max < tempNull[x][y]) {
+                                max = tempNull[x][y];
+                                tryPoints[0].x = x;
+                                tryPoints[0].y = y;
+                            }
+                            tryPoints[0].count++;
+                            continue;
+                        }
+                    }
+                    if (GobangOperation.isInside(x - 2, y)) {
+                        if (tryChess[x - 2][y] != 0) {
+                            tempNull[x][y] = getExecuteTryPointScoreV2(tryChess, x, y, calculateColor);
+                            if (max < tempNull[x][y]) {
+                                max = tempNull[x][y];
+                                tryPoints[0].x = x;
+                                tryPoints[0].y = y;
+                            }
+                            tryPoints[0].count++;
+                            continue;
+                        }
+                    }
+                    if (GobangOperation.isInside(x + 1, y)) {
+                        if (tryChess[x + 1][y] != 0) {
+                            tempNull[x][y] = getExecuteTryPointScoreV2(tryChess, x, y, calculateColor);
+                            if (max < tempNull[x][y]) {
+                                max = tempNull[x][y];
+                                tryPoints[0].x = x;
+                                tryPoints[0].y = y;
+                            }
+                            tryPoints[0].count++;
+                            continue;
+                        }
+                    }
+                    if (GobangOperation.isInside(x + 2, y)) {
+                        if (tryChess[x + 2][y] != 0) {
+                            tempNull[x][y] = getExecuteTryPointScoreV2(tryChess, x, y, calculateColor);
+                            if (max < tempNull[x][y]) {
+                                max = tempNull[x][y];
+                                tryPoints[0].x = x;
+                                tryPoints[0].y = y;
+                            }
+                            tryPoints[0].count++;
+                            continue;
+                        }
+                    }
+
+                    if (GobangOperation.isInside(x, y - 1)) {
+                        if (tryChess[x][y - 1] != 0) {
+                            tempNull[x][y] = getExecuteTryPointScoreV2(tryChess, x, y, calculateColor);
+                            if (max < tempNull[x][y]) {
+                                max = tempNull[x][y];
+                                tryPoints[0].x = x;
+                                tryPoints[0].y = y;
+                            }
+                            tryPoints[0].count++;
+                            continue;
+                        }
+                    }
+
+                    if (GobangOperation.isInside(x, y - 2)) {
+                        if (tryChess[x][y - 2] != 0) {
+                            tempNull[x][y] = getExecuteTryPointScoreV2(tryChess, x, y, calculateColor);
+                            if (max < tempNull[x][y]) {
+                                max = tempNull[x][y];
+                                tryPoints[0].x = x;
+                                tryPoints[0].y = y;
+                            }
+                            tryPoints[0].count++;
+                            continue;
+                        }
+                    }
+
+                    if (GobangOperation.isInside(x, y + 1)) {
+                        if (tryChess[x][y + 1] != 0) {
+                            tempNull[x][y] = getExecuteTryPointScoreV2(tryChess, x, y, calculateColor);
+                            if (max < tempNull[x][y]) {
+                                max = tempNull[x][y];
+                                tryPoints[0].x = x;
+                                tryPoints[0].y = y;
+                            }
+                            tryPoints[0].count++;
+                            continue;
+                        }
+                    }
+
+                    if (GobangOperation.isInside(x, y + 2)) {
+                        if (tryChess[x][y + 2] != 0) {
+                            tempNull[x][y] = getExecuteTryPointScoreV2(tryChess, x, y, calculateColor);
+                            if (max < tempNull[x][y]) {
+                                max = tempNull[x][y];
+                                tryPoints[0].x = x;
+                                tryPoints[0].y = y;
+                            }
+                            tryPoints[0].count++;
+                            continue;
+                        }
+                    }
+
+
+                    if (GobangOperation.isInside(x + 1, y + 1)) {
+                        if (tryChess[x + 1][y + 1] != 0) {
+                            tempNull[x][y] = getExecuteTryPointScoreV2(tryChess, x, y, calculateColor);
+                            if (max < tempNull[x][y]) {
+                                max = tempNull[x][y];
+                                tryPoints[0].x = x;
+                                tryPoints[0].y = y;
+                            }
+                            tryPoints[0].count++;
+                            continue;
+                        }
+                    }
+
+
+                    if (GobangOperation.isInside(x + 2, y + 2)) {
+                        if (tryChess[x + 2][y + 2] != 0) {
+                            tempNull[x][y] = getExecuteTryPointScoreV2(tryChess, x, y, calculateColor);
+                            if (max < tempNull[x][y]) {
+                                max = tempNull[x][y];
+                                tryPoints[0].x = x;
+                                tryPoints[0].y = y;
+                            }
+                            tryPoints[0].count++;
+                            continue;
+                        }
+                    }
+
+
+                    if (GobangOperation.isInside(x - 1, y + 1)) {
+                        if (tryChess[x - 1][y + 1] != 0) {
+                            tempNull[x][y] = getExecuteTryPointScoreV2(tryChess, x, y, calculateColor);
+                            if (max < tempNull[x][y]) {
+                                max = tempNull[x][y];
+                                tryPoints[0].x = x;
+                                tryPoints[0].y = y;
+                            }
+                            tryPoints[0].count++;
+                            continue;
+                        }
+                    }
+
+
+                    if (GobangOperation.isInside(x - 2, y + 2)) {
+                        if (tryChess[x - 2][y + 2] != 0) {
+                            tempNull[x][y] = getExecuteTryPointScoreV2(tryChess, x, y, calculateColor);
+                            if (max < tempNull[x][y]) {
+                                max = tempNull[x][y];
+                                tryPoints[0].x = x;
+                                tryPoints[0].y = y;
+                            }
+                            tryPoints[0].count++;
+                            continue;
+                        }
+                    }
+
+                    if (GobangOperation.isInside(x + 1, y - 1)) {
+                        if (tryChess[x + 1][y - 1] != 0) {
+                            tempNull[x][y] = getExecuteTryPointScoreV2(tryChess, x, y, calculateColor);
+                            if (max < tempNull[x][y]) {
+                                max = tempNull[x][y];
+                                tryPoints[0].x = x;
+                                tryPoints[0].y = y;
+                            }
+                            tryPoints[0].count++;
+                            continue;
+                        }
+                    }
+
+                    if (GobangOperation.isInside(x + 2, y - 2)) {
+                        if (tryChess[x + 2][y - 2] != 0) {
+                            tempNull[x][y] = getExecuteTryPointScoreV2(tryChess, x, y, calculateColor);
+                            if (max < tempNull[x][y]) {
+                                max = tempNull[x][y];
+                                tryPoints[0].x = x;
+                                tryPoints[0].y = y;
+                            }
+                            tryPoints[0].count++;
+                            continue;
+                        }
+                    }
+
+
+                    if (GobangOperation.isInside(x - 1, y - 1)) {
+                        if (tryChess[x - 1][y - 1] != 0) {
+                            tempNull[x][y] = getExecuteTryPointScoreV2(tryChess, x, y, calculateColor);
+                            if (max < tempNull[x][y]) {
+                                max = tempNull[x][y];
+                                tryPoints[0].x = x;
+                                tryPoints[0].y = y;
+                            }
+                            tryPoints[0].count++;
+                            continue;
+                        }
+                    }
+
+
+                    if (GobangOperation.isInside(x - 2, y - 2)) {
+                        if (tryChess[x - 2][y - 2] != 0) {
+                            tempNull[x][y] = getExecuteTryPointScoreV2(tryChess, x, y, calculateColor);
+                            if (max < tempNull[x][y]) {
+                                max = tempNull[x][y];
+                                tryPoints[0].x = x;
+                                tryPoints[0].y = y;
+                            }
+                            tryPoints[0].count++;
+                            continue;
+                        }
+                    }
+
+                    if (GobangOperation.isInside(x - 1, y + 2)) {
+                        if (tryChess[x - 1][y + 2] != 0) {
+                            tempNull[x][y] = getExecuteTryPointScoreV2(tryChess, x, y, calculateColor);
+                            if (max < tempNull[x][y]) {
+                                max = tempNull[x][y];
+                                tryPoints[0].x = x;
+                                tryPoints[0].y = y;
+                            }
+                            tryPoints[0].count++;
+                            continue;
+                        }
+                    }
+
+                    if (GobangOperation.isInside(x - 2, y + 1)) {
+                        if (tryChess[x - 2][y + 1] != 0) {
+                            tempNull[x][y] = getExecuteTryPointScoreV2(tryChess, x, y, calculateColor);
+                            if (max < tempNull[x][y]) {
+                                max = tempNull[x][y];
+                                tryPoints[0].x = x;
+                                tryPoints[0].y = y;
+                            }
+                            tryPoints[0].count++;
+                            continue;
+                        }
+                    }
+
+                    if (GobangOperation.isInside(x + 1, y + 2)) {
+                        if (tryChess[x + 1][y + 2] != 0) {
+                            tempNull[x][y] = getExecuteTryPointScoreV2(tryChess, x, y, calculateColor);
+                            if (max < tempNull[x][y]) {
+                                max = tempNull[x][y];
+                                tryPoints[0].x = x;
+                                tryPoints[0].y = y;
+                            }
+                            tryPoints[0].count++;
+                            continue;
+                        }
+                    }
+
+                    if (GobangOperation.isInside(x + 2, y + 1)) {
+                        if (tryChess[x + 2][y + 1] != 0) {
+                            tempNull[x][y] = getExecuteTryPointScoreV2(tryChess, x, y, calculateColor);
+                            if (max < tempNull[x][y]) {
+                                max = tempNull[x][y];
+                                tryPoints[0].x = x;
+                                tryPoints[0].y = y;
+                            }
+                            tryPoints[0].count++;
+                            continue;
+                        }
+                    }
+                    if (GobangOperation.isInside(x + 1, y - 2)) {
+                        if (tryChess[x + 1][y - 2] != 0) {
+                            tempNull[x][y] = getExecuteTryPointScoreV2(tryChess, x, y, calculateColor);
+                            if (max < tempNull[x][y]) {
+                                max = tempNull[x][y];
+                                tryPoints[0].x = x;
+                                tryPoints[0].y = y;
+                            }
+                            tryPoints[0].count++;
+                            continue;
+                        }
+                    }
+
+                    if (GobangOperation.isInside(x + 2, y - 1)) {
+                        if (tryChess[x + 2][y - 1] != 0) {
+                            tempNull[x][y] = getExecuteTryPointScoreV2(tryChess, x, y, calculateColor);
+                            if (max < tempNull[x][y]) {
+                                max = tempNull[x][y];
+                                tryPoints[0].x = x;
+                                tryPoints[0].y = y;
+                            }
+                            tryPoints[0].count++;
+                            continue;
+                        }
+                    }
+
+                    if (GobangOperation.isInside(x - 1, y - 2)) {
+                        if (tryChess[x - 1][y - 2] != 0) {
+                            tempNull[x][y] = getExecuteTryPointScoreV2(tryChess, x, y, calculateColor);
+                            if (max < tempNull[x][y]) {
+                                max = tempNull[x][y];
+                                tryPoints[0].x = x;
+                                tryPoints[0].y = y;
+                            }
+                            tryPoints[0].count++;
+                            continue;
+                        }
+                    }
+
+                    if (GobangOperation.isInside(x - 2, y - 1)) {
+                        if (tryChess[x - 2][y - 1] != 0) {
+                            tempNull[x][y] = getExecuteTryPointScoreV2(tryChess, x, y, calculateColor);
+                            if (max < tempNull[x][y]) {
+                                max = tempNull[x][y];
+                                tryPoints[0].x = x;
+                                tryPoints[0].y = y;
+                            }
+                            tryPoints[0].count++;
+                            continue;
+                        }
+                    }
+
+
+                }
+            }
+        }
+
+
+        if (max == 10) {
+            mark.count = 1;
+            mark.sheng = 1;
+            return true;
+        } else if (max == 9) {
+            mark.count = 1;
+            return true;
+
+        } else if (max == 8) {
+
+            mark.count = 1;
+
+            return true;
+        } else if (max >= 4 && max <= 7) {
+            int count = 0;
+            int u = 7;
+            while (u >= 4) {
+                for (int x = 0; x < GobangConstants.FIFTEEN; x++) {
+                    for (int y = 0; y < GobangConstants.FIFTEEN; y++) {
+                        if (tempNull[x][y] == u) {
+                            tryPoints[count].x = x;
+                            tryPoints[count].y = y;
+                            count++;
+                        }
+                    }
+                }
+                u--;
+
+            }
+            mark.count = count;
+            return true;
+        }
+
+        mark.count = 0;
+        return false;
+    }
+
+    private static int getExecuteTryPointScoreV2(int[][] tryChess, int xIndex, int yIndex, int c) {
+        int d = -c;
+        int max = 0;
+
+
+        max = getExecuteTryPointScoreV2(tryChess, xIndex, yIndex, 1, 0, c, 0, max);
+        max = getExecuteTryPointScoreV2(tryChess, xIndex, yIndex, 0, 1, c, 0, max);
+        max = getExecuteTryPointScoreV2(tryChess, xIndex, yIndex, 1, 1, c, 0, max);
+        max = getExecuteTryPointScoreV2(tryChess, xIndex, yIndex, 1, -1, c, 0, max);
+
+        max = getExecuteTryPointScoreV2(tryChess, xIndex, yIndex, 1, 0, -c, 1, max);
+        max = getExecuteTryPointScoreV2(tryChess, xIndex, yIndex, 0, 1, -c, 1, max);
+        max = getExecuteTryPointScoreV2(tryChess, xIndex, yIndex, 1, 1, -c, 1, max);
+        max = getExecuteTryPointScoreV2(tryChess, xIndex, yIndex, 1, -1, -c, 1, max);
+
+//        for (int i=0;i<=1;i++) {
+//            max = getExecuteTryPointScoreV2(tryChess, xIndex, yIndex, 1, 0, c, i, max);
+//            max = getExecuteTryPointScoreV2(tryChess, xIndex, yIndex, 0, 1, c, i, max);
+//            max = getExecuteTryPointScoreV2(tryChess, xIndex, yIndex, 1, 1, c, i, max);
+//            max = getExecuteTryPointScoreV2(tryChess, xIndex, yIndex, 1, -1, c, i, max);
+//        }
+//
+
+        return max;
+    }
+
+    private static int getExecuteTryPointScoreV2(int[][] tryChess, int xIndex, int yIndex, int xDirect, int yDirect, int c, int isMyColor, int max) {
+        int t;
+        if (!GobangOperation.isLessFive(tryChess, xIndex, yIndex, xDirect, yDirect, c)) {
+            t = getExecuteTryPointScore(tryChess, xIndex, yIndex, xDirect, yDirect, c, isMyColor);
+            if (t > max) {
+                max = t;
+            }
+
+            t = getExecuteTryPointScore(tryChess, xIndex, yIndex, -xDirect, -yDirect, c, isMyColor);
+            if (t > max) {
+                max = t;
+            }
+        }
+        return max;
+
     }
 
     private static int getExecuteTryPointScore(int[][] tryChess, int xIndex, int yIndex, int xDirect, int yDirect, int color, int isMyColor) {

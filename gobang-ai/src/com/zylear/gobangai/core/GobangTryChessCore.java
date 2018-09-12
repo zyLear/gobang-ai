@@ -2,15 +2,13 @@ package com.zylear.gobangai.core;
 
 
 import com.zylear.gobangai.Point;
+import com.zylear.gobangai.bean.GobangConstants;
 
 /**
  * Created by xiezongyu on 2018/9/7.
  */
 public class GobangTryChessCore {
 
-    public static final int FIFTEEN = 15;
-    public static final int ROWS = 14;//棋盘行数
-    public static final int COLS = 14;//棋盘列数
 
     //EmptyTryPoint[]
     public static void getTryPoints(int[][] tryChess, Point[] P, int c) {
@@ -24,8 +22,8 @@ public class GobangTryChessCore {
         P[0].count = 0;
         int max = 0;
 
-        for (int x = 0; x < FIFTEEN; x++) {
-            for (int y = 0; y < FIFTEEN; y++) {
+        for (int x = 0; x < GobangConstants.FIFTEEN; x++) {
+            for (int y = 0; y < GobangConstants.FIFTEEN; y++) {
                 if (tryChess[x][y] == 0) {
                     boolean flag = false;
 
@@ -362,8 +360,8 @@ public class GobangTryChessCore {
         } else if (max == 8) {
 
             P[0].count = 0;
-            for (int x = 0; x < FIFTEEN; x++) {
-                for (int y = 0; y < FIFTEEN; y++) {
+            for (int x = 0; x < GobangConstants.FIFTEEN; x++) {
+                for (int y = 0; y < GobangConstants.FIFTEEN; y++) {
                     if (tempNull[x][y] == 8) {
                         P[P[0].count].x = x;
                         P[P[0].count].y = y;
@@ -379,8 +377,8 @@ public class GobangTryChessCore {
         int count = 0;
         int u = 7;
         while (u > 0) {
-            for (int x = 0; x < FIFTEEN; x++) {
-                for (int y = 0; y < FIFTEEN; y++) {
+            for (int x = 0; x < GobangConstants.FIFTEEN; x++) {
+                for (int y = 0; y < GobangConstants.FIFTEEN; y++) {
                     if (tempNull[x][y] == u) {
                         P[count].x = x;
                         P[count].y = y;
@@ -396,7 +394,7 @@ public class GobangTryChessCore {
 
     private static boolean isInside(int x, int y) {
 
-        if (x < 0 || x >= FIFTEEN || y < 0 || y >= FIFTEEN) {
+        if (x < 0 || x >= GobangConstants.FIFTEEN || y < 0 || y >= GobangConstants.FIFTEEN) {
             return false;
         }
 
@@ -407,7 +405,7 @@ public class GobangTryChessCore {
 
         int continueCount = 0;//连续棋子的个数
 
-        int d = (c == 1 ? -1 : 1);
+        int d = -c;
         int max = 0;
         int chance = 0;
 
@@ -425,7 +423,7 @@ public class GobangTryChessCore {
             }
         }
         if (x < 0) chance++;
-        for (x = xIndex + 1; x <= COLS; x++) {
+        for (x = xIndex + 1; x <= GobangConstants.COLS; x++) {
             if (tryChess[x][yIndex] == c)
                 continueCount++;
             else {
@@ -434,7 +432,7 @@ public class GobangTryChessCore {
                 break;
             }
         }
-        if (x > FIFTEEN - 1) chance++;
+        if (x > GobangConstants.FIFTEEN - 1) chance++;
         score = getMyTryScore(continueCount, chance);
         if (score > max) max = score;
 
@@ -454,7 +452,7 @@ public class GobangTryChessCore {
         }
         if (y < 0) chance++;
 
-        for (y = yIndex + 1; y <= ROWS; y++) {
+        for (y = yIndex + 1; y <= GobangConstants.ROWS; y++) {
             if (tryChess[xIndex][y] == c)
                 continueCount++;
             else {
@@ -463,7 +461,7 @@ public class GobangTryChessCore {
                 break;
             }
         }
-        if (y > FIFTEEN - 1) chance++;
+        if (y > GobangConstants.FIFTEEN - 1) chance++;
         score = getMyTryScore(continueCount, chance);
         if (score > max) max = score;
 
@@ -473,7 +471,7 @@ public class GobangTryChessCore {
 
         continueCount = 0;
         chance = 0;
-        for (x = xIndex + 1, y = yIndex - 1; y >= 0 && x <= COLS; x++, y--) {
+        for (x = xIndex + 1, y = yIndex - 1; y >= 0 && x <= GobangConstants.COLS; x++, y--) {
             if (tryChess[x][y] == c)
                 continueCount++;
             else {
@@ -482,9 +480,9 @@ public class GobangTryChessCore {
                 break;
             }
         }
-        if (y < 0 || x > FIFTEEN - 1) chance++;
+        if (y < 0 || x > GobangConstants.FIFTEEN - 1) chance++;
 
-        for (x = xIndex - 1, y = yIndex + 1; x >= 0 && y <= ROWS; x--, y++) {
+        for (x = xIndex - 1, y = yIndex + 1; x >= 0 && y <= GobangConstants.ROWS; x--, y++) {
             if (tryChess[x][y] == c)
                 continueCount++;
             else {
@@ -493,7 +491,7 @@ public class GobangTryChessCore {
                 break;
             }
         }
-        if (x < 0 || y > FIFTEEN - 1) chance++;
+        if (x < 0 || y > GobangConstants.FIFTEEN - 1) chance++;
         score = getMyTryScore(continueCount, chance);
         if (score > max) max = score;
 
@@ -513,7 +511,7 @@ public class GobangTryChessCore {
         }
         if (x < 0 || y < 0) chance++;
 
-        for (x = xIndex + 1, y = yIndex + 1; x <= COLS && y <= ROWS; x++, y++) {
+        for (x = xIndex + 1, y = yIndex + 1; x <= GobangConstants.COLS && y <= GobangConstants.ROWS; x++, y++) {
             if (tryChess[x][y] == c)
                 continueCount++;
             else {
@@ -522,7 +520,7 @@ public class GobangTryChessCore {
                 break;
             }
         }
-        if (x > FIFTEEN - 1 || y > FIFTEEN - 1) chance++;
+        if (x > GobangConstants.FIFTEEN - 1 || y > GobangConstants.FIFTEEN - 1) chance++;
         score = getMyTryScore(continueCount, chance);
         if (score > max) max = score;
 
@@ -541,7 +539,7 @@ public class GobangTryChessCore {
             }
         }
         if (x < 0) chance++;
-        for (x = xIndex + 1; x <= COLS; x++) {
+        for (x = xIndex + 1; x <= GobangConstants.COLS; x++) {
             if (tryChess[x][yIndex] == d)
                 continueCount++;
             else {
@@ -550,7 +548,7 @@ public class GobangTryChessCore {
                 break;
             }
         }
-        if (x > FIFTEEN - 1) chance++;
+        if (x > GobangConstants.FIFTEEN - 1) chance++;
         score = getOpponentTryScore(continueCount, chance);
         if (score > max) max = score;
 
@@ -570,7 +568,7 @@ public class GobangTryChessCore {
         }
         if (y < 0) chance++;
 
-        for (y = yIndex + 1; y <= ROWS; y++) {
+        for (y = yIndex + 1; y <= GobangConstants.ROWS; y++) {
             if (tryChess[xIndex][y] == d)
                 continueCount++;
             else {
@@ -579,7 +577,7 @@ public class GobangTryChessCore {
                 break;
             }
         }
-        if (y > FIFTEEN - 1) chance++;
+        if (y > GobangConstants.FIFTEEN - 1) chance++;
         score = getOpponentTryScore(continueCount, chance);
         if (score > max) max = score;
 
@@ -589,7 +587,7 @@ public class GobangTryChessCore {
 
         continueCount = 0;
         chance = 0;
-        for (x = xIndex + 1, y = yIndex - 1; y >= 0 && x <= COLS; x++, y--) {
+        for (x = xIndex + 1, y = yIndex - 1; y >= 0 && x <= GobangConstants.COLS; x++, y--) {
             if (tryChess[x][y] == d)
                 continueCount++;
             else {
@@ -598,9 +596,9 @@ public class GobangTryChessCore {
                 break;
             }
         }
-        if (y < 0 || x > FIFTEEN - 1) chance++;
+        if (y < 0 || x > GobangConstants.FIFTEEN - 1) chance++;
 
-        for (x = xIndex - 1, y = yIndex + 1; x >= 0 && y <= ROWS; x--, y++) {
+        for (x = xIndex - 1, y = yIndex + 1; x >= 0 && y <= GobangConstants.ROWS; x--, y++) {
             if (tryChess[x][y] == d)
                 continueCount++;
             else {
@@ -609,7 +607,7 @@ public class GobangTryChessCore {
                 break;
             }
         }
-        if (x < 0 || y > FIFTEEN - 1) chance++;
+        if (x < 0 || y > GobangConstants.FIFTEEN - 1) chance++;
         score = getOpponentTryScore(continueCount, chance);
         if (score > max) max = score;
 
@@ -629,7 +627,7 @@ public class GobangTryChessCore {
         }
         if (x < 0 || y < 0) chance++;
 
-        for (x = xIndex + 1, y = yIndex + 1; x <= COLS && y <= ROWS; x++, y++) {
+        for (x = xIndex + 1, y = yIndex + 1; x <= GobangConstants.COLS && y <= GobangConstants.ROWS; x++, y++) {
             if (tryChess[x][y] == d)
                 continueCount++;
             else {
@@ -638,7 +636,7 @@ public class GobangTryChessCore {
                 break;
             }
         }
-        if (x > FIFTEEN - 1 || y > FIFTEEN - 1) chance++;
+        if (x > GobangConstants.FIFTEEN - 1 || y > GobangConstants.FIFTEEN - 1) chance++;
         score = getOpponentTryScore(continueCount, chance);
         if (score > max) max = score;
         return max;
