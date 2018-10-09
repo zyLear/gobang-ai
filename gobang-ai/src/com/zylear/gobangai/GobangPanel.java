@@ -61,8 +61,8 @@ public class GobangPanel extends JPanel implements MouseListener {
     public static final int COLS = 14;//棋盘列数
     public static final int FIFTEEN = 15;
 
-    public int gameDepth = 7;
-    public int executeDepth = 11;
+    public int gameDepth = 6;
+    public int executeDepth = 10;
     public boolean gamestart = false;
     boolean isVisual = false;
     private int Deadline = 60000;
@@ -73,7 +73,7 @@ public class GobangPanel extends JPanel implements MouseListener {
     private List<RecordPoint> recordPoints = new ArrayList<>(128);
     private int highScore;
 
-    private int strategy = 1;
+    private int strategy = 2;
 
     int begin = 1;
     Point[] chessList = new Point[(ROWS + 1) * (COLS + 1)];//初始每个数组元素为null
@@ -213,24 +213,22 @@ public class GobangPanel extends JPanel implements MouseListener {
     }
 
     private void syncChessInfo() {
-        try {
-            Response response = OkHttpUtil.syncExecJsonPost("http://127.0.0.1/publish/admin/gobang/all-record", "");
-//            System.out.println("response : " + response.body().string());
-
-            GobangResponse records = JsonUtil.getObjectFromJson(response.body().string(), GobangResponse.class);
-            HashMap<String, BestPoint> map = new HashMap<>(records.getList().size());
-            for (GobangOptimize gobangOptimize : records.getList()) {
-                BestPoint bestPoint = new BestPoint();
-                bestPoint.x = gobangOptimize.getX();
-                bestPoint.y = gobangOptimize.getY();
-                bestPoint.score = gobangOptimize.getScore();
-                map.put(gobangOptimize.getAllChess(), bestPoint);
-            }
-            GobangCache.gobangOptimizeMap = map;
-            response.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+//        try {
+//            Response response = OkHttpUtil.syncExecJsonPost("http://127.0.0.1/publish/admin/gobang/all-record", "");
+//            GobangResponse records = JsonUtil.getObjectFromJson(response.body().string(), GobangResponse.class);
+//            HashMap<String, BestPoint> map = new HashMap<>(records.getList().size());
+//            for (GobangOptimize gobangOptimize : records.getList()) {
+//                BestPoint bestPoint = new BestPoint();
+//                bestPoint.x = gobangOptimize.getX();
+//                bestPoint.y = gobangOptimize.getY();
+//                bestPoint.score = gobangOptimize.getScore();
+//                map.put(gobangOptimize.getAllChess(), bestPoint);
+//            }
+//            GobangCache.gobangOptimizeMap = map;
+//            response.close();
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
 
 
     }
@@ -504,30 +502,28 @@ public class GobangPanel extends JPanel implements MouseListener {
 
     private void submit(RecordPoint recordPoint) {
 
-//        bestPoints.add(bestPoint);
-
-        GobangOptimize gobangOptimize = new GobangOptimize();
-        gobangOptimize.setAllChess(recordPoint.allChess);
-        gobangOptimize.setX(recordPoint.x);
-        gobangOptimize.setY(recordPoint.y);
-        gobangOptimize.setScore(recordPoint.score);
-        try {
-            Response response = OkHttpUtil.syncExecJsonPost("http://127.0.0.1/publish/admin/gobang/submit", JsonUtil.toJSONString(gobangOptimize));
-            System.out.println("response : " + response);
-            response.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+//        GobangOptimize gobangOptimize = new GobangOptimize();
+//        gobangOptimize.setAllChess(recordPoint.allChess);
+//        gobangOptimize.setX(recordPoint.x);
+//        gobangOptimize.setY(recordPoint.y);
+//        gobangOptimize.setScore(recordPoint.score);
+//        try {
+//            Response response = OkHttpUtil.syncExecJsonPost("http://127.0.0.1/publish/admin/gobang/submit", JsonUtil.toJSONString(gobangOptimize));
+//            System.out.println("response : " + response);
+//            response.close();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
     }
 
     private BestPoint calculate() {
         switch (strategy) {
             case 1:
-                return GobangCore.calculate(tryChess, gameDepth, executeDepth, computerColor);
+                return GobangCoreV2.calculate(tryChess, gameDepth, executeDepth, computerColor);
             case 2:
                 return GobangCoreV2.calculate(tryChess, gameDepth, executeDepth, computerColor);
             case 3:
-                return GobangCoreV3.calculate(tryChess, gameDepth, executeDepth, computerColor);
+                return GobangCoreV2.calculate(tryChess, gameDepth, executeDepth, computerColor);
         }
         return null;
     }

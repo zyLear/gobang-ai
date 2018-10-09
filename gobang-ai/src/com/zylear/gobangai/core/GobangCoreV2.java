@@ -6,10 +6,8 @@ import com.zylear.gobangai.NullPoint;
 import com.zylear.gobangai.Point;
 import com.zylear.gobangai.bean.GobangConstants;
 
-import java.util.HashMap;
-import java.util.LinkedHashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -21,138 +19,96 @@ import java.util.Set;
 public class GobangCoreV2 {
 
     public static final Integer deadline = 60000;
-    private static long bottomCount = 0;
-    private static long repeatedCount = 0;
-    private static long nodeCount = 0;
 
     private static Integer maxGameDepth;
     private static Integer maxExecuteDepth;
-    private static BestPoint bestPoint;
+    private static BestPoint result;
 
 
     public synchronized static BestPoint calculate(int[][] tryChess, int gameDepth, int executeDepth, int calculateColor) {
         maxExecuteDepth = executeDepth;
         maxGameDepth = gameDepth;
-        bestPoint = new BestPoint();
+        result = new BestPoint();
         int score;
 
         score = execute(tryChess, executeDepth, GobangConstants.ALPHA, GobangConstants.BETA, calculateColor);
         if (score != GobangConstants.WIN_SCORE) {
-            System.out.println("算杀失败，开启敌人算杀");
-//            calculateColor = -calculateColor;
-            score = execute(tryChess, executeDepth, GobangConstants.ALPHA, GobangConstants.BETA, -calculateColor);
-//            calculateColor = -calculateColor;
-            if (score != GobangConstants.WIN_SCORE) {
-                System.out.println("对手算杀失败，正常博弈...");
-                score = minMax(tryChess, gameDepth, GobangConstants.ALPHA, GobangConstants.BETA, calculateColor);
-            } else {
-                System.out.println("对手算杀成功");
-            }
+            System.out.println("电脑算杀失败，正常博弈...");
+            score = minMax(tryChess, gameDepth, GobangConstants.ALPHA, GobangConstants.BETA, calculateColor);
         } else {
             System.out.println("电脑算杀成功");
         }
 
-
-        System.out.println("分数：" + score +
-                "   bottomCount:" + bottomCount +
-                "   repeatedCount:" + repeatedCount +
-                "   nodeCount:" + nodeCount);
-        bottomCount = 0;
-        repeatedCount = 0;
-        nodeCount = 0;
-        return bestPoint;
+        System.out.println("分数：" + score);
+        return result;
 
     }
 
 
     public static int minMax(int[][] tryChess, int depth, int alpha, int beta, int calculateColor) {
-//        nodeCount++;
-        depth--;
+//        depth--;
         if (depth == 0) {
-//            bottomCount++;
             return GobangChessScoreCoreV2.getChessScore(tryChess, calculateColor);
         }
 
-
         if (depth % 2 == 0) {
+            List<Point> tryPoints = new ArrayList<>(128);
+            boolean canOver = GobangTryChessCore.getTryPoints(tryChess, tryPoints, calculateColor);
 
-            Point[] tryPoints = new Point[225];
-            GobangTryChessCore.getTryPoints(tryChess, tryPoints, calculateColor);
-            if (depth == maxGameDepth - 1) {
-                System.out.println("nearest depth try count :" + tryPoints[0].count);
-            }
-            for (int i = 0; i < tryPoints[0].count; i++) {
-
-                tryChess[tryPoints[i].x][tryPoints[i].y] = calculateColor;
-                int t;
-                if (tryPoints[0].sheng == 1) {
-//                    t = GobangChessScoreCoreV2.getChessScore(tryChess, calculateColor);
-                    t = GobangConstants.WIN_SCORE;
+            for (Point currentPoint : tryPoints) {
+                tryChess[currentPoint.x][currentPoint.y] = calculateColor;
+                int score;
+                if (canOver) {
+                    score = GobangConstants.WIN_SCORE;
                 } else {
-                    t = minMax(tryChess, depth, alpha, beta, calculateColor);
+                    score = minMax(tryChess, depth - 1, alpha, beta, calculateColor);
                 }
-
-                //there is α-β pruning core
-                if (t >= beta) {
-
-                    tryChess[tryPoints[i].x][tryPoints[i].y] = 0;
-                    return t;
+                if (score >= beta) {
+                    tryChess[currentPoint.x][currentPoint.y] = 0;
+                    return score;
                 }
-
-                if (t > alpha) {
-                    alpha = t;
-                    if (depth == maxGameDepth - 1) {
-                        bestPoint.x = tryPoints[i].x;
-                        bestPoint.y = tryPoints[i].y;
+                if (score > alpha) {
+                    alpha = score;
+                    if (depth == maxGameDepth) {
+                        result.x = currentPoint.x;
+                        result.y = currentPoint.y;
                         if (alpha == GobangConstants.WIN_SCORE) {
-                            System.out.println("博弈预算胜出！current i: " + i + " total: " + tryPoints[0].count);
                             break;
                         }
                     }
                 }
-                tryChess[tryPoints[i].x][tryPoints[i].y] = 0;
+                tryChess[currentPoint.x][currentPoint.y] = 0;
             }
-
             return alpha;
-
         } else {
-
-            Point[] tryPoints = new Point[225];
-            GobangTryChessCore.getTryPoints(tryChess, tryPoints, -calculateColor);
-            for (int i = 0; i < tryPoints[0].count; i++) {
-                Integer tryUniqueKey = GobangOperation.getUniqueKey(tryPoints[i].x, tryPoints[i].y, -calculateColor);
-                tryChess[tryPoints[i].x][tryPoints[i].y] = -calculateColor;
-                int t;
-                if (tryPoints[0].sheng == 1) {
-//                    t = GobangChessScoreCoreV2.getChessScore(tryChess, calculateColor);
-                    t = GobangConstants.LOSE_SCORE;
+            List<Point> tryPoints = new ArrayList<>(128);
+            boolean canOver = GobangTryChessCore.getTryPoints(tryChess, tryPoints, -calculateColor);
+            for (Point currentPoint : tryPoints) {
+                tryChess[currentPoint.x][currentPoint.y] = -calculateColor;
+                int score;
+                if (canOver) {
+                    score = GobangConstants.LOSE_SCORE;
                 } else {
-                    t = minMax(tryChess, depth, alpha, beta, calculateColor);
+                    score = minMax(tryChess, depth - 1, alpha, beta, calculateColor);
                 }
-
-                //there is α-β pruning core
-                if (t <= alpha) {
-                    tryChess[tryPoints[i].x][tryPoints[i].y] = 0;
-                    return t;
+                if (score <= alpha) {
+                    tryChess[currentPoint.x][currentPoint.y] = 0;
+                    return score;
                 }
-
-                if (t < beta) {
-                    beta = t;
+                if (score < beta) {
+                    beta = score;
                 }
-
-                tryChess[tryPoints[i].x][tryPoints[i].y] = 0;
-
+                tryChess[currentPoint.x][currentPoint.y] = 0;
             }
             return beta;
         }
     }
 
-
     //
     public static int execute(int[][] tryChess, int depth, int alpha, int beta, int calculateColor) {
 
 
-        depth--;
+//        depth--;
         if (depth == 0) {
             return 0;
         }
@@ -168,7 +124,7 @@ public class GobangCoreV2 {
 //            getSSNewDown(p, mark, calculateColor);
             GobangExecuteTryChessCore.getTryPoints(tryChess, tryPoints, mark, calculateColor);
 
-            if (depth == maxExecuteDepth - 1) {
+            if (depth == maxExecuteDepth) {
                 System.out.println("execute next depth count：" + mark.count);
             }
 
@@ -183,7 +139,7 @@ public class GobangCoreV2 {
                 if (mark.sheng == 1) {
                     t = GobangConstants.WIN_SCORE;
                 } else {
-                    t = execute(tryChess, depth, alpha, beta, calculateColor);
+                    t = execute(tryChess, depth - 1, alpha, beta, calculateColor);
                 }
 
 
@@ -195,11 +151,11 @@ public class GobangCoreV2 {
                 if (t > alpha) {
                     alpha = t;
 
-                    if (depth == maxExecuteDepth - 1) {
+                    if (depth == maxExecuteDepth) {
 //                        fx = np.x;
 //                        fy = np.y;
-                        bestPoint.x = tryPoints[i].x;
-                        bestPoint.y = tryPoints[i].y;
+                        result.x = tryPoints[i].x;
+                        result.y = tryPoints[i].y;
 
                         if (alpha == GobangConstants.WIN_SCORE) {
                             System.out.println("算杀成功！current i: " + i + " total: " + mark.count);
@@ -210,7 +166,7 @@ public class GobangCoreV2 {
 
                 }
 
-                if (depth == maxExecuteDepth - 1) {
+                if (depth == maxExecuteDepth) {
                     System.out.println("aa下层分数：" + alpha);
                 }
 
@@ -240,7 +196,7 @@ public class GobangCoreV2 {
                 if (mark.sheng == 1) {
                     t = GobangConstants.LOSE_SCORE;
                 } else {
-                    t = execute(tryChess, depth, alpha, beta, calculateColor);
+                    t = execute(tryChess, depth - 1, alpha, beta, calculateColor);
                 }
 
                 if (t <= alpha) {

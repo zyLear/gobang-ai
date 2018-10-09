@@ -4,6 +4,9 @@ package com.zylear.gobangai.core;
 import com.zylear.gobangai.Point;
 import com.zylear.gobangai.bean.GobangConstants;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by xiezongyu on 2018/9/7.
  */
@@ -11,21 +14,19 @@ public class GobangTryChessCore {
 
 
     //EmptyTryPoint[]
-    public static void getTryPoints(int[][] tryChess, Point[] P, int c) {
+    public static boolean getTryPoints(int[][] tryChess,List<Point> list , int c) {
 
-        for (int o = 0; o < 225; o++)
-            P[o] = new Point();
-
+        Point maxPoint = new Point();
 
         int[][] tempNull = new int[15][15];
 
-        P[0].count = 0;
+        maxPoint.count = 0;
         int max = 0;
 
         for (int x = 0; x < GobangConstants.FIFTEEN; x++) {
             for (int y = 0; y < GobangConstants.FIFTEEN; y++) {
                 if (tryChess[x][y] == 0) {
-                    boolean flag = false;
+//                    boolean flag = false;
 
 
                     if (isInside(x - 1, y)) {
@@ -33,10 +34,10 @@ public class GobangTryChessCore {
                             tempNull[x][y] = getTryPointScore(tryChess, x, y, c);
                             if (max < tempNull[x][y]) {
                                 max = tempNull[x][y];
-                                P[0].x = x;
-                                P[0].y = y;
+                                maxPoint.x = x;
+                                maxPoint.y = y;
                             }
-                            P[0].count++;
+                            maxPoint.count++;
                             continue;
                         }
                     }
@@ -45,10 +46,10 @@ public class GobangTryChessCore {
                             tempNull[x][y] = getTryPointScore(tryChess, x, y, c);
                             if (max < tempNull[x][y]) {
                                 max = tempNull[x][y];
-                                P[0].x = x;
-                                P[0].y = y;
+                                maxPoint.x = x;
+                                maxPoint.y = y;
                             }
-                            P[0].count++;
+                            maxPoint.count++;
                             continue;
                         }
                     }
@@ -57,10 +58,10 @@ public class GobangTryChessCore {
                             tempNull[x][y] = getTryPointScore(tryChess, x, y, c);
                             if (max < tempNull[x][y]) {
                                 max = tempNull[x][y];
-                                P[0].x = x;
-                                P[0].y = y;
+                                maxPoint.x = x;
+                                maxPoint.y = y;
                             }
-                            P[0].count++;
+                            maxPoint.count++;
                             continue;
                         }
                     }
@@ -69,10 +70,10 @@ public class GobangTryChessCore {
                             tempNull[x][y] = getTryPointScore(tryChess, x, y, c);
                             if (max < tempNull[x][y]) {
                                 max = tempNull[x][y];
-                                P[0].x = x;
-                                P[0].y = y;
+                                maxPoint.x = x;
+                                maxPoint.y = y;
                             }
-                            P[0].count++;
+                            maxPoint.count++;
                             continue;
                         }
                     }
@@ -82,10 +83,10 @@ public class GobangTryChessCore {
                             tempNull[x][y] = getTryPointScore(tryChess, x, y, c);
                             if (max < tempNull[x][y]) {
                                 max = tempNull[x][y];
-                                P[0].x = x;
-                                P[0].y = y;
+                                maxPoint.x = x;
+                                maxPoint.y = y;
                             }
-                            P[0].count++;
+                            maxPoint.count++;
                             continue;
                         }
                     }
@@ -95,10 +96,10 @@ public class GobangTryChessCore {
                             tempNull[x][y] = getTryPointScore(tryChess, x, y, c);
                             if (max < tempNull[x][y]) {
                                 max = tempNull[x][y];
-                                P[0].x = x;
-                                P[0].y = y;
+                                maxPoint.x = x;
+                                maxPoint.y = y;
                             }
-                            P[0].count++;
+                            maxPoint.count++;
                             continue;
                         }
                     }
@@ -108,10 +109,10 @@ public class GobangTryChessCore {
                             tempNull[x][y] = getTryPointScore(tryChess, x, y, c);
                             if (max < tempNull[x][y]) {
                                 max = tempNull[x][y];
-                                P[0].x = x;
-                                P[0].y = y;
+                                maxPoint.x = x;
+                                maxPoint.y = y;
                             }
-                            P[0].count++;
+                            maxPoint.count++;
                             continue;
                         }
                     }
@@ -121,10 +122,10 @@ public class GobangTryChessCore {
                             tempNull[x][y] = getTryPointScore(tryChess, x, y, c);
                             if (max < tempNull[x][y]) {
                                 max = tempNull[x][y];
-                                P[0].x = x;
-                                P[0].y = y;
+                                maxPoint.x = x;
+                                maxPoint.y = y;
                             }
-                            P[0].count++;
+                            maxPoint.count++;
                             continue;
                         }
                     }
@@ -135,10 +136,10 @@ public class GobangTryChessCore {
                             tempNull[x][y] = getTryPointScore(tryChess, x, y, c);
                             if (max < tempNull[x][y]) {
                                 max = tempNull[x][y];
-                                P[0].x = x;
-                                P[0].y = y;
+                                maxPoint.x = x;
+                                maxPoint.y = y;
                             }
-                            P[0].count++;
+                            maxPoint.count++;
                             continue;
                         }
                     }
@@ -149,10 +150,10 @@ public class GobangTryChessCore {
                             tempNull[x][y] = getTryPointScore(tryChess, x, y, c);
                             if (max < tempNull[x][y]) {
                                 max = tempNull[x][y];
-                                P[0].x = x;
-                                P[0].y = y;
+                                maxPoint.x = x;
+                                maxPoint.y = y;
                             }
-                            P[0].count++;
+                            maxPoint.count++;
                             continue;
                         }
                     }
@@ -163,10 +164,10 @@ public class GobangTryChessCore {
                             tempNull[x][y] = getTryPointScore(tryChess, x, y, c);
                             if (max < tempNull[x][y]) {
                                 max = tempNull[x][y];
-                                P[0].x = x;
-                                P[0].y = y;
+                                maxPoint.x = x;
+                                maxPoint.y = y;
                             }
-                            P[0].count++;
+                            maxPoint.count++;
                             continue;
                         }
                     }
@@ -177,10 +178,10 @@ public class GobangTryChessCore {
                             tempNull[x][y] = getTryPointScore(tryChess, x, y, c);
                             if (max < tempNull[x][y]) {
                                 max = tempNull[x][y];
-                                P[0].x = x;
-                                P[0].y = y;
+                                maxPoint.x = x;
+                                maxPoint.y = y;
                             }
-                            P[0].count++;
+                            maxPoint.count++;
                             continue;
                         }
                     }
@@ -190,10 +191,10 @@ public class GobangTryChessCore {
                             tempNull[x][y] = getTryPointScore(tryChess, x, y, c);
                             if (max < tempNull[x][y]) {
                                 max = tempNull[x][y];
-                                P[0].x = x;
-                                P[0].y = y;
+                                maxPoint.x = x;
+                                maxPoint.y = y;
                             }
-                            P[0].count++;
+                            maxPoint.count++;
                             continue;
                         }
                     }
@@ -203,10 +204,10 @@ public class GobangTryChessCore {
                             tempNull[x][y] = getTryPointScore(tryChess, x, y, c);
                             if (max < tempNull[x][y]) {
                                 max = tempNull[x][y];
-                                P[0].x = x;
-                                P[0].y = y;
+                                maxPoint.x = x;
+                                maxPoint.y = y;
                             }
-                            P[0].count++;
+                            maxPoint.count++;
                             continue;
                         }
                     }
@@ -217,10 +218,10 @@ public class GobangTryChessCore {
                             tempNull[x][y] = getTryPointScore(tryChess, x, y, c);
                             if (max < tempNull[x][y]) {
                                 max = tempNull[x][y];
-                                P[0].x = x;
-                                P[0].y = y;
+                                maxPoint.x = x;
+                                maxPoint.y = y;
                             }
-                            P[0].count++;
+                            maxPoint.count++;
                             continue;
                         }
                     }
@@ -231,10 +232,10 @@ public class GobangTryChessCore {
                             tempNull[x][y] = getTryPointScore(tryChess, x, y, c);
                             if (max < tempNull[x][y]) {
                                 max = tempNull[x][y];
-                                P[0].x = x;
-                                P[0].y = y;
+                                maxPoint.x = x;
+                                maxPoint.y = y;
                             }
-                            P[0].count++;
+                            maxPoint.count++;
                             continue;
                         }
                     }
@@ -244,10 +245,10 @@ public class GobangTryChessCore {
                             tempNull[x][y] = getTryPointScore(tryChess, x, y, c);
                             if (max < tempNull[x][y]) {
                                 max = tempNull[x][y];
-                                P[0].x = x;
-                                P[0].y = y;
+                                maxPoint.x = x;
+                                maxPoint.y = y;
                             }
-                            P[0].count++;
+                            maxPoint.count++;
                             continue;
                         }
                     }
@@ -257,10 +258,10 @@ public class GobangTryChessCore {
                             tempNull[x][y] = getTryPointScore(tryChess, x, y, c);
                             if (max < tempNull[x][y]) {
                                 max = tempNull[x][y];
-                                P[0].x = x;
-                                P[0].y = y;
+                                maxPoint.x = x;
+                                maxPoint.y = y;
                             }
-                            P[0].count++;
+                            maxPoint.count++;
                             continue;
                         }
                     }
@@ -270,10 +271,10 @@ public class GobangTryChessCore {
                             tempNull[x][y] = getTryPointScore(tryChess, x, y, c);
                             if (max < tempNull[x][y]) {
                                 max = tempNull[x][y];
-                                P[0].x = x;
-                                P[0].y = y;
+                                maxPoint.x = x;
+                                maxPoint.y = y;
                             }
-                            P[0].count++;
+                            maxPoint.count++;
                             continue;
                         }
                     }
@@ -283,10 +284,10 @@ public class GobangTryChessCore {
                             tempNull[x][y] = getTryPointScore(tryChess, x, y, c);
                             if (max < tempNull[x][y]) {
                                 max = tempNull[x][y];
-                                P[0].x = x;
-                                P[0].y = y;
+                                maxPoint.x = x;
+                                maxPoint.y = y;
                             }
-                            P[0].count++;
+                            maxPoint.count++;
                             continue;
                         }
                     }
@@ -295,10 +296,10 @@ public class GobangTryChessCore {
                             tempNull[x][y] = getTryPointScore(tryChess, x, y, c);
                             if (max < tempNull[x][y]) {
                                 max = tempNull[x][y];
-                                P[0].x = x;
-                                P[0].y = y;
+                                maxPoint.x = x;
+                                maxPoint.y = y;
                             }
-                            P[0].count++;
+                            maxPoint.count++;
                             continue;
                         }
                     }
@@ -308,10 +309,10 @@ public class GobangTryChessCore {
                             tempNull[x][y] = getTryPointScore(tryChess, x, y, c);
                             if (max < tempNull[x][y]) {
                                 max = tempNull[x][y];
-                                P[0].x = x;
-                                P[0].y = y;
+                                maxPoint.x = x;
+                                maxPoint.y = y;
                             }
-                            P[0].count++;
+                            maxPoint.count++;
                             continue;
                         }
                     }
@@ -321,10 +322,10 @@ public class GobangTryChessCore {
                             tempNull[x][y] = getTryPointScore(tryChess, x, y, c);
                             if (max < tempNull[x][y]) {
                                 max = tempNull[x][y];
-                                P[0].x = x;
-                                P[0].y = y;
+                                maxPoint.x = x;
+                                maxPoint.y = y;
                             }
-                            P[0].count++;
+                            maxPoint.count++;
                             continue;
                         }
                     }
@@ -334,10 +335,10 @@ public class GobangTryChessCore {
                             tempNull[x][y] = getTryPointScore(tryChess, x, y, c);
                             if (max < tempNull[x][y]) {
                                 max = tempNull[x][y];
-                                P[0].x = x;
-                                P[0].y = y;
+                                maxPoint.x = x;
+                                maxPoint.y = y;
                             }
-                            P[0].count++;
+                            maxPoint.count++;
                             continue;
                         }
                     }
@@ -350,46 +351,37 @@ public class GobangTryChessCore {
 
 
         if (max == 10) {
-            P[0].count = 1;
-            P[0].sheng = 1;
-            return;
+            list.add(maxPoint);
+            return true;
         } else if (max == 9) {
-            P[0].count = 1;
-            return;
-
+            maxPoint.count = 1;
+            list.add(maxPoint);
+            return false;
         } else if (max == 8) {
-
-            P[0].count = 0;
             for (int x = 0; x < GobangConstants.FIFTEEN; x++) {
                 for (int y = 0; y < GobangConstants.FIFTEEN; y++) {
                     if (tempNull[x][y] == 8) {
-                        P[P[0].count].x = x;
-                        P[P[0].count].y = y;
-                        P[0].count++;
+                        list.add(new Point(x, y));
                     }
                 }
             }
 
-            return;
+            return false;
         }
 
 
-        int count = 0;
         int u = 7;
         while (u > 0) {
             for (int x = 0; x < GobangConstants.FIFTEEN; x++) {
                 for (int y = 0; y < GobangConstants.FIFTEEN; y++) {
                     if (tempNull[x][y] == u) {
-                        P[count].x = x;
-                        P[count].y = y;
-                        count++;
+                        list.add(new Point(x, y));
                     }
                 }
             }
             u--;
-
         }
-        return;
+        return false;
     }
 
     private static boolean isInside(int x, int y) {

@@ -39,18 +39,19 @@ public class GobangJFrame extends JFrame {
 
         JMenu menu = new JMenu("游戏");
         JMenu menu2 = new JMenu("设置");
+        JMenu menu3 = new JMenu("计算深度");
         final JMenuItem item1 = new JMenuItem("重新开始");
         final JMenuItem item2 = new JMenuItem("悔        棋");
         final JMenuItem item3 = new JMenuItem("退出游戏");
-        final JMenuItem item4 = new JMenuItem("设置背景");
-        final JMenuItem item5 = new JMenuItem("关闭背景");
+//        final JMenuItem item4 = new JMenuItem("设置背景");
+//        final JMenuItem item5 = new JMenuItem("关闭背景");
         final JMenuItem item10 = new JMenuItem("电脑先走");
         final JMenuItem item7 = new JMenuItem("v1");
         final JMenuItem item8 = new JMenuItem("v2");
-        final JMenuItem item9 = new JMenuItem("v3");
-        final JMenuItem item11 = new JMenuItem("3层");
-        final JMenuItem item12 = new JMenuItem("5层");
-        final JMenuItem item13 = new JMenuItem("7层");
+//        final JMenuItem item9 = new JMenuItem("v3");
+        final JMenuItem item11 = new JMenuItem("2层");
+        final JMenuItem item12 = new JMenuItem("4层");
+        final JMenuItem item13 = new JMenuItem("6层");
         JMenuItem item6 = new JMenuItem("设        置");
 
 
@@ -60,21 +61,23 @@ public class GobangJFrame extends JFrame {
         //menu.add(item6);
 
 
-        menu2.add(item4);
-        menu2.add(item5);
+//        menu2.add(item4);
+//        menu2.add(item5);
+        menu2.add(item10);
         menu2.add(item7);
         menu2.add(item8);
-        menu2.add(item9);
-        menu2.add(item10);
-        menu2.add(item11);
-        menu2.add(item12);
-        menu2.add(item13);
+//        menu2.add(item9);
+
+        menu3.add(item11);
+        menu3.add(item12);
+        menu3.add(item13);
 
 
         JMenuBar menubar = new JMenuBar();
 
         menubar.add(menu);
         menubar.add(menu2);
+        menubar.add(menu3);
 
         setJMenuBar(menubar);
         menubar.setVisible(true);
@@ -95,28 +98,28 @@ public class GobangJFrame extends JFrame {
                     // start.goBack();
 
 
-                } else if (obj == btn3 || obj == item3)
+                } else if (obj == btn3 || obj == item3){
                     System.exit(0);
-                else if (obj == item4) {
-                    start.paint = true;
-                    start.repaint();
-                } else if (obj == item5) {
-                    start.paint = false;
-                    start.repaint();
+//                } else if (obj == item4) {
+//                    start.paint = true;
+//                    start.repaint();
+//                } else if (obj == item5) {
+//                    start.paint = false;
+//                    start.repaint();
                 } else if (obj == item7) {
                     start.changeStrategy(1);
                 } else if (obj == item8) {
                     start.changeStrategy(2);
-                } else if (obj == item9) {
-                    start.changeStrategy(3);
+//                } else if (obj == item9) {
+//                    start.changeStrategy(3);
                 } else if (obj == item10) {
                     start.changeComputerFirst();
                 }else if (obj == item11) {
-                    start.changeGameDepth(3);
+                    start.changeGameDepth(2);
                 } else if (obj == item12) {
-                    start.changeGameDepth(5);
+                    start.changeGameDepth(4);
                 } else if (obj == item13) {
-                    start.changeGameDepth(7);
+                    start.changeGameDepth(6);
                 }
 
             }
@@ -127,11 +130,11 @@ public class GobangJFrame extends JFrame {
         item1.addActionListener(my);
         item2.addActionListener(my);
         item3.addActionListener(my);
-        item4.addActionListener(my);
-        item5.addActionListener(my);
+//        item4.addActionListener(my);
+//        item5.addActionListener(my);
         item7.addActionListener(my);
         item8.addActionListener(my);
-        item9.addActionListener(my);
+//        item9.addActionListener(my);
         item10.addActionListener(my);
         item11.addActionListener(my);
         item12.addActionListener(my);
