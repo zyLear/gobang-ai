@@ -2,7 +2,7 @@ package com.zylear.gobangai.core;
 
 
 import com.zylear.gobangai.bean.ChessColor;
-import com.zylear.gobangai.bean.GobangConstants;
+import com.zylear.gobangai.bean.GobangConstant;
 
 
 /**
@@ -71,7 +71,7 @@ public class GobangChessScoreCoreV2 {
             if (x < 0) sign = 1;
 
 
-            for (x = xIndex + 1; x <= GobangConstants.COLS; x++) {
+            for (x = xIndex + 1; x <= GobangConstant.COLS; x++) {
 
                 if (tryChess[x][yIndex] == c)
                     continueCount++;
@@ -98,7 +98,7 @@ public class GobangChessScoreCoreV2 {
             if (sign == 0 && chance == 0 && Count == continueCount)
                 bb = true;
 
-            if (sign == 1 && x > GobangConstants.COLS) continueCount = 0;
+            if (sign == 1 && x > GobangConstant.COLS) continueCount = 0;
 
 
             score += getPointScore(continueCount, bb);
@@ -114,7 +114,7 @@ public class GobangChessScoreCoreV2 {
             continueCount = 1;
             bb = false;
 
-            for (x = xIndex + 1; x <= GobangConstants.COLS; x++) {
+            for (x = xIndex + 1; x <= GobangConstant.COLS; x++) {
 
                 if (tryChess[x][yIndex] == c)
                     continueCount++;
@@ -128,7 +128,7 @@ public class GobangChessScoreCoreV2 {
                     break;
                 }
             }
-            if (x > GobangConstants.COLS) sign = 1;
+            if (x > GobangConstant.COLS) sign = 1;
 
             for (x = xIndex - 1; x >= 0; x--) {
                 if (tryChess[x][yIndex] == c)
@@ -180,7 +180,7 @@ public class GobangChessScoreCoreV2 {
             if (y < 0) sign = 1;
 
 
-            for (y = yIndex + 1; y <= GobangConstants.ROWS; y++) {
+            for (y = yIndex + 1; y <= GobangConstant.ROWS; y++) {
 
                 if (tryChess[xIndex][y] == c)
                     continueCount++;
@@ -204,7 +204,7 @@ public class GobangChessScoreCoreV2 {
             if (sign == 0 && chance == 0 && Count == continueCount)
                 bb = true;
 
-            if (sign == 1 && y > GobangConstants.ROWS) continueCount = 0;
+            if (sign == 1 && y > GobangConstant.ROWS) continueCount = 0;
 
             score += getPointScore(continueCount, bb);
 
@@ -215,7 +215,7 @@ public class GobangChessScoreCoreV2 {
             sign = 0;
             chance = 1;
             continueCount = 1;
-            for (y = yIndex + 1; y <= GobangConstants.ROWS; y++) {
+            for (y = yIndex + 1; y <= GobangConstant.ROWS; y++) {
 
                 if (tryChess[xIndex][y] == c)
                     continueCount++;
@@ -229,7 +229,7 @@ public class GobangChessScoreCoreV2 {
                 }
 
             }
-            if (y > GobangConstants.ROWS) sign = 1;
+            if (y > GobangConstant.ROWS) sign = 1;
 
 
             for (y = yIndex - 1; y >= 0; y--) {
@@ -271,7 +271,7 @@ public class GobangChessScoreCoreV2 {
             chance = 1;
             continueCount = 1;
 
-            for (x = xIndex + 1, y = yIndex - 1; y >= 0 && x <= GobangConstants.COLS; x++, y--) {
+            for (x = xIndex + 1, y = yIndex - 1; y >= 0 && x <= GobangConstant.COLS; x++, y--) {
 
                 if (tryChess[x][y] == c)
                     continueCount++;
@@ -284,10 +284,10 @@ public class GobangChessScoreCoreV2 {
                     break;
                 }
             }
-            if (x > GobangConstants.ROWS || y < 0) sign = 1;
+            if (x > GobangConstant.ROWS || y < 0) sign = 1;
 
             //西南寻找
-            for (x = xIndex - 1, y = yIndex + 1; x >= 0 && y <= GobangConstants.ROWS; x--, y++) {
+            for (x = xIndex - 1, y = yIndex + 1; x >= 0 && y <= GobangConstant.ROWS; x--, y++) {
 
                 if (tryChess[x][y] == c) {
                     continueCount++;
@@ -305,7 +305,7 @@ public class GobangChessScoreCoreV2 {
                 }
             }
 
-            if (sign == 1 && (x < 0 || y > GobangConstants.ROWS)) continueCount = 0;
+            if (sign == 1 && (x < 0 || y > GobangConstant.ROWS)) continueCount = 0;
             if (sign == 0 && chance == 0 && Count == continueCount)
                 bb = true;
 
@@ -322,7 +322,7 @@ public class GobangChessScoreCoreV2 {
 
 
             //西南寻找
-            for (x = xIndex - 1, y = yIndex + 1; x >= 0 && y <= GobangConstants.ROWS; x--, y++) {
+            for (x = xIndex - 1, y = yIndex + 1; x >= 0 && y <= GobangConstant.ROWS; x--, y++) {
 
                 if (tryChess[x][y] == c)
                     continueCount++;
@@ -335,10 +335,10 @@ public class GobangChessScoreCoreV2 {
                     break;
                 }
             }
-            if (x < 0 || y > GobangConstants.ROWS) sign = 1;
+            if (x < 0 || y > GobangConstant.ROWS) sign = 1;
 
 
-            for (x = xIndex + 1, y = yIndex - 1; y >= 0 && x <= GobangConstants.COLS; x++, y--) {
+            for (x = xIndex + 1, y = yIndex - 1; y >= 0 && x <= GobangConstant.COLS; x++, y--) {
 
                 if (tryChess[x][y] == c) {
                     continueCount++;
@@ -359,7 +359,7 @@ public class GobangChessScoreCoreV2 {
 
             }
 
-            if (sign == 1 && (x > GobangConstants.ROWS || y < 0)) continueCount = 0;
+            if (sign == 1 && (x > GobangConstant.ROWS || y < 0)) continueCount = 0;
             if (sign == 0 && chance == 0 && Count == continueCount)
                 bb = true;
 
@@ -391,7 +391,7 @@ public class GobangChessScoreCoreV2 {
             if (x < 0 || y < 0) sign = 1;
 
 
-            for (x = xIndex + 1, y = yIndex + 1; x <= GobangConstants.COLS && y <= GobangConstants.ROWS; x++, y++) {
+            for (x = xIndex + 1, y = yIndex + 1; x <= GobangConstant.COLS && y <= GobangConstant.ROWS; x++, y++) {
 
                 if (tryChess[x][y] == c) {
                     continueCount++;
@@ -410,7 +410,7 @@ public class GobangChessScoreCoreV2 {
                 }
             }
 
-            if (sign == 1 && (x > GobangConstants.ROWS || y > GobangConstants.ROWS)) continueCount = 0;
+            if (sign == 1 && (x > GobangConstant.ROWS || y > GobangConstant.ROWS)) continueCount = 0;
             if (sign == 0 && chance == 0 && Count == continueCount)
                 bb = true;
 
@@ -425,7 +425,7 @@ public class GobangChessScoreCoreV2 {
             continueCount = 1;
             sign = 0;
 
-            for (x = xIndex + 1, y = yIndex + 1; x <= GobangConstants.COLS && y <= GobangConstants.ROWS; x++, y++) {
+            for (x = xIndex + 1, y = yIndex + 1; x <= GobangConstant.COLS && y <= GobangConstant.ROWS; x++, y++) {
 
                 if (tryChess[x][y] == c)
                     continueCount++;

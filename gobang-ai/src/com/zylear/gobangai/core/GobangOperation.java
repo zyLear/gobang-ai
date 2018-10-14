@@ -1,6 +1,6 @@
 package com.zylear.gobangai.core;
 
-import com.zylear.gobangai.bean.GobangConstants;
+import com.zylear.gobangai.bean.GobangConstant;
 
 import java.util.Arrays;
 
@@ -12,7 +12,7 @@ public class GobangOperation {
 
     public static boolean isInside(int x, int y) {
 
-        if (x < 0 || x >= GobangConstants.FIFTEEN || y < 0 || y >= GobangConstants.FIFTEEN) {
+        if (x < 0 || x >= GobangConstant.FIFTEEN || y < 0 || y >= GobangConstant.FIFTEEN) {
             return false;
         }
 
@@ -27,7 +27,7 @@ public class GobangOperation {
         int y;
         int color = -c;
 
-        for (x = xIndex + xDirect, y = yIndex + yDirect; x >= 0 && x <= GobangConstants.COLS && y >= 0 && y <= GobangConstants.ROWS; x = x + xDirect, y = y + yDirect) {
+        for (x = xIndex + xDirect, y = yIndex + yDirect; x >= 0 && x <= GobangConstant.COLS && y >= 0 && y <= GobangConstant.ROWS; x = x + xDirect, y = y + yDirect) {
             if (tryChess[x][y] != color)
                 init--;
             if (tryChess[x][y] == color)
@@ -36,7 +36,7 @@ public class GobangOperation {
                 break;
         }
 
-        for (x = xIndex - xDirect, y = yIndex - yDirect; x >= 0 && x <= GobangConstants.COLS && y >= 0 && y <= GobangConstants.ROWS; x = x - xDirect, y = y - yDirect) {
+        for (x = xIndex - xDirect, y = yIndex - yDirect; x >= 0 && x <= GobangConstant.COLS && y >= 0 && y <= GobangConstant.ROWS; x = x - xDirect, y = y - yDirect) {
             if (tryChess[x][y] != color)
                 init--;
             if (tryChess[x][y] == color)

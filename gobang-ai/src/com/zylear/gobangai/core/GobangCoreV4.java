@@ -4,7 +4,7 @@
 //import com.zylear.gobangai.GobangPanel.BestPoint;
 //import com.zylear.gobangai.NullPoint;
 //import com.zylear.gobangai.Point;
-//import com.zylear.gobangai.bean.GobangConstants;
+//import com.zylear.gobangai.bean.GobangConstant;
 //
 //import java.util.HashMap;
 //import java.util.Map;
@@ -12,7 +12,7 @@
 //
 ///**
 // *
-// * with execute calculate
+// * with checkmate calculate
 // *
 // * <p>
 // * Created by xiezongyu on 2018/9/11.
@@ -58,13 +58,13 @@
 //        String uniqueKeyV2 = GobangOperation.getUniqueKeyV2(tryChess);
 ////        BestPoint bestPoint = gobangOptimizeMap.get(uniqueKeyV2);
 ////        if (bestPoint != null) {
-////            if (bestPoint.score > GobangConstants.LOSE_SCORE_SIGN) {
+////            if (bestPoint.score > GobangConstant.LOSE_SCORE_SIGN) {
 ////                return bestPoint;
 ////            }
 ////            System.out.println("lose .. key : " + uniqueKeyV2);
 ////        }
 //
-//        score = GobangCoreV4.minMax(tryChess, gameDepth, GobangConstants.ALPHA, GobangConstants.BETA, calculateColor);
+//        score = GobangCoreV4.miniMax(tryChess, gameDepth, GobangConstant.ALPHA, GobangConstant.BETA, calculateColor);
 //        totalOptimizeMap.put(uniqueKeyV2, GobangCoreV4.bestPoint);
 //
 //        System.out.println("v3 分数：" + score +
@@ -80,7 +80,7 @@
 //    }
 //
 //
-//    public static int minMax(int[][] tryChess, int depth, int alpha, int beta, int calculateColor) {
+//    public static int miniMax(int[][] tryChess, int depth, int alpha, int beta, int calculateColor) {
 //
 //
 ////        nodeCount++;
@@ -134,7 +134,7 @@
 //                if (tryPoints[0].sheng == 1) {
 //                    t = GobangChessScoreCoreV2.getChessScore(tryChess, calculateColor);
 //                } else {
-//                    t = minMax(tryChess, depth, alpha, beta, calculateColor);
+//                    t = miniMax(tryChess, depth, alpha, beta, calculateColor);
 //                }
 ////                visitedMap.put(GobangOperation.getUniqueKeyV2(tryChess), t);
 //
@@ -181,7 +181,7 @@
 //                if (tryPoints[0].sheng == 1) {
 //                    t = GobangChessScoreCoreV2.getChessScore(tryChess, calculateColor);
 //                } else {
-//                    t = minMax(tryChess, depth, alpha, beta, calculateColor);
+//                    t = miniMax(tryChess, depth, alpha, beta, calculateColor);
 //                }
 ////                visitedMap.put(GobangOperation.getUniqueKeyV2(tryChess), t);
 //
@@ -206,7 +206,7 @@
 //
 //
 //    //
-//    public static int execute(int[][] tryChess, int depth, int alpha, int beta, int calculateColor) {
+//    public static int checkmate(int[][] tryChess, int depth, int alpha, int beta, int calculateColor) {
 //
 //
 //        depth--;
@@ -222,7 +222,7 @@
 //            NullPoint np;
 //            NullPoint mark = new NullPoint();
 //
-//            GobangExecuteTryChessCore.getTryPoints(tryChess, tryPoints, mark, calculateColor);
+//            GobangCheckmateTryChessCore.getTryPoints(tryChess, tryPoints, mark, calculateColor);
 //
 //            if (depth == maxExecuteDepth - 1) {
 //                System.out.println("shu：" + mark.count);
@@ -239,11 +239,11 @@
 //                int t;
 //                if (mark.sheng == 1) {
 //
-//                    t = GobangConstants.WIN_SCORE;
+//                    t = GobangConstant.WIN_SCORE;
 //
 //
 //                } else
-//                    t = execute(tryChess, depth, alpha, beta, calculateColor);
+//                    t = checkmate(tryChess, depth, alpha, beta, calculateColor);
 //
 //
 //                if (t >= beta) {
@@ -287,7 +287,7 @@
 //            NullPoint np;
 //            NullPoint mark = new NullPoint();
 //
-//            GobangExecuteTryChessCore.getTryPoints(tryChess, tryPoints, mark, -calculateColor);
+//            GobangCheckmateTryChessCore.getTryPoints(tryChess, tryPoints, mark, -calculateColor);
 //
 //
 //            if (mark.count == 0) {
@@ -300,11 +300,11 @@
 //
 //                int t;
 //                if (mark.sheng == 1) {
-//                    t = GobangConstants.LOSE_SCORE;
+//                    t = GobangConstant.LOSE_SCORE;
 //
 //
 //                } else
-//                    t = execute(tryChess, depth, alpha, beta, calculateColor);
+//                    t = checkmate(tryChess, depth, alpha, beta, calculateColor);
 //
 //
 //                if (t <= alpha) {

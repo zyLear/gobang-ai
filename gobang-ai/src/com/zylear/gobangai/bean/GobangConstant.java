@@ -3,7 +3,7 @@ package com.zylear.gobangai.bean;
 /**
  * Created by xiezongyu on 2018/9/7.
  */
-public class GobangConstants {
+public class GobangConstant {
 
     public static final Integer WIN_SCORE = 10000000;
     public static final Integer LOSE_SCORE = -10000000;

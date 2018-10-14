@@ -1,12 +1,12 @@
 package com.zylear.gobangai.core;
 
 import com.zylear.gobangai.NullPoint;
-import com.zylear.gobangai.bean.GobangConstants;
+import com.zylear.gobangai.bean.GobangConstant;
 
 /**
  * Created by xiezongyu on 2018/9/7.
  */
-public class GobangExecuteTryChessCore {
+public class GobangCheckmateTryChessCore {
 
     public static boolean getTryPoints(int[][] tryChess, NullPoint[] tryPoints, NullPoint mark, int calculateColor) {
 
@@ -21,8 +21,8 @@ public class GobangExecuteTryChessCore {
 
         int max = 0;
 
-        for (int x = 0; x < GobangConstants.FIFTEEN; x++) {
-            for (int y = 0; y < GobangConstants.FIFTEEN; y++) {
+        for (int x = 0; x < GobangConstant.FIFTEEN; x++) {
+            for (int y = 0; y < GobangConstant.FIFTEEN; y++) {
                 if (tryChess[x][y] == 0) {
 
                     if (GobangOperation.isInside(x - 1, y)) {
@@ -362,8 +362,8 @@ public class GobangExecuteTryChessCore {
             int count = 0;
             int u = 7;
             while (u >= 4) {
-                for (int x = 0; x < GobangConstants.FIFTEEN; x++) {
-                    for (int y = 0; y < GobangConstants.FIFTEEN; y++) {
+                for (int x = 0; x < GobangConstant.FIFTEEN; x++) {
+                    for (int y = 0; y < GobangConstant.FIFTEEN; y++) {
                         if (tempNull[x][y] == u) {
                             tryPoints[count].x = x;
                             tryPoints[count].y = y;
@@ -510,8 +510,8 @@ public class GobangExecuteTryChessCore {
 
         int max = 0;
 
-        for (int x = 0; x < GobangConstants.FIFTEEN; x++) {
-            for (int y = 0; y < GobangConstants.FIFTEEN; y++) {
+        for (int x = 0; x < GobangConstant.FIFTEEN; x++) {
+            for (int y = 0; y < GobangConstant.FIFTEEN; y++) {
                 if (tryChess[x][y] == 0) {
 
                     if (GobangOperation.isInside(x - 1, y)) {
@@ -851,8 +851,8 @@ public class GobangExecuteTryChessCore {
             int count = 0;
             int u = 7;
             while (u >= 4) {
-                for (int x = 0; x < GobangConstants.FIFTEEN; x++) {
-                    for (int y = 0; y < GobangConstants.FIFTEEN; y++) {
+                for (int x = 0; x < GobangConstant.FIFTEEN; x++) {
+                    for (int y = 0; y < GobangConstant.FIFTEEN; y++) {
                         if (tempNull[x][y] == u) {
                             tryPoints[count].x = x;
                             tryPoints[count].y = y;

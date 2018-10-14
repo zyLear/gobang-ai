@@ -1,15 +1,9 @@
 package com.zylear.gobangai;
 
 
-import com.zylear.gobangai.bean.GobangConstants;
+import com.zylear.gobangai.bean.GobangConstant;
 import com.zylear.gobangai.bean.RecordPoint;
-import com.zylear.gobangai.bean.network.GobangOptimize;
-import com.zylear.gobangai.bean.network.GobangResponse;
-import com.zylear.gobangai.cache.GobangCache;
 import com.zylear.gobangai.core.*;
-import com.zylear.gobangai.util.JsonUtil;
-import com.zylear.gobangai.util.OkHttpUtil;
-import okhttp3.Response;
 
 import javax.swing.*;
 import java.awt.*;
@@ -17,7 +11,6 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.geom.Ellipse2D;
-import java.io.IOException;
 import java.util.*;
 import java.util.List;
 
@@ -519,7 +512,7 @@ public class GobangPanel extends JPanel implements MouseListener {
     private BestPoint calculate() {
         switch (strategy) {
             case 1:
-                return GobangCoreV2.calculate(tryChess, gameDepth, executeDepth, computerColor);
+                return GobangCore.calculate(tryChess, gameDepth, executeDepth, computerColor);
             case 2:
                 return GobangCoreV2.calculate(tryChess, gameDepth, executeDepth, computerColor);
             case 3:
@@ -533,11 +526,11 @@ public class GobangPanel extends JPanel implements MouseListener {
             String colorName = isBlack ? "黑棋" : "白棋";
             if ((isBlack && computerColor == WHITE) || (!isBlack && computerColor == BLACK)) {
                 for (int i = recordPoints.size() - 1; i > 0; i--) {
-                    if (recordPoints.get(i).score > GobangConstants.LOSE_SCORE_SIGN) {
+                    if (recordPoints.get(i).score > GobangConstant.LOSE_SCORE_SIGN) {
                         RecordPoint recordPoint = recordPoints.get(i);
                         System.out.println("update lose score. key : " + recordPoint.allChess +
                                 "  old score: " + recordPoint.score);
-                        recordPoint.score = GobangConstants.LOSE_SCORE;
+                        recordPoint.score = GobangConstant.LOSE_SCORE;
                         submit(recordPoint);
                         break;
                     }

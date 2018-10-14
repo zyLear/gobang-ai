@@ -4,14 +4,14 @@ package com.zylear.gobangai.core;
 import com.zylear.gobangai.GobangPanel.BestPoint;
 import com.zylear.gobangai.NullPoint;
 import com.zylear.gobangai.Point;
-import com.zylear.gobangai.bean.GobangConstants;
+import com.zylear.gobangai.bean.GobangConstant;
 
 import java.util.ArrayList;
 import java.util.List;
 
 
 /**
- * with execute. without network strategy
+ * with checkmate. without network strategy
  * <p>
  * <p>
  * Created by xiezongyu on 2018/9/9.
@@ -31,10 +31,10 @@ public class GobangCoreV2 {
         result = new BestPoint();
         int score;
 
-        score = execute(tryChess, executeDepth, GobangConstants.ALPHA, GobangConstants.BETA, calculateColor);
-        if (score != GobangConstants.WIN_SCORE) {
+        score = checkmate(tryChess, executeDepth, GobangConstant.ALPHA, GobangConstant.BETA, calculateColor);
+        if (score != GobangConstant.WIN_SCORE) {
             System.out.println("电脑算杀失败，正常博弈...");
-            score = minMax(tryChess, gameDepth, GobangConstants.ALPHA, GobangConstants.BETA, calculateColor);
+            score = miniMax(tryChess, gameDepth, GobangConstant.ALPHA, GobangConstant.BETA, calculateColor);
         } else {
             System.out.println("电脑算杀成功");
         }
@@ -45,12 +45,10 @@ public class GobangCoreV2 {
     }
 
 
-    public static int minMax(int[][] tryChess, int depth, int alpha, int beta, int calculateColor) {
-//        depth--;
+    public static int miniMax(int[][] tryChess, int depth, int alpha, int beta, int calculateColor) {
         if (depth == 0) {
             return GobangChessScoreCoreV2.getChessScore(tryChess, calculateColor);
         }
-
         if (depth % 2 == 0) {
             List<Point> tryPoints = new ArrayList<>(128);
             boolean canOver = GobangTryChessCore.getTryPoints(tryChess, tryPoints, calculateColor);
@@ -59,9 +57,9 @@ public class GobangCoreV2 {
                 tryChess[currentPoint.x][currentPoint.y] = calculateColor;
                 int score;
                 if (canOver) {
-                    score = GobangConstants.WIN_SCORE;
+                    score = GobangConstant.WIN_SCORE;
                 } else {
-                    score = minMax(tryChess, depth - 1, alpha, beta, calculateColor);
+                    score = miniMax(tryChess, depth - 1, alpha, beta, calculateColor);
                 }
                 if (score >= beta) {
                     tryChess[currentPoint.x][currentPoint.y] = 0;
@@ -72,7 +70,7 @@ public class GobangCoreV2 {
                     if (depth == maxGameDepth) {
                         result.x = currentPoint.x;
                         result.y = currentPoint.y;
-                        if (alpha == GobangConstants.WIN_SCORE) {
+                        if (alpha == GobangConstant.WIN_SCORE) {
                             break;
                         }
                     }
@@ -87,9 +85,9 @@ public class GobangCoreV2 {
                 tryChess[currentPoint.x][currentPoint.y] = -calculateColor;
                 int score;
                 if (canOver) {
-                    score = GobangConstants.LOSE_SCORE;
+                    score = GobangConstant.LOSE_SCORE;
                 } else {
-                    score = minMax(tryChess, depth - 1, alpha, beta, calculateColor);
+                    score = miniMax(tryChess, depth - 1, alpha, beta, calculateColor);
                 }
                 if (score <= alpha) {
                     tryChess[currentPoint.x][currentPoint.y] = 0;
@@ -105,7 +103,7 @@ public class GobangCoreV2 {
     }
 
     //
-    public static int execute(int[][] tryChess, int depth, int alpha, int beta, int calculateColor) {
+    public static int checkmate(int[][] tryChess, int depth, int alpha, int beta, int calculateColor) {
 
 
 //        depth--;
@@ -122,10 +120,10 @@ public class GobangCoreV2 {
             NullPoint mark = new NullPoint();
 
 //            getSSNewDown(p, mark, calculateColor);
-            GobangExecuteTryChessCore.getTryPoints(tryChess, tryPoints, mark, calculateColor);
+            GobangCheckmateTryChessCore.getTryPoints(tryChess, tryPoints, mark, calculateColor);
 
             if (depth == maxExecuteDepth) {
-                System.out.println("execute next depth count：" + mark.count);
+                System.out.println("checkmate next depth count：" + mark.count);
             }
 
             if (mark.count == 0) {
@@ -137,9 +135,9 @@ public class GobangCoreV2 {
                 tryChess[np.x][np.y] = calculateColor;
                 int t;
                 if (mark.sheng == 1) {
-                    t = GobangConstants.WIN_SCORE;
+                    t = GobangConstant.WIN_SCORE;
                 } else {
-                    t = execute(tryChess, depth - 1, alpha, beta, calculateColor);
+                    t = checkmate(tryChess, depth - 1, alpha, beta, calculateColor);
                 }
 
 
@@ -157,7 +155,7 @@ public class GobangCoreV2 {
                         result.x = tryPoints[i].x;
                         result.y = tryPoints[i].y;
 
-                        if (alpha == GobangConstants.WIN_SCORE) {
+                        if (alpha == GobangConstant.WIN_SCORE) {
                             System.out.println("算杀成功！current i: " + i + " total: " + mark.count);
                             break;
                         }
@@ -182,7 +180,7 @@ public class GobangCoreV2 {
 
             NullPoint np;
             NullPoint mark = new NullPoint();
-            GobangExecuteTryChessCore.getTryPoints(tryChess, tryPoints, mark, -calculateColor);
+            GobangCheckmateTryChessCore.getTryPoints(tryChess, tryPoints, mark, -calculateColor);
 
             if (mark.count == 0) {
                 return 0;
@@ -194,9 +192,9 @@ public class GobangCoreV2 {
 
                 int t;
                 if (mark.sheng == 1) {
-                    t = GobangConstants.LOSE_SCORE;
+                    t = GobangConstant.LOSE_SCORE;
                 } else {
-                    t = execute(tryChess, depth - 1, alpha, beta, calculateColor);
+                    t = checkmate(tryChess, depth - 1, alpha, beta, calculateColor);
                 }
 
                 if (t <= alpha) {

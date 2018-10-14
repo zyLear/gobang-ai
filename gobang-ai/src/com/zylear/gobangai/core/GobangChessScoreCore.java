@@ -2,7 +2,7 @@ package com.zylear.gobangai.core;
 
 
 import com.zylear.gobangai.bean.ChessColor;
-import com.zylear.gobangai.bean.GobangConstants;
+import com.zylear.gobangai.bean.GobangConstant;
 
 /**
  * Created by xiezongyu on 2018/9/7.
@@ -51,7 +51,7 @@ public class GobangChessScoreCore {
             }
         }
         if (x < 0) chance++;
-        for (x = xIndex + 1; x <= GobangConstants.COLS; x++) {
+        for (x = xIndex + 1; x <= GobangConstant.COLS; x++) {
             if (tryChess[x][yIndex] == c)
                 continueCount++;
             else {
@@ -60,7 +60,7 @@ public class GobangChessScoreCore {
                 break;
             }
         }
-        if (x > GobangConstants.FIFTEEN - 1) chance++;
+        if (x > GobangConstant.FIFTEEN - 1) chance++;
         score = score + getScore(continueCount, chance);
 
 
@@ -79,7 +79,7 @@ public class GobangChessScoreCore {
         }
         if (y < 0) chance++;
 
-        for (y = yIndex + 1; y <= GobangConstants.ROWS; y++) {
+        for (y = yIndex + 1; y <= GobangConstant.ROWS; y++) {
             if (tryChess[xIndex][y] == c)
                 continueCount++;
             else {
@@ -88,7 +88,7 @@ public class GobangChessScoreCore {
                 break;
             }
         }
-        if (y > GobangConstants.FIFTEEN - 1) chance++;
+        if (y > GobangConstant.FIFTEEN - 1) chance++;
         score = score + getScore(continueCount, chance);
 
 
@@ -97,7 +97,7 @@ public class GobangChessScoreCore {
 
         continueCount = 1;
         chance = 0;
-        for (x = xIndex + 1, y = yIndex - 1; y >= 0 && x <= GobangConstants.COLS; x++, y--) {
+        for (x = xIndex + 1, y = yIndex - 1; y >= 0 && x <= GobangConstant.COLS; x++, y--) {
             if (tryChess[x][y] == c)
                 continueCount++;
             else {
@@ -106,9 +106,9 @@ public class GobangChessScoreCore {
                 break;
             }
         }
-        if (y < 0 || x > GobangConstants.FIFTEEN - 1) chance++;
+        if (y < 0 || x > GobangConstant.FIFTEEN - 1) chance++;
 
-        for (x = xIndex - 1, y = yIndex + 1; x >= 0 && y <= GobangConstants.ROWS; x--, y++) {
+        for (x = xIndex - 1, y = yIndex + 1; x >= 0 && y <= GobangConstant.ROWS; x--, y++) {
             if (tryChess[x][y] == c)
                 continueCount++;
             else {
@@ -117,7 +117,7 @@ public class GobangChessScoreCore {
                 break;
             }
         }
-        if (x < 0 || y > GobangConstants.FIFTEEN - 1) chance++;
+        if (x < 0 || y > GobangConstant.FIFTEEN - 1) chance++;
         score = score + getScore(continueCount, chance);
 
 
@@ -136,7 +136,7 @@ public class GobangChessScoreCore {
         }
         if (x < 0 || y < 0) chance++;
 
-        for (x = xIndex + 1, y = yIndex + 1; x <= GobangConstants.COLS && y <= GobangConstants.ROWS; x++, y++) {
+        for (x = xIndex + 1, y = yIndex + 1; x <= GobangConstant.COLS && y <= GobangConstant.ROWS; x++, y++) {
             if (tryChess[x][y] == c)
                 continueCount++;
             else {
@@ -145,7 +145,7 @@ public class GobangChessScoreCore {
                 break;
             }
         }
-        if (x > GobangConstants.FIFTEEN - 1 || y > GobangConstants.FIFTEEN - 1) chance++;
+        if (x > GobangConstant.FIFTEEN - 1 || y > GobangConstant.FIFTEEN - 1) chance++;
         score = score + getScore(continueCount, chance);
 
         return score;
