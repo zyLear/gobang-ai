@@ -48,6 +48,7 @@ public class GobangJFrame extends JFrame {
         final JMenuItem item7 = new JMenuItem("v1");
         final JMenuItem item8 = new JMenuItem("v2");
         final JMenuItem item9 = new JMenuItem("v3");
+        final JMenuItem item14 = new JMenuItem("v4");
         final JMenuItem item11 = new JMenuItem("3层");
         final JMenuItem item12 = new JMenuItem("5层");
         final JMenuItem item13 = new JMenuItem("7层");
@@ -69,6 +70,7 @@ public class GobangJFrame extends JFrame {
         menu2.add(item11);
         menu2.add(item12);
         menu2.add(item13);
+        menu2.add(item14);
 
 
         JMenuBar menubar = new JMenuBar();
@@ -109,9 +111,11 @@ public class GobangJFrame extends JFrame {
                     start.changeStrategy(2);
                 } else if (obj == item9) {
                     start.changeStrategy(3);
+                } else if (obj == item14) {
+                    start.changeStrategy(4);
                 } else if (obj == item10) {
                     start.changeComputerFirst();
-                }else if (obj == item11) {
+                } else if (obj == item11) {
                     start.changeGameDepth(3);
                 } else if (obj == item12) {
                     start.changeGameDepth(5);
@@ -136,6 +140,7 @@ public class GobangJFrame extends JFrame {
         item11.addActionListener(my);
         item12.addActionListener(my);
         item13.addActionListener(my);
+        item14.addActionListener(my);
 
 
         btn1.addActionListener(my);

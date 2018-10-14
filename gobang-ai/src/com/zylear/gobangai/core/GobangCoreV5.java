@@ -5,21 +5,15 @@ import com.zylear.gobangai.GobangPanel.BestPoint;
 import com.zylear.gobangai.NullPoint;
 import com.zylear.gobangai.Point;
 import com.zylear.gobangai.bean.GobangConstants;
-import com.zylear.gobangai.cache.GobangCache;
-
-import java.util.HashMap;
-import java.util.LinkedHashSet;
-import java.util.Map;
-import java.util.Set;
 
 
 /**
- * with execute. without network strategy
+ * with execute. without network strategy ,try deeper
  * <p>
  * <p>
  * Created by xiezongyu on 2018/9/9.
  */
-public class GobangCoreV2 {
+public class GobangCoreV5 {
 
     public static final Integer deadline = 60000;
     private static long bottomCount = 0;
@@ -34,6 +28,8 @@ public class GobangCoreV2 {
     public synchronized static BestPoint calculate(int[][] tryChess, int gameDepth, int executeDepth, int calculateColor) {
         maxExecuteDepth = executeDepth;
         maxGameDepth = gameDepth;
+//        maxExecuteDepth = 13;
+//        maxGameDepth = 9;
         bestPoint = new BestPoint();
         int score;
 
@@ -79,7 +75,7 @@ public class GobangCoreV2 {
                 tryChess[tryPoints[i].x][tryPoints[i].y] = calculateColor;
                 int t;
                 if (tryPoints[0].sheng == 1) {
-//                    t = GobangChessScoreCoreV2.getChessScore(tryChess, calculateColor);
+//                    t = GobangChessScoreCore.getChessScore(tryChess, calculateColor);
                     t = GobangConstants.WIN_SCORE;
                 } else {
                     t = minMax(tryChess, depth, alpha, beta, calculateColor);
@@ -97,6 +93,7 @@ public class GobangCoreV2 {
                     if (depth == maxGameDepth - 1) {
                         bestPoint.x = tryPoints[i].x;
                         bestPoint.y = tryPoints[i].y;
+                        bestPoint.score = alpha;
                         if (alpha == GobangConstants.WIN_SCORE) {
                             System.out.println("博弈预算胜出！current i: " + i + " total: " + tryPoints[0].count);
                             break;
@@ -117,7 +114,7 @@ public class GobangCoreV2 {
                 tryChess[tryPoints[i].x][tryPoints[i].y] = -calculateColor;
                 int t;
                 if (tryPoints[0].sheng == 1) {
-//                    t = GobangChessScoreCoreV2.getChessScore(tryChess, calculateColor);
+//                    t = GobangChessScoreCore.getChessScore(tryChess, calculateColor);
                     t = GobangConstants.LOSE_SCORE;
                 } else {
                     t = minMax(tryChess, depth, alpha, beta, calculateColor);
@@ -148,14 +145,6 @@ public class GobangCoreV2 {
         depth--;
         if (depth == 0) {
 
-//            String tryUniqueKey = GobangOperation.getUniqueKeyV2(tryChess);
-//            BestPoint bestPoint = GobangCache.gobangOptimizeMap.get(tryUniqueKey);
-//            if (bestPoint != null) {
-//                repeatedCount++;
-//                System.out.println("v2 execute beat my key  score: " + bestPoint.score);
-//                return bestPoint.score;
-//            }
-
             return 0;
         }
 
@@ -171,7 +160,7 @@ public class GobangCoreV2 {
             GobangExecuteTryChessCore.getTryPoints(tryChess, tryPoints, mark, calculateColor);
 
             if (depth == maxExecuteDepth - 1) {
-                System.out.println("v2 execute next depth count：" + mark.count);
+                System.out.println("v5 execute next depth count：" + mark.count);
             }
 
             if (mark.count == 0) {
@@ -202,9 +191,9 @@ public class GobangCoreV2 {
 //                        fy = np.y;
                         bestPoint.x = tryPoints[i].x;
                         bestPoint.y = tryPoints[i].y;
-
+                        bestPoint.score = alpha;
                         if (alpha == GobangConstants.WIN_SCORE) {
-                            System.out.println("v2 execute success！current i: " + i + " total: " + mark.count);
+                            System.out.println("v5 execute success！current i: " + i + " total: " + mark.count);
                             break;
                         }
                     }

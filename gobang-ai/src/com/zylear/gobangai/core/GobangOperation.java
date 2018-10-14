@@ -59,20 +59,45 @@ public class GobangOperation {
         return (x * 15 + y + 1) * calculateColor;
     }
 
+    public static String getUniqueKeyV3(int[][] tryChess) {
+        StringBuilder stringBuilder = new StringBuilder();
+        for (int i = 0; i < tryChess.length; i++) {
+            for (int j = 0; j < tryChess[i].length; j++) {
+                stringBuilder.append(tryChess[i][j]);
+            }
+        }
+        return stringBuilder.toString();
+    }
+
     public static String getUniqueKeyV2(int[][] tryChess) {
         StringBuilder stringBuilder = new StringBuilder();
-        for (int i=0;i<tryChess.length;i++) {
+        for (int i = 0; i < tryChess.length; i++) {
             stringBuilder.append(Arrays.toString(tryChess[i]));
         }
         return stringBuilder.toString();
     }
 
+
     public static void main(String[] args) {
         int[][] a = new int[15][15];
-        System.out.println(getUniqueKeyV2(a));
+        a[3][5] = -1;
+        a[3][8] = 1;
+        long time = System.currentTimeMillis();
+//        for (int i = 0; i < 300000; i++) {
+//            getUniqueKeyV2(a);
+//        }
+        long newTime = System.currentTimeMillis();
+        System.out.println(newTime - time);
+        time = System.currentTimeMillis();
+//        for (int i = 0; i < 300000; i++) {
+//            getUniqueKeyV3(a);
+//        }
+        newTime = System.currentTimeMillis();
+        System.out.println(newTime - time);
 
-        System.out.println(getUniqueKey(0, 0, 1));
-        System.out.println(getUniqueKey(0, 4, 1));
-        System.out.println(getUniqueKey(1, 4, 1));
+        System.out.println(getUniqueKeyV3(a));
+//        System.out.println(getUniqueKey(0, 0, 1));
+//        System.out.println(getUniqueKey(0, 4, 1));
+//        System.out.println(getUniqueKey(1, 4, 1));
     }
 }

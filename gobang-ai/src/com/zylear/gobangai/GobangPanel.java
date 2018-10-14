@@ -73,7 +73,7 @@ public class GobangPanel extends JPanel implements MouseListener {
     private List<RecordPoint> recordPoints = new ArrayList<>(128);
     private int highScore;
 
-    private int strategy = 1;
+    private int strategy = 5;
 
     int begin = 1;
     Point[] chessList = new Point[(ROWS + 1) * (COLS + 1)];//初始每个数组元素为null
@@ -308,12 +308,15 @@ public class GobangPanel extends JPanel implements MouseListener {
         int color = isBlack ? BLACK : WHITE;
         allChess[xIndex][yIndex] = color;
 
-        judgeWin = GobangJudge.isWin(allChess, xIndex, yIndex, color);
+        boolean judgeWin = GobangJudge.isWin(allChess, xIndex, yIndex, color);
 
 
         //如果胜出则给出提示信息，不能继续下棋
         handleWin(judgeWin, isBlack);
-
+        if (judgeWin) {
+            System.out.println("return  win");
+            return;
+        }
 
         // string1+="1";
         noti.setText("电脑正在思考.....");
@@ -400,15 +403,14 @@ public class GobangPanel extends JPanel implements MouseListener {
                         34, 35);
             }
 
-            if (judgeWin) {
-                g.setColor(Color.red);
-                g.drawLine(x1 * 35 + 30, y1 * 35 + 30, x2 * 35 + 30, y2 * 35 + 30);
-                g.drawLine(x1 * 35 + 30 + 1, y1 * 35 + 30, x2 * 35 + 30 + 1, y2 * 35 + 30);
-                g.drawLine(x1 * 35 + 30 - 1, y1 * 35 + 30, x2 * 35 + 30 - 1, y2 * 35 + 30);
-                g.drawLine(x1 * 35 + 30, y1 * 35 + 30 + 1, x2 * 35 + 30, y2 * 35 + 30 + 1);
-                g.drawLine(x1 * 35 + 30, y1 * 35 + 30 - 1, x2 * 35 + 30, y2 * 35 + 30 - 1);
-
-            }
+//            if (judgeWin) {
+//                g.setColor(Color.red);
+//                g.drawLine(x1 * 35 + 30, y1 * 35 + 30, x2 * 35 + 30, y2 * 35 + 30);
+//                g.drawLine(x1 * 35 + 30 + 1, y1 * 35 + 30, x2 * 35 + 30 + 1, y2 * 35 + 30);
+//                g.drawLine(x1 * 35 + 30 - 1, y1 * 35 + 30, x2 * 35 + 30 - 1, y2 * 35 + 30);
+//                g.drawLine(x1 * 35 + 30, y1 * 35 + 30 + 1, x2 * 35 + 30, y2 * 35 + 30 + 1);
+//                g.drawLine(x1 * 35 + 30, y1 * 35 + 30 - 1, x2 * 35 + 30, y2 * 35 + 30 - 1);
+//            }
 
         }
     }
@@ -457,7 +459,7 @@ public class GobangPanel extends JPanel implements MouseListener {
             System.out.println();
             System.out.println("电脑正在思考.....");
             bestPoint = calculate();
-            RecordPoint recordPoint = formRecordPoint(bestPoint, GobangOperation.getUniqueKeyV2(allChess));
+            RecordPoint recordPoint = formRecordPoint(bestPoint, GobangOperation.getUniqueKeyV3(allChess));
             recordPoints.add(recordPoint);
             submit(recordPoint);
 
@@ -479,7 +481,7 @@ public class GobangPanel extends JPanel implements MouseListener {
 
         }
 
-        judgeWin = GobangJudge.isWin(allChess, xIndex, yIndex, color);
+        boolean judgeWin = GobangJudge.isWin(allChess, xIndex, yIndex, color);
 
         repaint();
 
@@ -506,18 +508,24 @@ public class GobangPanel extends JPanel implements MouseListener {
 
 //        bestPoints.add(bestPoint);
 
-        GobangOptimize gobangOptimize = new GobangOptimize();
-        gobangOptimize.setAllChess(recordPoint.allChess);
-        gobangOptimize.setX(recordPoint.x);
-        gobangOptimize.setY(recordPoint.y);
-        gobangOptimize.setScore(recordPoint.score);
-        try {
-            Response response = OkHttpUtil.syncExecJsonPost("http://127.0.0.1/publish/admin/gobang/submit", JsonUtil.toJSONString(gobangOptimize));
-            System.out.println("response : " + response);
-            response.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                GobangOptimize gobangOptimize = new GobangOptimize();
+                gobangOptimize.setAllChess(recordPoint.allChess);
+                gobangOptimize.setX(recordPoint.x);
+                gobangOptimize.setY(recordPoint.y);
+                gobangOptimize.setScore(recordPoint.score);
+                try {
+                    Response response = OkHttpUtil.syncExecJsonPost("http://127.0.0.1/publish/admin/gobang/submit", JsonUtil.toJSONString(gobangOptimize));
+                    System.out.println("response : " + response);
+                    response.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
+
     }
 
     private BestPoint calculate() {
@@ -528,6 +536,10 @@ public class GobangPanel extends JPanel implements MouseListener {
                 return GobangCoreV2.calculate(tryChess, gameDepth, executeDepth, computerColor);
             case 3:
                 return GobangCoreV3.calculate(tryChess, gameDepth, executeDepth, computerColor);
+            case 4:
+                return GobangCoreV4.calculate(tryChess, gameDepth, executeDepth, computerColor);
+            case 5:
+                return GobangCoreV5.calculate(tryChess, 9, 13, computerColor);
         }
         return null;
     }
@@ -536,14 +548,30 @@ public class GobangPanel extends JPanel implements MouseListener {
         if (isWin) {
             String colorName = isBlack ? "黑棋" : "白棋";
             if ((isBlack && computerColor == WHITE) || (!isBlack && computerColor == BLACK)) {
-                for (int i = recordPoints.size() - 1; i > 0; i--) {
+                int sign = 1;
+                int count = 1;
+                for (int i = recordPoints.size() - 1; i > 0 && count > 0; i--) {
                     if (recordPoints.get(i).score > GobangConstants.LOSE_SCORE_SIGN) {
+
                         RecordPoint recordPoint = recordPoints.get(i);
+
+                        Integer oldScore = recordPoint.score;
+                        int loseScore = 0;
+//                        int loseScore=((sign-count)/count*1.0)*(  recordPoint.score-GobangConstants.LOSE_SCORE);
+                        if (count != sign) {
+                            loseScore = (int) ((recordPoint.score - GobangConstants.LOSE_SCORE) * (0.01));
+                            recordPoint.score = recordPoint.score - loseScore;
+                        }else {
+                            recordPoint.score = GobangConstants.LOSE_SCORE;
+                        }
+//                       - loseScore;
                         System.out.println("update lose score. key : " + recordPoint.allChess +
-                                "  old score: " + recordPoint.score);
-                        recordPoint.score = GobangConstants.LOSE_SCORE;
+                                "  old score: " + oldScore + "  new score: " + recordPoint.score);
+
+                        count--;
                         submit(recordPoint);
-                        break;
+
+
                     }
                 }
             }
