@@ -1,7 +1,8 @@
-package com.zylear.gobangai.core;
+package com.zylear.gobangai.core.trypoint;
 
 import com.zylear.gobangai.NullPoint;
 import com.zylear.gobangai.bean.GobangConstants;
+import com.zylear.gobangai.core.GobangOperation;
 
 /**
  * Created by xiezongyu on 2018/9/7.

@@ -1,4 +1,4 @@
-package com.zylear.gobangai.core;
+package com.zylear.gobangai.core.trypoint;
 
 
 import com.zylear.gobangai.Point;

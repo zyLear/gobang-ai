@@ -1,11 +1,12 @@
 package com.zylear.gobangai.core;
 
 
-import com.zylear.gobangai.GobangPanel.BestPoint;
-import com.zylear.gobangai.NullPoint;
+import com.zylear.gobangai.core.trypoint.GobangTryChessCore;
+import com.zylear.gobangai.ui.GobangPanel.BestPoint;
 import com.zylear.gobangai.Point;
 import com.zylear.gobangai.bean.GobangConstants;
 import com.zylear.gobangai.cache.GobangCache;
+import com.zylear.gobangai.core.score.GobangChessScoreCoreV2;
 
 
 /**

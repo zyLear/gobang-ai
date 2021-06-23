@@ -1,4 +1,4 @@
-package com.zylear.gobangai;
+package com.zylear.gobangai.ui;
 
 import javax.swing.*;
 import java.awt.*;

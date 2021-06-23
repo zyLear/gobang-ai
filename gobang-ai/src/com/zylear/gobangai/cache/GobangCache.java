@@ -1,6 +1,6 @@
 package com.zylear.gobangai.cache;
 
-import com.zylear.gobangai.GobangPanel.BestPoint;
+import com.zylear.gobangai.ui.GobangPanel.BestPoint;
 
 import java.util.HashMap;
 import java.util.Map;

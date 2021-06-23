@@ -1,8 +1,9 @@
-package com.zylear.gobangai.core;
+package com.zylear.gobangai.core.score;
 
 
 import com.zylear.gobangai.bean.ChessColor;
 import com.zylear.gobangai.bean.GobangConstants;
+import com.zylear.gobangai.core.GobangOperation;
 
 
 /**

@@ -1,4 +1,4 @@
-package com.zylear.gobangai.core;
+package com.zylear.gobangai.core.score;
 
 
 import com.zylear.gobangai.bean.ChessColor;
