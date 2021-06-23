@@ -1,23 +1,23 @@
-package com.zylear.gobangai.core;
+package com.zylear.gobangai.core.calculator;
 
 
+import com.zylear.gobangai.core.GobangOperation;
 import com.zylear.gobangai.core.trypoint.GobangExecuteTryChessCore;
 import com.zylear.gobangai.core.trypoint.GobangTryChessCore;
 import com.zylear.gobangai.ui.GobangPanel.BestPoint;
 import com.zylear.gobangai.NullPoint;
 import com.zylear.gobangai.Point;
 import com.zylear.gobangai.bean.GobangConstants;
-import com.zylear.gobangai.cache.GobangCache;
 import com.zylear.gobangai.core.score.GobangChessScoreCoreV2;
 
 
 /**
- * with execute calculate . with network strategy
+ * with execute. without network strategy
  * <p>
  * <p>
- * Created by xiezongyu on 2018/9/11.
+ * Created by xiezongyu on 2018/9/9.
  */
-public class GobangCoreV4 {
+public class GobangCoreV2 {
 
     public static final Integer deadline = 60000;
     private static long bottomCount = 0;
@@ -35,14 +35,6 @@ public class GobangCoreV4 {
         bestPoint = new BestPoint();
         int score;
 
-        String uniqueKeyV3 = GobangOperation.getUniqueKeyV3(tryChess);
-        BestPoint bestPoint = GobangCache.gobangOptimizeMap.get(uniqueKeyV3);
-        if (bestPoint != null && bestPoint.score == GobangConstants.WIN_SCORE) {
-            repeatedCount++;
-            System.out.println("v4 beat my key first  score: " + bestPoint.score);
-            return bestPoint;
-        }
-
         score = execute(tryChess, executeDepth, GobangConstants.ALPHA, GobangConstants.BETA, calculateColor);
         if (score != GobangConstants.WIN_SCORE) {
             System.out.println("算杀失败，正常博弈...");
@@ -50,7 +42,7 @@ public class GobangCoreV4 {
         } else {
             System.out.println("电脑算杀成功");
         }
-        GobangCache.gobangOptimizeMap.put(uniqueKeyV3, GobangCoreV4.bestPoint);
+
 
         System.out.println("分数：" + score +
                 "   bottomCount:" + bottomCount +
@@ -59,7 +51,7 @@ public class GobangCoreV4 {
         bottomCount = 0;
         repeatedCount = 0;
         nodeCount = 0;
-        return GobangCoreV4.bestPoint;
+        return bestPoint;
 
     }
 
@@ -69,32 +61,11 @@ public class GobangCoreV4 {
         depth--;
         if (depth == 0) {
 //            bottomCount++;
-            String tryUniqueKey = GobangOperation.getUniqueKeyV3(tryChess);
-            BestPoint bestPoint = GobangCache.gobangOptimizeMap.get(tryUniqueKey);
-            if (bestPoint != null) {
-                repeatedCount++;
-                System.out.println("v4 beat my key  score: " + bestPoint.score);
-                return bestPoint.score;
-            }
             return GobangChessScoreCoreV2.getChessScore(tryChess, calculateColor);
         }
 
 
         if (depth % 2 == 0) {
-
-            if (depth != maxGameDepth - 1) {
-                String tryUniqueKey = GobangOperation.getUniqueKeyV3(tryChess);
-                BestPoint bestPoint = GobangCache.gobangOptimizeMap.get(tryUniqueKey);
-                if (bestPoint != null) {
-                    if (bestPoint.score == GobangConstants.WIN_SCORE || bestPoint.score == GobangConstants.LOSE_SCORE) {
-                        repeatedCount++;
-                        System.out.println("v4 beat my key middle  score: " + bestPoint.score);
-                        return bestPoint.score;
-                    }
-
-                }
-            }
-
 
             Point[] tryPoints = new Point[225];
             GobangTryChessCore.getTryPoints(tryChess, tryPoints, calculateColor);
@@ -124,7 +95,6 @@ public class GobangCoreV4 {
                     if (depth == maxGameDepth - 1) {
                         bestPoint.x = tryPoints[i].x;
                         bestPoint.y = tryPoints[i].y;
-                        bestPoint.score = alpha;
                         if (alpha == GobangConstants.WIN_SCORE) {
                             System.out.println("博弈预算胜出！current i: " + i + " total: " + tryPoints[0].count);
                             break;
@@ -176,33 +146,19 @@ public class GobangCoreV4 {
         depth--;
         if (depth == 0) {
 
-            String tryUniqueKey = GobangOperation.getUniqueKeyV3(tryChess);
-            BestPoint bestPoint = GobangCache.gobangOptimizeMap.get(tryUniqueKey);
-            if (bestPoint != null && bestPoint.score == GobangConstants.WIN_SCORE) {
-                repeatedCount++;
-                System.out.println("v4 execute beat my key  score: " + bestPoint.score);
-                return bestPoint.score;
-            }
+//            String tryUniqueKey = GobangOperation.getUniqueKeyV2(tryChess);
+//            BestPoint bestPoint = GobangCache.gobangOptimizeMap.get(tryUniqueKey);
+//            if (bestPoint != null) {
+//                repeatedCount++;
+//                System.out.println("v2 execute beat my key  score: " + bestPoint.score);
+//                return bestPoint.score;
+//            }
 
             return 0;
         }
 
 
         if (depth % 2 == 0) {
-
-            if (depth != maxExecuteDepth - 1) {
-                String tryUniqueKey = GobangOperation.getUniqueKeyV3(tryChess);
-                BestPoint bestPoint = GobangCache.gobangOptimizeMap.get(tryUniqueKey);
-                if (bestPoint != null) {
-                    if (bestPoint.score == GobangConstants.WIN_SCORE ) {
-                        repeatedCount++;
-                        System.out.println("v4 execute beat my key middle  score: " + bestPoint.score);
-                        return bestPoint.score;
-                    }
-
-                }
-            }
-
 
             NullPoint[] tryPoints = new NullPoint[225];
 
@@ -213,7 +169,7 @@ public class GobangCoreV4 {
             GobangExecuteTryChessCore.getTryPoints(tryChess, tryPoints, mark, calculateColor);
 
             if (depth == maxExecuteDepth - 1) {
-                System.out.println("v4 execute next depth count：" + mark.count);
+                System.out.println("v2 execute next depth count：" + mark.count);
             }
 
             if (mark.count == 0) {
@@ -244,20 +200,26 @@ public class GobangCoreV4 {
 //                        fy = np.y;
                         bestPoint.x = tryPoints[i].x;
                         bestPoint.y = tryPoints[i].y;
-                        bestPoint.score = alpha;
+
                         if (alpha == GobangConstants.WIN_SCORE) {
-                            System.out.println("v4 execute success！current i: " + i + " total: " + mark.count);
+                            System.out.println("v2 execute success！current i: " + i + " total: " + mark.count);
                             break;
                         }
                     }
 
+
                 }
+
                 if (depth == maxExecuteDepth - 1) {
-                    System.out.println("v4 execute nearest depth score:下层分数：" + alpha);
+                    System.out.println("aa下层分数：" + alpha);
                 }
+
                 tryChess[np.x][np.y] = 0;
+
             }
+
             return alpha;
+
         } else {
 
             NullPoint[] tryPoints = new NullPoint[225];

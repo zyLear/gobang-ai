@@ -11,6 +11,7 @@ public class Point {
     public static final int DIAMETER = 30;//直径
     public int count = 0;
     public int sheng = 0;
+    public int score = 0;
 
     public Point(int x, int y, Color color) {
         this.x = x;
