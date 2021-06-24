@@ -64,7 +64,7 @@ public class GobangPanel extends JPanel implements MouseListener {
     public static final int FIFTEEN = 15;
 
     public int gameDepth = 7;
-    public int executeDepth = 11;
+    public int executeDepth = 13;
     public boolean gamestart = false;
     boolean isVisual = false;
     private int Deadline = 60000;
@@ -533,6 +533,7 @@ public class GobangPanel extends JPanel implements MouseListener {
 
     private BestPoint calculate() {
         switch (strategy) {
+            default:
 //            case 1:
 //                return GobangCore.calculate(tryChess, gameDepth, executeDepth, computerColor);
 //            case 2:
@@ -542,8 +543,8 @@ public class GobangPanel extends JPanel implements MouseListener {
 //            case 4:
 //                return GobangCoreV4.calculate(tryChess, gameDepth, executeDepth, computerColor);
 //            case 5:
-//                return GobangCoreV5.calculate(tryChess, 5, 13, computerColor);
-            default:
+//                return GobangCoreV5.calculate(tryChess, 7, 13, computerColor);
+
                 return GobangStrategy.getGobangRobot("ai-v1")
                         .think(tryChess, gameDepth, executeDepth, computerColor);
 
@@ -575,7 +576,7 @@ public class GobangPanel extends JPanel implements MouseListener {
                                 "  old score: " + oldScore + "  new score: " + recordPoint.score);
 
                         count--;
-                        submit(recordPoint);
+//                        submit(recordPoint);
 
 
                     }

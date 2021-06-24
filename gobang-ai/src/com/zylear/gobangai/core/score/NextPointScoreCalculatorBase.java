@@ -9,7 +9,7 @@ import com.zylear.gobangai.core.GobangOperation;
  */
 abstract public class NextPointScoreCalculatorBase implements NextPointScoreCalculator {
 
-    private int[][] directions = {
+   private int[][] directions = {
             {1, 1}, {1, -1}, {1, 0}, {0, 1}
     };
 
@@ -23,6 +23,9 @@ abstract public class NextPointScoreCalculatorBase implements NextPointScoreCalc
             int xDirection = direction[0];
             int yDirection = direction[1];
 
+            if (!preCalculateScore(tryChess, x, y, xDirection, yDirection, color)) {
+                continue;
+            }
 
             int score = getScore(tryChess, x, y, xDirection, yDirection, color, color);
             if (score > max) {
@@ -37,6 +40,8 @@ abstract public class NextPointScoreCalculatorBase implements NextPointScoreCalc
 
         return max;
     }
+
+    abstract protected boolean preCalculateScore(int[][] tryChess, int xIndex, int yIndex, int xDirection, int yDirection, int calculateColor);
 
 
     abstract protected int getScore(int[][] tryChess, int xIndex, int yIndex, int xDirection, int yDirection, int calculateColor, int color);

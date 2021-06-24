@@ -29,14 +29,15 @@ public class GobangExecuteRobot implements GobangRobot {
     public BestPoint think(int[][] tryChess, int gameDepth, int executeDepth, int calculateColor) {
 
 
-//        BestPoint bestPoint = executeMinMaxCalculator.getBestPoint(tryChess, gameDepth, calculateColor);
-//        if (bestPoint.score != GobangConstants.WIN_SCORE) {
-//            System.out.println("算杀失败，正常博弈...");
-//            bestPoint = minMaxCalculator.getBestPoint(tryChess, gameDepth, calculateColor);
-//        }else {
-//            System.out.println("电脑算杀成功! ");
-//        }
-        BestPoint bestPoint = minMaxCalculator.getBestPoint(tryChess, gameDepth, calculateColor);
+        BestPoint bestPoint = executeMinMaxCalculator.getBestPoint(tryChess, executeDepth, calculateColor);
+        if (bestPoint.score != GobangConstants.WIN_SCORE) {
+            System.out.println("算杀失败，正常博弈...");
+            bestPoint = minMaxCalculator.getBestPoint(tryChess, gameDepth, calculateColor);
+        } else {
+            System.out.println("电脑算杀成功! ");
+        }
+//        BestPoint bestPoint = minMaxCalculator.getBestPoint(tryChess, gameDepth, calculateColor);
+        System.out.println("分数：" + bestPoint.score);
         return bestPoint;
     }
 }

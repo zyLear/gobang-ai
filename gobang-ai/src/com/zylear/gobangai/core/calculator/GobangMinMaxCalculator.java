@@ -31,7 +31,9 @@ public class GobangMinMaxCalculator implements MinMaxCalculator {
     @Override
     public BestPoint getBestPoint(int[][] tryChess, int maxDepth, int calculateColor) {
 
-        calculate(tryChess, maxDepth, maxDepth, GobangConstants.ALPHA, GobangConstants.BETA, calculateColor);
+        bestPoint.x = 0;
+        bestPoint.y = 0;
+        bestPoint.score = calculate(tryChess, maxDepth, maxDepth, GobangConstants.ALPHA, GobangConstants.BETA, calculateColor);
 
         return bestPoint;
     }
@@ -45,7 +47,7 @@ public class GobangMinMaxCalculator implements MinMaxCalculator {
         }
 
 
-        if ((depth & 1) == 0) {
+        if ((depth % 2) == 0) {
 
             NextPointHuntBean huntBean = nextPointHunter.getNextPointList(tryChess, calculateColor);
             List<Point> points = huntBean.points;
@@ -73,9 +75,9 @@ public class GobangMinMaxCalculator implements MinMaxCalculator {
                     if (depth == maxDepth - 1) {
                         bestPoint.x = point.x;
                         bestPoint.y = point.y;
-                        bestPoint.score = alpha;
+//                        bestPoint.score = alpha;
                         if (alpha == GobangConstants.WIN_SCORE) {
-                            System.out.println("博弈预算胜出！ total: " + bestPoint.score);
+                            System.out.println("博弈预算胜出！ total: " + alpha);
                             break;
                         }
                     }
@@ -92,21 +94,21 @@ public class GobangMinMaxCalculator implements MinMaxCalculator {
 
             for (Point point : points) {
                 tryChess[point.x][point.y] = -calculateColor;
-                int t;
+                int score;
                 if (huntBean.canwin) {
-                    t = GobangConstants.LOSE_SCORE;
+                    score = GobangConstants.LOSE_SCORE;
                 } else {
-                    t = calculate(tryChess, depth, maxDepth, alpha, beta, calculateColor);
+                    score = calculate(tryChess, depth, maxDepth, alpha, beta, calculateColor);
                 }
 
                 //there is α-β pruning core
-                if (t <= alpha) {
+                if (score <= alpha) {
                     tryChess[point.x][point.y] = 0;
-                    return t;
+                    return score;
                 }
 
-                if (t < beta) {
-                    beta = t;
+                if (score < beta) {
+                    beta = score;
                 }
 
                 tryChess[point.x][point.y] = 0;

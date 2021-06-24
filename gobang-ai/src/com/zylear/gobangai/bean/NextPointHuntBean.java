@@ -12,5 +12,6 @@ public class NextPointHuntBean {
 
     public List<Point> points;
     public boolean canwin;
+    public int max = Integer.MIN_VALUE;
 
 }

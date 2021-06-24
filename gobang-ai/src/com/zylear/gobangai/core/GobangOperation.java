@@ -12,11 +12,7 @@ public class GobangOperation {
 
     public static boolean isInside(int x, int y) {
 
-        if (x < 0 || x >= GobangConstants.FIFTEEN || y < 0 || y >= GobangConstants.FIFTEEN) {
-            return false;
-        }
-
-        return true;
+        return x >= 0 && x < GobangConstants.FIFTEEN && y >= 0 && y < GobangConstants.FIFTEEN;
     }
 
     public static boolean isLessFive(int[][] tryChess, int xIndex, int yIndex, int xDirect, int yDirect, int c) {

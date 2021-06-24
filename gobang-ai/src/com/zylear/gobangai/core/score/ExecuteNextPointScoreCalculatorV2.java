@@ -7,7 +7,7 @@ import com.zylear.gobangai.core.GobangOperation;
  * @author xiezongyu
  * @date 2021/6/24
  */
-public class GobangNextPointScoreCalculator extends NextPointScoreCalculatorBase {
+public class ExecuteNextPointScoreCalculatorV2 extends NextPointScoreCalculatorBase {
 
 
     @Override
@@ -62,6 +62,11 @@ public class GobangNextPointScoreCalculator extends NextPointScoreCalculatorBase
         } else {
             score = getOpponentTryScore(continueCount, blockCount);
         }
+
+        if (score < 6) {
+            return -1;
+        }
+
         return score;
     }
 

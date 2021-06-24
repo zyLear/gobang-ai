@@ -9,9 +9,39 @@ import com.zylear.gobangai.core.GobangOperation;
  */
 public class ExecuteNextPointScoreCalculator extends NextPointScoreCalculatorBase {
 
+    @Override
+    protected boolean preCalculateScore(int[][] tryChess, int xIndex, int yIndex, int xDirection, int yDirection, int calculateColor) {
+        return !GobangOperation.isLessFiveV2(tryChess, xIndex, yIndex, xDirection, yDirection, calculateColor);
+    }
 
+    /**
+     * 算杀遍历八个方向
+     *
+     * @param tryChess
+     * @param xIndex
+     * @param yIndex
+     * @param xDirection
+     * @param yDirection
+     * @param calculateColor
+     * @param color
+     * @return
+     */
     @Override
     protected int getScore(int[][] tryChess, int xIndex, int yIndex, int xDirection, int yDirection, int calculateColor, int color) {
+        int max = Integer.MIN_VALUE;
+        int score = getNextScore(tryChess, xIndex, yIndex, xDirection, yDirection, calculateColor, color);
+        if (score > max) {
+            max = score;
+        }
+        score = getNextScore(tryChess, xIndex, yIndex, -xDirection, -yDirection, calculateColor, color);
+        if (score > max) {
+            max = score;
+        }
+        return max;
+    }
+
+
+    protected int getNextScore(int[][] tryChess, int xIndex, int yIndex, int xDirection, int yDirection, int calculateColor, int color) {
         int x;
         int y;
 
@@ -19,7 +49,7 @@ public class ExecuteNextPointScoreCalculator extends NextPointScoreCalculatorBas
         int continueCount = 0;
         int count = 0;
         boolean block = false;
-        int score ;
+        int score;
 
 
         int blockCount = 0;
@@ -29,7 +59,7 @@ public class ExecuteNextPointScoreCalculator extends NextPointScoreCalculatorBas
         for (x = xIndex + xDirection, y = yIndex + yDirection;
              x >= 0 && x < GobangConstants.FIFTEEN && y >= 0 && y < GobangConstants.FIFTEEN;
              x = x + xDirection, y = y + yDirection) {
-            if (tryChess[x][y] == color) {
+            if (tryChess[x][y] == calculateColor) {
                 continueCount++;
             } else {
                 if (tryChess[x][y] != 0) {
@@ -49,7 +79,7 @@ public class ExecuteNextPointScoreCalculator extends NextPointScoreCalculatorBas
              x >= 0 && x < GobangConstants.FIFTEEN && y >= 0 && y < GobangConstants.FIFTEEN;
              x = x - xDirection, y = y - yDirection) {
 
-            if (tryChess[x][y] == color)
+            if (tryChess[x][y] == calculateColor)
                 continueCount++;
 
             else {
@@ -80,7 +110,7 @@ public class ExecuteNextPointScoreCalculator extends NextPointScoreCalculatorBas
         int isOpponentColor = color != calculateColor ? 1 : 0;
         score = getExecuteTryPointScore(count, continueCount, live, block, blockCount, isOpponentColor);
 
-        if (score < 4) {
+        if (score < 6) {
             return -1;
         }
         return score;
