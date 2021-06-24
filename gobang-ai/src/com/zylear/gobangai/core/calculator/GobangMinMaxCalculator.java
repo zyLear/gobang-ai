@@ -3,32 +3,38 @@ package com.zylear.gobangai.core.calculator;
 import com.zylear.gobangai.Point;
 import com.zylear.gobangai.bean.GobangConstants;
 import com.zylear.gobangai.bean.NextPointHuntBean;
-import com.zylear.gobangai.core.GobangOperation;
-import com.zylear.gobangai.core.score.GobangChessScoreCoreV2;
 import com.zylear.gobangai.core.score.ScoreCalculator;
-import com.zylear.gobangai.core.trypoint.GobangTryChessCore;
-import com.zylear.gobangai.core.trypoint.NextPointHunter;
+import com.zylear.gobangai.core.nextpoint.NextPointHunter;
 import com.zylear.gobangai.ui.GobangPanel.BestPoint;
 
-import java.util.LinkedList;
 import java.util.List;
 
 /**
  * @author xiezongyu
  * @date 2021/6/23
  */
-public class NormalMinMaxCalculator implements MinMaxCalculator {
+public class GobangMinMaxCalculator implements MinMaxCalculator {
 
 
     private ScoreCalculator scoreCalculator;
     private NextPointHunter nextPointHunter;
+
     private BestPoint bestPoint = new BestPoint();
 
-    public NormalMinMaxCalculator(ScoreCalculator scoreCalculator, NextPointHunter nextPointHunter) {
+
+    public GobangMinMaxCalculator(ScoreCalculator scoreCalculator, NextPointHunter nextPointHunter) {
         this.scoreCalculator = scoreCalculator;
         this.nextPointHunter = nextPointHunter;
     }
 
+
+    @Override
+    public BestPoint getBestPoint(int[][] tryChess, int maxDepth, int calculateColor) {
+
+        calculate(tryChess, maxDepth, maxDepth, GobangConstants.ALPHA, GobangConstants.BETA, calculateColor);
+
+        return bestPoint;
+    }
 
     @Override
     public int calculate(int[][] tryChess, int depth, int maxDepth, int alpha, int beta, int calculateColor) {
@@ -49,7 +55,7 @@ public class NormalMinMaxCalculator implements MinMaxCalculator {
 
                 tryChess[point.x][point.y] = calculateColor;
                 int score;
-                if (huntBean.finished) {
+                if (huntBean.canwin) {
                     score = GobangConstants.WIN_SCORE;
                 } else {
                     score = calculate(tryChess, depth, maxDepth, alpha, beta, calculateColor);
@@ -69,7 +75,7 @@ public class NormalMinMaxCalculator implements MinMaxCalculator {
                         bestPoint.y = point.y;
                         bestPoint.score = alpha;
                         if (alpha == GobangConstants.WIN_SCORE) {
-//                            System.out.println("博弈预算胜出！current i: " + i + " total: " + tryPoints[0].count);
+                            System.out.println("博弈预算胜出！ total: " + bestPoint.score);
                             break;
                         }
                     }
@@ -81,13 +87,13 @@ public class NormalMinMaxCalculator implements MinMaxCalculator {
 
         } else {
 
-            NextPointHuntBean huntBean = nextPointHunter.getNextPointList(tryChess, calculateColor);
+            NextPointHuntBean huntBean = nextPointHunter.getNextPointList(tryChess, -calculateColor);
             List<Point> points = huntBean.points;
 
             for (Point point : points) {
                 tryChess[point.x][point.y] = -calculateColor;
                 int t;
-                if (huntBean.finished) {
+                if (huntBean.canwin) {
                     t = GobangConstants.LOSE_SCORE;
                 } else {
                     t = calculate(tryChess, depth, maxDepth, alpha, beta, calculateColor);
@@ -109,5 +115,6 @@ public class NormalMinMaxCalculator implements MinMaxCalculator {
             return beta;
         }
     }
+
 
 }

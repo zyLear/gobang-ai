@@ -2,8 +2,8 @@ package com.zylear.gobangai.core.calculator;
 
 
 import com.zylear.gobangai.core.GobangOperation;
-import com.zylear.gobangai.core.trypoint.GobangExecuteTryChessCore;
-import com.zylear.gobangai.core.trypoint.GobangTryChessCore;
+import com.zylear.gobangai.core.nextpoint.GobangExecuteTryChessCore;
+import com.zylear.gobangai.core.nextpoint.GobangTryChessCore;
 import com.zylear.gobangai.ui.GobangPanel.BestPoint;
 import com.zylear.gobangai.NullPoint;
 import com.zylear.gobangai.Point;

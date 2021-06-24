@@ -1,9 +1,6 @@
-package com.zylear.gobangai.core.trypoint;
+package com.zylear.gobangai.core.nextpoint;
 
-import com.zylear.gobangai.Point;
 import com.zylear.gobangai.bean.NextPointHuntBean;
-
-import java.util.LinkedList;
 
 /**
  * @author xiezongyu

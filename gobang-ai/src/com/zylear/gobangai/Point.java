@@ -46,5 +46,13 @@ public class Point {
         this.color = color;
     }
 
+    @Override
+    public String toString() {
+        return "Point{" +
+                "x=" + x +
+                ", y=" + y +
+                ", score=" + score +
+                '}';
+    }
 }
 

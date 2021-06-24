@@ -11,6 +11,6 @@ import java.util.List;
 public class NextPointHuntBean {
 
     public List<Point> points;
-    public Boolean finished;
+    public boolean canwin;
 
 }

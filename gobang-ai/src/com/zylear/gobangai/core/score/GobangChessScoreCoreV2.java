@@ -16,8 +16,8 @@ public class GobangChessScoreCoreV2 {
         int whiteScore = 0;
         int blackScore = 0;
 
-        for (int i = 0; i < 15; i++) {
-            for (int j = 0; j < 15; j++) {
+        for (int i = 0; i < GobangConstants.FIFTEEN; i++) {
+            for (int j = 0; j < GobangConstants.FIFTEEN; j++) {
                 if (tryChess[i][j] == ChessColor.WHITE) {
                     whiteScore = whiteScore + getPointScore(tryChess, i, j, ChessColor.WHITE);
                 }

@@ -23,18 +23,13 @@ public class GobangOperation {
 
         boolean lessFive;
         int init = 4;
-        int x;
-        int y;
+
         int color = -c;
 
-        for (x = xIndex + xDirect, y = yIndex + yDirect; x >= 0 && x <= GobangConstants.COLS && y >= 0 && y <= GobangConstants.ROWS; x = x + xDirect, y = y + yDirect) {
-            if (tryChess[x][y] != color)
-                init--;
-            if (tryChess[x][y] == color)
-                break;
-            if (init <= 0)
-                break;
-        }
+
+        int x;
+        int y;
+        init = getInit(tryChess, xIndex, yIndex, xDirect, yDirect, init, color);
 
         for (x = xIndex - xDirect, y = yIndex - yDirect; x >= 0 && x <= GobangConstants.COLS && y >= 0 && y <= GobangConstants.ROWS; x = x - xDirect, y = y - yDirect) {
             if (tryChess[x][y] != color)
@@ -54,6 +49,40 @@ public class GobangOperation {
 
         return lessFive;
     }
+
+
+
+    public static boolean isLessFiveV2(int[][] tryChess, int xIndex, int yIndex, int xDirection, int yDirection, int color) {
+
+        int init = 4;
+
+        int opponentColor = -color;
+
+        init = getInit(tryChess, xIndex, yIndex, xDirection, yDirection, init, opponentColor);
+        init = getInit(tryChess, xIndex, -yIndex, -xDirection, yDirection, init, opponentColor);
+
+        return init > 0;
+    }
+
+    private static int getInit(int[][] tryChess, int xIndex, int yIndex, int xDirection, int yDirection, int init, int opponentColor) {
+        int x;
+        int y;
+        for (x = xIndex + xDirection, y = yIndex + yDirection;
+             x >= 0 && x <= GobangConstants.COLS && y >= 0 && y <= GobangConstants.ROWS;
+             x = x + xDirection, y = y + yDirection) {
+            if (tryChess[x][y] != opponentColor) {
+                init--;
+            }
+            if (tryChess[x][y] == opponentColor) {
+                break;
+            }
+            if (init <= 0) {
+                break;
+            }
+        }
+        return init;
+    }
+
 
     public static Integer getUniqueKey(int x, int y, int calculateColor) {
         return (x * 15 + y + 1) * calculateColor;

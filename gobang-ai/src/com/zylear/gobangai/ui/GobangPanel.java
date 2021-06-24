@@ -533,18 +533,21 @@ public class GobangPanel extends JPanel implements MouseListener {
 
     private BestPoint calculate() {
         switch (strategy) {
-            case 1:
-                return GobangCore.calculate(tryChess, gameDepth, executeDepth, computerColor);
-            case 2:
-                return GobangCoreV2.calculate(tryChess, gameDepth, executeDepth, computerColor);
-            case 3:
-                return GobangCoreV3.calculate(tryChess, gameDepth, executeDepth, computerColor);
-            case 4:
-                return GobangCoreV4.calculate(tryChess, gameDepth, executeDepth, computerColor);
-            case 5:
-                return GobangCoreV5.calculate(tryChess, 5, 13, computerColor);
+//            case 1:
+//                return GobangCore.calculate(tryChess, gameDepth, executeDepth, computerColor);
+//            case 2:
+//                return GobangCoreV2.calculate(tryChess, gameDepth, executeDepth, computerColor);
+//            case 3:
+//                return GobangCoreV3.calculate(tryChess, gameDepth, executeDepth, computerColor);
+//            case 4:
+//                return GobangCoreV4.calculate(tryChess, gameDepth, executeDepth, computerColor);
+//            case 5:
+//                return GobangCoreV5.calculate(tryChess, 5, 13, computerColor);
+            default:
+                return GobangStrategy.getGobangRobot("ai-v1")
+                        .think(tryChess, gameDepth, executeDepth, computerColor);
+
         }
-        return null;
     }
 
     private void handleWin(boolean isWin, boolean isBlack) {
@@ -564,7 +567,7 @@ public class GobangPanel extends JPanel implements MouseListener {
                         if (count != sign) {
                             loseScore = (int) ((recordPoint.score - GobangConstants.LOSE_SCORE) * (0.01));
                             recordPoint.score = recordPoint.score - loseScore;
-                        }else {
+                        } else {
                             recordPoint.score = GobangConstants.LOSE_SCORE;
                         }
 //                       - loseScore;
