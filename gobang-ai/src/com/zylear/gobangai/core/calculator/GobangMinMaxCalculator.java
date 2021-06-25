@@ -7,7 +7,9 @@ import com.zylear.gobangai.core.score.ScoreCalculator;
 import com.zylear.gobangai.core.nextpoint.NextPointHunter;
 import com.zylear.gobangai.ui.GobangPanel.BestPoint;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 /**
  * @author xiezongyu
@@ -19,7 +21,8 @@ public class GobangMinMaxCalculator implements MinMaxCalculator {
     private ScoreCalculator scoreCalculator;
     private NextPointHunter nextPointHunter;
 
-    private BestPoint bestPoint = new BestPoint();
+    private BestPoint defaultPoint = new BestPoint();
+//    private List<BestPoint> resultPoints = new ArrayList<>(30);
 
 
     public GobangMinMaxCalculator(ScoreCalculator scoreCalculator, NextPointHunter nextPointHunter) {
@@ -31,11 +34,11 @@ public class GobangMinMaxCalculator implements MinMaxCalculator {
     @Override
     public BestPoint getBestPoint(int[][] tryChess, int maxDepth, int calculateColor) {
 
-        bestPoint.x = 0;
-        bestPoint.y = 0;
-        bestPoint.score = calculate(tryChess, maxDepth, maxDepth, GobangConstants.ALPHA, GobangConstants.BETA, calculateColor);
-
-        return bestPoint;
+        defaultPoint.x = 0;
+        defaultPoint.y = 0;
+        defaultPoint.score = 0;
+        calculate(tryChess, maxDepth, maxDepth, GobangConstants.ALPHA, GobangConstants.BETA, calculateColor);
+        return defaultPoint;
     }
 
     @Override
@@ -70,12 +73,16 @@ public class GobangMinMaxCalculator implements MinMaxCalculator {
                     return score;
                 }
 
+                //博弈算法无关 处理随机
+//                if (score == alpha && depth == maxDepth - 1) {
+//                    addPoint(alpha, point);
+//                }
+
                 if (score > alpha) {
                     alpha = score;
+                    //博弈算法无关 处理结果
                     if (depth == maxDepth - 1) {
-                        bestPoint.x = point.x;
-                        bestPoint.y = point.y;
-//                        bestPoint.score = alpha;
+                        addPoint(alpha, point);
                         if (alpha == GobangConstants.WIN_SCORE) {
                             System.out.println("博弈预算胜出！ total: " + alpha);
                             break;
@@ -116,6 +123,14 @@ public class GobangMinMaxCalculator implements MinMaxCalculator {
             }
             return beta;
         }
+    }
+
+    private void addPoint(int alpha, Point point) {
+        BestPoint bestPoint = new BestPoint();
+        bestPoint.x = point.x;
+        bestPoint.y = point.y;
+        bestPoint.score = alpha;
+        defaultPoint = bestPoint;
     }
 
 

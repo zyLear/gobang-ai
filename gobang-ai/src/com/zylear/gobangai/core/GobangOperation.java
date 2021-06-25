@@ -3,6 +3,7 @@ package com.zylear.gobangai.core;
 import com.zylear.gobangai.bean.GobangConstants;
 
 import java.util.Arrays;
+import java.util.BitSet;
 
 /**
  * Created by xiezongyu on 2018/9/7.
@@ -45,7 +46,6 @@ public class GobangOperation {
 
         return lessFive;
     }
-
 
 
     public static boolean isLessFiveV2(int[][] tryChess, int xIndex, int yIndex, int xDirection, int yDirection, int color) {
@@ -92,6 +92,21 @@ public class GobangOperation {
             }
         }
         return stringBuilder.toString();
+    }
+
+    public static BitSet getUniqueKeyV4(int[][] tryChess) {
+        BitSet bitSet = new BitSet(450);
+
+        for (int i = 0; i < tryChess.length; i++) {
+            for (int j = 0; j < tryChess[i].length; j++) {
+                if (tryChess[i][j] == GobangConstants.WHITE) {
+                    bitSet.set(i * 15 + j);
+                } else if (tryChess[i][j] == GobangConstants.BLACK) {
+                    bitSet.set(i * 15 + j + 225);
+                }
+            }
+        }
+        return bitSet;
     }
 
     public static String getUniqueKeyV2(int[][] tryChess) {

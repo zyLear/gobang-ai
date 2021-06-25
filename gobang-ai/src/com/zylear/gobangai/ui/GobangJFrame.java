@@ -61,17 +61,18 @@ public class GobangJFrame extends JFrame {
         //menu.add(item6);
 
 
-        menu2.add(item4);
-        menu2.add(item5);
-        menu2.add(item7);
-        menu2.add(item8);
-        menu2.add(item9);
-        menu2.add(item10);
-        menu2.add(item11);
-        menu2.add(item12);
-        menu2.add(item13);
-        menu2.add(item14);
-
+        //
+//        menu2.add(item4);
+//        menu2.add(item5);
+//        menu2.add(item7);
+//        menu2.add(item8);
+//        menu2.add(item9);
+//        menu2.add(item10);
+//        menu2.add(item11);
+//        menu2.add(item12);
+//        menu2.add(item13);
+//        menu2.add(item14);
+        //
 
         JMenuBar menubar = new JMenuBar();
 
@@ -93,8 +94,8 @@ public class GobangJFrame extends JFrame {
                     start.repaint();
                 } else if (obj == btn2 || obj == item2) {
                     // System.out.println("悔棋...");
-                    JOptionPane.showMessageDialog(start, "不想给你悔棋");
-                    // start.goBack();
+//                    JOptionPane.showMessageDialog(start, "不想给你悔棋");
+                     start.goBack();
 
 
                 } else if (obj == btn3 || obj == item3)

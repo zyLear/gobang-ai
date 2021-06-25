@@ -63,7 +63,7 @@ public class GobangPanel extends JPanel implements MouseListener {
     public static final int COLS = 14;//棋盘列数
     public static final int FIFTEEN = 15;
 
-    public int gameDepth = 7;
+    public int gameDepth = 9;
     public int executeDepth = 13;
     public boolean gamestart = false;
     boolean isVisual = false;

@@ -2,7 +2,12 @@ package com.zylear.gobangai.core.score;
 
 import com.zylear.gobangai.bean.ChessColor;
 import com.zylear.gobangai.bean.GobangConstants;
+import com.zylear.gobangai.cache.GobangCache;
 import com.zylear.gobangai.core.GobangOperation;
+import com.zylear.gobangai.core.GobangStatistic;
+import com.zylear.gobangai.ui.GobangPanel.BestPoint;
+
+import java.util.BitSet;
 
 /**
  * @author xiezongyu
@@ -10,8 +15,21 @@ import com.zylear.gobangai.core.GobangOperation;
  */
 public class GobangScoreCalculator implements ScoreCalculator {
 
+
+
     @Override
     public int getChessScore(int[][] tryChess, int calculateColor) {
+
+        GobangStatistic.calculateCount++;
+
+//        BitSet tryUniqueKey = GobangOperation.getUniqueKeyV4(tryChess);
+//        Integer score = GobangCache.scoreCache.get(tryUniqueKey);
+//        if (score != null) {
+//            GobangStatistic.hitCacheCount++;
+//            return score;
+//        }
+        Integer score = 0;
+
         int whiteScore = 0;
         int blackScore = 0;
 
@@ -26,10 +44,13 @@ public class GobangScoreCalculator implements ScoreCalculator {
             }
         }
         if (ChessColor.WHITE == calculateColor) {
-            return whiteScore - blackScore;
+            score= whiteScore - blackScore;
         } else {
-            return blackScore - whiteScore;
+            score= blackScore - whiteScore;
         }
+
+//        GobangCache.scoreCache.put(tryUniqueKey, score);
+        return score;
     }
 
     private int[][] tryList = {

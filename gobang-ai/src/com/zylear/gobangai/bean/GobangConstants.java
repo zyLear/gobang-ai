@@ -16,5 +16,10 @@ public class GobangConstants {
     public static final Integer ALPHA = Integer.MIN_VALUE;
     public static final Integer BETA = Integer.MAX_VALUE;
 
+    public static final int WHITE = 1;
+    public static final int BLACK = -1;
+
+
+
 
 }

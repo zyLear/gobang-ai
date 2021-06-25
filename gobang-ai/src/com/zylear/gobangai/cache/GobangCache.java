@@ -2,6 +2,7 @@ package com.zylear.gobangai.cache;
 
 import com.zylear.gobangai.ui.GobangPanel.BestPoint;
 
+import java.util.BitSet;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -11,5 +12,7 @@ import java.util.Map;
 public class GobangCache {
 
     public static Map<String, BestPoint> gobangOptimizeMap = new HashMap<>(10000000);
+
+    public static Map<BitSet, Integer> scoreCache = new HashMap<>(10000000);
 
 }

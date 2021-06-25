@@ -75,6 +75,11 @@ public class MinMaxNextPointHunter implements NextPointHunter {
                     for (int i = -SCAN_RANGE; i <= SCAN_RANGE; i++) {
                         for (int j = -SCAN_RANGE; j <= SCAN_RANGE; j++) {
 
+                            if ((Math.abs(i) == 1 && Math.abs(j) == 2)
+                                    || (Math.abs(i) == 2 && Math.abs(j) == 1)) {
+                                continue;
+                            }
+
                             int xIndex = x + i;
                             int yIndex = y + j;
 

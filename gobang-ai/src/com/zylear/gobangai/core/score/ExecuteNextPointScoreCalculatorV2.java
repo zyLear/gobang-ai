@@ -12,6 +12,7 @@ public class ExecuteNextPointScoreCalculatorV2 extends NextPointScoreCalculatorB
 
     @Override
     protected boolean preCalculateScore(int[][] tryChess, int xIndex, int yIndex, int xDirection, int yDirection, int calculateColor) {
+//        return !GobangOperation.isLessFiveV2(tryChess, xIndex, yIndex, xDirection, yDirection, calculateColor);
         return true;
     }
 
