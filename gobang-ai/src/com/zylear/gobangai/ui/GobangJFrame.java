@@ -52,6 +52,7 @@ public class GobangJFrame extends JFrame {
         final JMenuItem item11 = new JMenuItem("3层");
         final JMenuItem item12 = new JMenuItem("5层");
         final JMenuItem item13 = new JMenuItem("7层");
+        final JMenuItem item15 = new JMenuItem("9层");
         JMenuItem item6 = new JMenuItem("设        置");
 
 
@@ -68,9 +69,10 @@ public class GobangJFrame extends JFrame {
 //        menu2.add(item8);
 //        menu2.add(item9);
 //        menu2.add(item10);
-//        menu2.add(item11);
-//        menu2.add(item12);
-//        menu2.add(item13);
+        menu2.add(item11);
+        menu2.add(item12);
+        menu2.add(item13);
+        menu2.add(item15);
 //        menu2.add(item14);
         //
 
@@ -95,7 +97,7 @@ public class GobangJFrame extends JFrame {
                 } else if (obj == btn2 || obj == item2) {
                     // System.out.println("悔棋...");
 //                    JOptionPane.showMessageDialog(start, "不想给你悔棋");
-                     start.goBack();
+                    start.goBack();
 
 
                 } else if (obj == btn3 || obj == item3)
@@ -122,6 +124,8 @@ public class GobangJFrame extends JFrame {
                     start.changeGameDepth(5);
                 } else if (obj == item13) {
                     start.changeGameDepth(7);
+                } else if (obj == item15) {
+                    start.changeGameDepth(9);
                 }
 
             }
