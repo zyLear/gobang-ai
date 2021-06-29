@@ -1,4 +1,4 @@
-package com.zylear.gobangai.core.score;
+package com.zylear.gobangai.core.score.nextpoint;
 
 public interface NextPointScoreCalculator {
 

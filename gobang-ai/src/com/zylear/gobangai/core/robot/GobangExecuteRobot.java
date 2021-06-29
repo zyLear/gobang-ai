@@ -45,6 +45,7 @@ public class GobangExecuteRobot implements GobangRobot {
                 " 棋盘计算分数次数: " + GobangStatistic.calculateCount +
                 " 命中缓存次数: " + GobangStatistic.hitCacheCount
         );
+        System.out.println("下棋点：" + bestPoint);
         return bestPoint;
     }
 }

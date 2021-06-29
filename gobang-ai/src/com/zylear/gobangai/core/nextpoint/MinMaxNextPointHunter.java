@@ -4,7 +4,7 @@ import com.zylear.gobangai.Point;
 import com.zylear.gobangai.bean.GobangConstants;
 import com.zylear.gobangai.bean.NextPointHuntBean;
 import com.zylear.gobangai.core.GobangOperation;
-import com.zylear.gobangai.core.score.NextPointScoreCalculator;
+import com.zylear.gobangai.core.score.nextpoint.NextPointScoreCalculator;
 
 import java.util.LinkedList;
 
@@ -41,7 +41,7 @@ public class MinMaxNextPointHunter implements NextPointHunter {
         if (huntBean.max == 10) {
             huntBean.canwin = true;
             huntBean.points = huntBean.points.subList(0, 1);
-        } else if (huntBean.max == 9) {
+        } else if (huntBean.max >= 8) {
             huntBean.points = huntBean.points.subList(0, 1);
         } else {
             list.sort((o1, o2) -> Integer.compare(o2.score, o1.score));
@@ -94,6 +94,7 @@ public class MinMaxNextPointHunter implements NextPointHunter {
                                 }
 
                                 Point point = new Point(xIndex, yIndex);
+                                point.chessColor = color;
                                 point.score = score;
                                 if (huntBean.max < score) {
                                     huntBean.max = score;
@@ -113,46 +114,46 @@ public class MinMaxNextPointHunter implements NextPointHunter {
     }
 
 
-    private void findNextPoint(int[][] tryChess, int color, NextPointHuntBean huntBean) {
-        LinkedList<Point> list = (LinkedList<Point>) huntBean.points;
-
-        outer:
-        for (int x = 0; x < GobangConstants.FIFTEEN; x++) {
-            for (int y = 0; y < GobangConstants.FIFTEEN; y++) {
-                if (tryChess[x][y] == 0) {
-
-                    loop:
-                    for (int i = -SCAN_RANGE; i <= SCAN_RANGE; i++) {
-                        for (int j = -SCAN_RANGE; j <= SCAN_RANGE; j++) {
-
-                            int xIndex = x + i;
-                            int yIndex = y + j;
-                            if (GobangOperation.isInside(xIndex, yIndex) && tryChess[xIndex][yIndex] != 0) {
-                                int score = nextPointScoreCalculator.getNextPointScore(tryChess, x, y, color);
-
-                                if (score < 0) {
-                                    continue;
-                                }
-
-                                Point point = new Point(x, y);
-                                point.score = score;
-                                if (huntBean.max < score) {
-                                    huntBean.max = score;
-                                    list.addFirst(point);
-                                } else {
-                                    list.addLast(point);
-                                }
-                                if (score == 10) {
-                                    break outer;
-                                }
-                                break loop;
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
+//    private void findNextPoint(int[][] tryChess, int color, NextPointHuntBean huntBean) {
+//        LinkedList<Point> list = (LinkedList<Point>) huntBean.points;
+//
+//        outer:
+//        for (int x = 0; x < GobangConstants.FIFTEEN; x++) {
+//            for (int y = 0; y < GobangConstants.FIFTEEN; y++) {
+//                if (tryChess[x][y] == 0) {
+//
+//                    loop:
+//                    for (int i = -SCAN_RANGE; i <= SCAN_RANGE; i++) {
+//                        for (int j = -SCAN_RANGE; j <= SCAN_RANGE; j++) {
+//
+//                            int xIndex = x + i;
+//                            int yIndex = y + j;
+//                            if (GobangOperation.isInside(xIndex, yIndex) && tryChess[xIndex][yIndex] != 0) {
+//                                int score = nextPointScoreCalculator.getNextPointScore(tryChess, x, y, color);
+//
+//                                if (score < 0) {
+//                                    continue;
+//                                }
+//
+//                                Point point = new Point(x, y);
+//                                point.score = score;
+//                                if (huntBean.max < score) {
+//                                    huntBean.max = score;
+//                                    list.addFirst(point);
+//                                } else {
+//                                    list.addLast(point);
+//                                }
+//                                if (score == 10) {
+//                                    break outer;
+//                                }
+//                                break loop;
+//                            }
+//                        }
+//                    }
+//                }
+//            }
+//        }
+//    }
 
 
 }

@@ -19,6 +19,10 @@ public class GobangConstants {
     public static final int WHITE = 1;
     public static final int BLACK = -1;
 
+    public static final int[][] DERECTIONS = {
+            {1, 1}, {1, -1}, {1, 0}, {0, 1}
+    };
+
 
 
 

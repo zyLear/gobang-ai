@@ -3,8 +3,12 @@ package com.zylear.gobangai.core;
 import com.zylear.gobangai.core.calculator.GobangMinMaxCalculator;
 import com.zylear.gobangai.core.robot.GobangExecuteRobot;
 import com.zylear.gobangai.core.robot.GobangRobot;
-import com.zylear.gobangai.core.score.*;
 import com.zylear.gobangai.core.nextpoint.MinMaxNextPointHunter;
+import com.zylear.gobangai.core.score.chess.GobangExecuteScoreCalculator;
+import com.zylear.gobangai.core.score.chess.GobangScoreCalculatorV1;
+import com.zylear.gobangai.core.score.chess.GobangScoreCalculatorV2;
+import com.zylear.gobangai.core.score.nextpoint.chess.GobangNextPointScoreCalculator;
+import com.zylear.gobangai.core.score.nextpoint.execute.ExecuteNextPointScoreCalculator;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -19,12 +23,12 @@ public class GobangStrategy {
 
     static {
         GobangMinMaxCalculator gobangMinMaxCalculator =
-                new GobangMinMaxCalculator(new GobangScoreCalculator(),
+                new GobangMinMaxCalculator(new GobangScoreCalculatorV1(),
                         new MinMaxNextPointHunter(new GobangNextPointScoreCalculator()));
 
         GobangMinMaxCalculator executeCalculator =
                 new GobangMinMaxCalculator(new GobangExecuteScoreCalculator(),
-                        new MinMaxNextPointHunter(new ExecuteNextPointScoreCalculatorV2()));
+                        new MinMaxNextPointHunter(new ExecuteNextPointScoreCalculator()));
 
         GobangExecuteRobot gobangExecuteRobot = new GobangExecuteRobot(gobangMinMaxCalculator, executeCalculator);
         robots.put(gobangExecuteRobot.key(), gobangExecuteRobot);

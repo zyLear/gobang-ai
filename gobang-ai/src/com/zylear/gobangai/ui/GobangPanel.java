@@ -53,6 +53,15 @@ public class GobangPanel extends JPanel implements MouseListener {
             this.y = y;
             this.score = score;
         }
+
+        @Override
+        public String toString() {
+            return "BestPoint{" +
+                    "x=" + x +
+                    ", y=" + y +
+                    ", score=" + score +
+                    '}';
+        }
     }
 
     double time;
@@ -64,7 +73,7 @@ public class GobangPanel extends JPanel implements MouseListener {
     public static final int FIFTEEN = 15;
 
     public int gameDepth = 9;
-    public int executeDepth = 13;
+    public int executeDepth = 11;
     public boolean gamestart = false;
     boolean isVisual = false;
     private int Deadline = 60000;
@@ -359,7 +368,7 @@ public class GobangPanel extends JPanel implements MouseListener {
             g.drawImage(io, 0, 0, 585, 585, this);
 
 
-        this.setBackground(Color.ORANGE);//LIGHT_GRAY
+//        this.setBackground(Color.ORANGE);//LIGHT_GRAY
 
         for (int i = 0; i <= ROWS; i++) {//画横线
             g.drawLine(MARGIN, MARGIN + i * GRID_SPAN, MARGIN + COLS * GRID_SPAN, MARGIN + i * GRID_SPAN);

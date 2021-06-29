@@ -12,6 +12,7 @@ public class Point {
     public int count = 0;
     public int sheng = 0;
     public int score = 0;
+    public int chessColor;
 
     public Point(int x, int y, Color color) {
         this.x = x;
@@ -51,6 +52,7 @@ public class Point {
         return "Point{" +
                 "x=" + x +
                 ", y=" + y +
+                ", color=" + chessColor +
                 ", score=" + score +
                 '}';
     }

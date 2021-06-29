@@ -1,82 +1,24 @@
-package com.zylear.gobangai.core.score;
+package com.zylear.gobangai.core.score.chess;
 
 import com.zylear.gobangai.bean.ChessColor;
 import com.zylear.gobangai.bean.GobangConstants;
-import com.zylear.gobangai.cache.GobangCache;
 import com.zylear.gobangai.core.GobangOperation;
 import com.zylear.gobangai.core.GobangStatistic;
-import com.zylear.gobangai.ui.GobangPanel.BestPoint;
-
-import java.util.BitSet;
+import com.zylear.gobangai.core.score.ScoreCalculator;
 
 /**
  * @author xiezongyu
  * @date 2021/6/24
  */
-public class GobangScoreCalculator implements ScoreCalculator {
-
-
+public class GobangScoreCalculatorV1 extends GobangScoreCalculatorBase {
 
     @Override
-    public int getChessScore(int[][] tryChess, int calculateColor) {
-
-        GobangStatistic.calculateCount++;
-
-//        BitSet tryUniqueKey = GobangOperation.getUniqueKeyV4(tryChess);
-//        Integer score = GobangCache.scoreCache.get(tryUniqueKey);
-//        if (score != null) {
-//            GobangStatistic.hitCacheCount++;
-//            return score;
-//        }
-        Integer score = 0;
-
-        int whiteScore = 0;
-        int blackScore = 0;
-
-        for (int i = 0; i < GobangConstants.FIFTEEN; i++) {
-            for (int j = 0; j < GobangConstants.FIFTEEN; j++) {
-                if (tryChess[i][j] == ChessColor.WHITE) {
-                    whiteScore = whiteScore + getPointScore(tryChess, i, j, ChessColor.WHITE);
-                }
-                if (tryChess[i][j] == ChessColor.BLACK) {
-                    blackScore = blackScore + getPointScore(tryChess, i, j, ChessColor.BLACK);
-                }
-            }
-        }
-        if (ChessColor.WHITE == calculateColor) {
-            score= whiteScore - blackScore;
-        } else {
-            score= blackScore - whiteScore;
-        }
-
-//        GobangCache.scoreCache.put(tryUniqueKey, score);
-        return score;
+    protected boolean preCalculateScore(int[][] tryChess, int xIndex, int yIndex, int xDirection, int yDirection, int calculateColor) {
+        return !GobangOperation.isLessFiveV2(tryChess, xIndex, yIndex, xDirection, yDirection, calculateColor);
     }
 
-    private int[][] tryList = {
-            {1, 1}, {1, -1}, {1, 0}, {0, 1}
-    };
-
-    private int getPointScore(int[][] tryChess, int xIndex, int yIndex, int color) {
-
-
-        int score = 0;
-
-        for (int[] ints : tryList) {
-            int xDirection = ints[0];
-            int yDirection = ints[1];
-
-            if (!GobangOperation.isLessFiveV2(tryChess, xIndex, yIndex, xDirection, yDirection, color)) {
-                score += getScore(tryChess, xIndex, yIndex, xDirection, yDirection, color);
-                score += getScore(tryChess, xIndex, yIndex, -xDirection, -yDirection, color);
-            }
-        }
-        return score;
-
-
-    }
-
-    private int getScore(int[][] tryChess, int xIndex, int yIndex, int xDirection, int yDirection, int color) {
+    @Override
+    protected int getScore(int[][] tryChess, int xIndex, int yIndex, int xDirection, int yDirection, int color) {
         int x;
         int y;
         //连续棋子的个数
@@ -140,8 +82,8 @@ public class GobangScoreCalculator implements ScoreCalculator {
     }
 
 
-    private int getPointScore(int score, boolean blockOneSide) {
-        switch (score) {
+    private int getPointScore(int continueCount, boolean blockOneSide) {
+        switch (continueCount) {
             case 0:
                 return 0;
             case 1:
@@ -171,14 +113,8 @@ public class GobangScoreCalculator implements ScoreCalculator {
                 }
             case 5:
                 return 1000000;
-            //if(c==2){return 1000000;}
-            // if(c==1){return 100000;}
-            //if(c==0){return 1000000;}
             default:
                 return 1000000;
-            //	if(c==2){return 1000000;}
-            // if(c==1){return 100000;}
-            // if(c==0){return 1000000;}
         }
     }
 

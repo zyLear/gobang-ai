@@ -1,7 +1,8 @@
-package com.zylear.gobangai.core.score;
+package com.zylear.gobangai.core.score.nextpoint.chess;
 
 import com.zylear.gobangai.bean.GobangConstants;
 import com.zylear.gobangai.core.GobangOperation;
+import com.zylear.gobangai.core.score.nextpoint.NextPointScoreCalculatorBase;
 
 /**
  * @author xiezongyu
@@ -10,10 +11,10 @@ import com.zylear.gobangai.core.GobangOperation;
 public class GobangNextPointScoreCalculator extends NextPointScoreCalculatorBase {
 
 
-    @Override
-    protected boolean preCalculateScore(int[][] tryChess, int xIndex, int yIndex, int xDirection, int yDirection, int calculateColor) {
-        return true;
-    }
+//    @Override
+//    protected boolean preCalculateScore(int[][] tryChess, int xIndex, int yIndex, int xDirection, int yDirection, int calculateColor) {
+//        return true;
+//    }
 
     @Override
     protected int getScore(int[][] tryChess, int xIndex, int yIndex, int xDirection, int yDirection, int calculateColor, int color) {
@@ -57,18 +58,16 @@ public class GobangNextPointScoreCalculator extends NextPointScoreCalculatorBase
         }
         int score;
         //计算自己的颜色
-        if (calculateColor == color) {
-            score = getMyTryScore(continueCount, blockCount);
-        } else {
-            score = getOpponentTryScore(continueCount, blockCount);
-        }
+        score = getMyTryScore(continueCount, blockCount);
+        int isOpponentColor = color != calculateColor ? 1 : 0;
+        score -= isOpponentColor;
         return score;
     }
 
     private int getMyTryScore(int score, int blockCount) {
         switch (score) {
             case 0:
-                return 2;
+                return 0;
             case 1:
                 if (blockCount == 2) {
                     return 0;
@@ -108,46 +107,4 @@ public class GobangNextPointScoreCalculator extends NextPointScoreCalculatorBase
 
     }
 
-    private int getOpponentTryScore(int score, int blockCount) {
-        switch (score) {
-            case 0:
-                return 1;
-            case 1:
-                if (blockCount == 2) {
-                    return 0;
-                }
-                if (blockCount == 1) {
-                    return 1;
-                }
-                if (blockCount == 0) {
-                    return 3;
-                }
-            case 2:
-                if (blockCount == 2) {
-                    return 0;
-                }
-                if (blockCount == 1) {
-                    return 3;
-                }
-                if (blockCount == 0) {
-                    return 5;
-                }
-            case 3:
-                if (blockCount == 2) {
-                    return 0;
-                }
-                if (blockCount == 1) {
-                    return 5;
-                }
-                if (blockCount == 0) {
-                    return 7;
-                }
-            case 4:
-                return 9;
-
-            default:
-                return 9;
-        }
-
-    }
 }
