@@ -10,7 +10,7 @@ import com.zylear.gobangai.core.GobangOperation;
 public class GobangScoreCalculatorV2 extends GobangScoreCalculatorBase {
     @Override
     protected boolean preCalculateScore(int[][] tryChess, int xIndex, int yIndex, int xDirection, int yDirection, int calculateColor) {
-        return true;
+        return !GobangOperation.isLessFiveV2(tryChess, xIndex, yIndex, xDirection, yDirection, calculateColor);
     }
 
     @Override

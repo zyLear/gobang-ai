@@ -10,6 +10,7 @@ import com.zylear.gobangai.core.score.ScoreCalculator;
  * @author xiezongyu
  * @date 2021/6/24
  */
+@Deprecated
 public class GobangScoreCalculatorV1 extends GobangScoreCalculatorBase {
 
     @Override

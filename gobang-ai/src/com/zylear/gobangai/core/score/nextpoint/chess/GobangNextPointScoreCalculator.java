@@ -17,7 +17,7 @@ public class GobangNextPointScoreCalculator extends NextPointScoreCalculatorBase
 //    }
 
     @Override
-    protected int getScore(int[][] tryChess, int xIndex, int yIndex, int xDirection, int yDirection, int calculateColor, int color) {
+    protected int getScore(int[][] tryChess, int xIndex, int yIndex, int xDirection, int yDirection, int calculateColor) {
         int continueCount = 0;
         int blockCount = 0;
         int opponentColor = -calculateColor;
@@ -59,8 +59,6 @@ public class GobangNextPointScoreCalculator extends NextPointScoreCalculatorBase
         int score;
         //计算自己的颜色
         score = getMyTryScore(continueCount, blockCount);
-        int isOpponentColor = color != calculateColor ? 1 : 0;
-        score -= isOpponentColor;
         return score;
     }
 
@@ -107,4 +105,8 @@ public class GobangNextPointScoreCalculator extends NextPointScoreCalculatorBase
 
     }
 
+    @Override
+    protected int postProcessScore(int score) {
+        return score;
+    }
 }

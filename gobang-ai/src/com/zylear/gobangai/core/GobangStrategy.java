@@ -23,7 +23,7 @@ public class GobangStrategy {
 
     static {
         GobangMinMaxCalculator gobangMinMaxCalculator =
-                new GobangMinMaxCalculator(new GobangScoreCalculatorV1(),
+                new GobangMinMaxCalculator(new GobangScoreCalculatorV2(),
                         new MinMaxNextPointHunter(new GobangNextPointScoreCalculator()));
 
         GobangMinMaxCalculator executeCalculator =

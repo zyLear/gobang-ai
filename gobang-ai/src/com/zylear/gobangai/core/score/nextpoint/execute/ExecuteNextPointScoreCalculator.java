@@ -10,10 +10,12 @@ import com.zylear.gobangai.core.score.nextpoint.NextPointScoreCalculatorBase;
  */
 public class ExecuteNextPointScoreCalculator extends NextPointScoreCalculatorBase {
 
-//    @Override
-//    protected boolean preCalculateScore(int[][] tryChess, int xIndex, int yIndex, int xDirection, int yDirection, int calculateColor) {
-//        return true;
-//    }
+
+
+    @Override
+    protected int postProcessScore(int score) {
+        return score < 6 ? 0 : score;
+    }
 
     /**
      * 算杀遍历八个方向
@@ -24,17 +26,16 @@ public class ExecuteNextPointScoreCalculator extends NextPointScoreCalculatorBas
      * @param xDirection
      * @param yDirection
      * @param calculateColor
-     * @param color
      * @return
      */
     @Override
-    protected int getScore(int[][] tryChess, int xIndex, int yIndex, int xDirection, int yDirection, int calculateColor, int color) {
+    protected int getScore(int[][] tryChess, int xIndex, int yIndex, int xDirection, int yDirection, int calculateColor) {
         int max = Integer.MIN_VALUE;
-        int score = getNextScore(tryChess, xIndex, yIndex, xDirection, yDirection, calculateColor, color);
+        int score = getNextScore(tryChess, xIndex, yIndex, xDirection, yDirection, calculateColor);
         if (score > max) {
             max = score;
         }
-        score = getNextScore(tryChess, xIndex, yIndex, -xDirection, -yDirection, calculateColor, color);
+        score = getNextScore(tryChess, xIndex, yIndex, -xDirection, -yDirection, calculateColor);
         if (score > max) {
             max = score;
         }
@@ -42,7 +43,7 @@ public class ExecuteNextPointScoreCalculator extends NextPointScoreCalculatorBas
     }
 
 
-    protected int getNextScore(int[][] tryChess, int xIndex, int yIndex, int xDirection, int yDirection, int calculateColor, int color) {
+    protected int getNextScore(int[][] tryChess, int xIndex, int yIndex, int xDirection, int yDirection, int calculateColor) {
         int x;
         int y;
 
@@ -102,11 +103,7 @@ public class ExecuteNextPointScoreCalculator extends NextPointScoreCalculatorBas
         }
 
         score = getExecuteTryPointScore(count, continuous, blockCount);
-        int isOpponentColor = color != calculateColor ? 1 : 0;
-        score -= isOpponentColor;
-        if (score < 6) {
-            return -1;
-        }
+
         return score;
     }
 
