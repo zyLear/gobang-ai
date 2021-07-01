@@ -131,15 +131,13 @@ public class GobangScoreCalculatorV2 extends GobangScoreCalculatorBase {
                 } else {
                     return 1000;
                 }
-            case 4:
+            //case 4
+            default:
                 if (continuous) {
                     return GobangConstants.WIN_SCORE;
                 } else {
                     return 10000;
                 }
-
-            default:
-                return GobangConstants.WIN_SCORE;
         }
     }
 

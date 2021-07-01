@@ -8,6 +8,7 @@ import com.zylear.gobangai.core.score.nextpoint.NextPointScoreCalculatorBase;
  * @author xiezongyu
  * @date 2021/6/24
  */
+@Deprecated
 public class GobangNextPointScoreCalculatorV2 extends NextPointScoreCalculatorBase {
 
     /**

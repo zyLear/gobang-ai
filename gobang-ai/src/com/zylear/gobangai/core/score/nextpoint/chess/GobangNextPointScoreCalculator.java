@@ -96,9 +96,7 @@ public class GobangNextPointScoreCalculator extends NextPointScoreCalculatorBase
                 if (blockCount == 0) {
                     return 8;
                 }
-            case 4:
-                return 10;
-
+            //case 4
             default:
                 return 10;
         }

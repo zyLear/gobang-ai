@@ -160,15 +160,13 @@ public class ExecuteNextPointScoreCalculator extends NextPointScoreCalculatorBas
                 } else {
                     return 6;
                 }
-            case 4:
+            //case 4
+            default:
                 if (continuous) {
                     return 10;
                 } else {
                     return 8;
                 }
-
-            default:
-                return 10;
         }
 
     }
