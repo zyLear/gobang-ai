@@ -11,7 +11,6 @@ import com.zylear.gobangai.core.score.nextpoint.NextPointScoreCalculatorBase;
 public class ExecuteNextPointScoreCalculator extends NextPointScoreCalculatorBase {
 
 
-
     @Override
     protected int postProcessScore(int score) {
         return score < 6 ? 0 : score;
@@ -55,13 +54,15 @@ public class ExecuteNextPointScoreCalculator extends NextPointScoreCalculatorBas
 
         int blockCount = 0;
         boolean continuous = true;
-
+        int countBeforeJump = 0;
+        int countAfterJump = 0;
 
         for (x = xIndex + xDirection, y = yIndex + yDirection;
              x >= 0 && x < GobangConstants.FIFTEEN && y >= 0 && y < GobangConstants.FIFTEEN;
              x = x + xDirection, y = y + yDirection) {
             if (tryChess[x][y] == calculateColor) {
                 count++;
+                countBeforeJump++;
             } else {
                 if (tryChess[x][y] != 0) {
                     blockCount++;
@@ -81,6 +82,11 @@ public class ExecuteNextPointScoreCalculator extends NextPointScoreCalculatorBas
 
             if (tryChess[x][y] == calculateColor) {
                 count++;
+                if (continuous) {
+                    countBeforeJump++;
+                }else {
+                    countAfterJump++;
+                }
             } else {
                 if (continuous && tryChess[x][y] == 0
                         && GobangOperation.isInside(x - xDirection, y - yDirection)
@@ -102,12 +108,12 @@ public class ExecuteNextPointScoreCalculator extends NextPointScoreCalculatorBas
             blockCount++;
         }
 
-        score = getExecuteTryPointScore(count, continuous, blockCount);
+        score = getExecuteTryPointScore(count, continuous, blockCount, countBeforeJump, countAfterJump);
 
         return score;
     }
 
-    private int getExecuteTryPointScore(int count, boolean continuous, int blockCount) {
+    private int getExecuteTryPointScore(int count, boolean continuous, int blockCount, int countBeforeJump, int countAfterJump) {
 
 
         switch (count) {
@@ -160,12 +166,16 @@ public class ExecuteNextPointScoreCalculator extends NextPointScoreCalculatorBas
                 } else {
                     return 6;
                 }
-            //case 4
+                //case 4
             default:
                 if (continuous) {
                     return 10;
                 } else {
-                    return 8;
+                    if (countBeforeJump >= 4 || countAfterJump >= 5) {
+                        return 10;
+                    } else {
+                        return 8;
+                    }
                 }
         }
 

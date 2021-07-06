@@ -39,6 +39,11 @@ public class GobangPanel extends JPanel implements MouseListener {
         System.out.println("current gameDepth: " + gameDepth);
     }
 
+    public void changeExecuteDepth(int value) {
+        executeDepth = value;
+        System.out.println("current executeDepth: " + executeDepth);
+    }
+
     public static class BestPoint {
         public BestPoint() {
 
@@ -136,10 +141,12 @@ public class GobangPanel extends JPanel implements MouseListener {
         addMouseListener(this);
         noti.setVisible(true);
         addMouseMotionListener(new MouseMotionListener() {
+            @Override
             public void mouseDragged(MouseEvent e) {
 
             }
 
+            @Override
             public void mouseMoved(MouseEvent e) {
                 int x1 = (e.getX() - MARGIN + GRID_SPAN / 2) / GRID_SPAN;
                 //将鼠标点击的坐标位置转成网格索引
@@ -147,10 +154,13 @@ public class GobangPanel extends JPanel implements MouseListener {
                 //游戏已经结束不能下
                 //落在棋盘外不能下
                 //x，y位置已经有棋子存在，不能下
-                if (x1 < 0 || x1 > ROWS || y1 < 0 || y1 > COLS || gameOver || findChess(x1, y1))
+                if (x1 < 0 || x1 > ROWS || y1 < 0 || y1 > COLS || gameOver || findChess(x1, y1)) {
                     setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+                }
                     //设置成默认状态
-                else setCursor(new Cursor(Cursor.HAND_CURSOR));
+                else {
+                    setCursor(new Cursor(Cursor.HAND_CURSOR));
+                }
 
             }
         });
@@ -162,8 +172,9 @@ public class GobangPanel extends JPanel implements MouseListener {
     protected boolean findChess(int x1, int y1) {
 
         for (com.zylear.gobangai.Point c : chessList) {
-            if (c != null && x1 == c.getX() && y1 == c.getY())
+            if (c != null && x1 == c.getX() && y1 == c.getY()) {
                 return true;
+            }
         }
         return false;
     }
@@ -172,8 +183,9 @@ public class GobangPanel extends JPanel implements MouseListener {
     protected boolean getChess(int x, int y, Color c) {
 
         for (com.zylear.gobangai.Point p : chessList) {
-            if (p != null && p.getX() == x && p.getY() == y && p.getColor() == c)
+            if (p != null && p.getX() == x && p.getY() == y && p.getColor() == c) {
                 return true;
+            }
         }
 
         return false;
@@ -248,7 +260,9 @@ public class GobangPanel extends JPanel implements MouseListener {
 
 
     public void goBack() {
-        if (chessCount == 0) return;
+        if (chessCount == 0) {
+            return;
+        }
         chessList[chessCount - 1] = null;
         chessCount--;
         isBlack = !isBlack;
@@ -364,8 +378,9 @@ public class GobangPanel extends JPanel implements MouseListener {
 
         Image io = ii.getImage();
 
-        if (paint)
+        if (paint) {
             g.drawImage(io, 0, 0, 585, 585, this);
+        }
 
 
 //        this.setBackground(Color.ORANGE);//LIGHT_GRAY
@@ -461,9 +476,11 @@ public class GobangPanel extends JPanel implements MouseListener {
         } else {
 
             for (int i = 0; i < chessCount; i++) {
-                if (chessList[i].getColor() == Color.white)
+                if (chessList[i].getColor() == Color.white) {
                     tryChess[chessList[i].getX()][chessList[i].getY()] = 1;
-                else tryChess[chessList[i].getX()][chessList[i].getY()] = -1;
+                } else {
+                    tryChess[chessList[i].getX()][chessList[i].getY()] = -1;
+                }
             }
 
             BestPoint bestPoint;

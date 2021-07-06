@@ -49,10 +49,14 @@ public class GobangJFrame extends JFrame {
         final JMenuItem item8 = new JMenuItem("v2");
         final JMenuItem item9 = new JMenuItem("v3");
         final JMenuItem item14 = new JMenuItem("v4");
-        final JMenuItem item11 = new JMenuItem("3层");
-        final JMenuItem item12 = new JMenuItem("5层");
-        final JMenuItem item13 = new JMenuItem("7层");
-        final JMenuItem item15 = new JMenuItem("9层");
+        final JMenuItem item11 = new JMenuItem("博弈3层");
+        final JMenuItem item12 = new JMenuItem("博弈5层");
+        final JMenuItem item13 = new JMenuItem("博弈7层");
+        final JMenuItem item15 = new JMenuItem("博弈9层");
+        final JMenuItem item21 = new JMenuItem("算杀13层");
+        final JMenuItem item22 = new JMenuItem("算杀15层");
+        final JMenuItem item23 = new JMenuItem("算杀17层");
+        final JMenuItem item25 = new JMenuItem("算杀19层");
         JMenuItem item6 = new JMenuItem("设        置");
 
 
@@ -86,6 +90,7 @@ public class GobangJFrame extends JFrame {
 
 
         class MyEvent implements ActionListener {
+            @Override
             public void actionPerformed(ActionEvent e) {
                 Object obj = e.getSource();//获得事件源
                 if (obj == btn1 || obj == item1) {
@@ -100,9 +105,9 @@ public class GobangJFrame extends JFrame {
                     start.goBack();
 
 
-                } else if (obj == btn3 || obj == item3)
+                } else if (obj == btn3 || obj == item3) {
                     System.exit(0);
-                else if (obj == item4) {
+                } else if (obj == item4) {
                     start.paint = true;
                     start.repaint();
                 } else if (obj == item5) {
@@ -126,6 +131,14 @@ public class GobangJFrame extends JFrame {
                     start.changeGameDepth(7);
                 } else if (obj == item15) {
                     start.changeGameDepth(9);
+                } else if (obj == item21) {
+                    start.changeExecuteDepth(13);
+                } else if (obj == item22) {
+                    start.changeExecuteDepth(15);
+                } else if (obj == item23) {
+                    start.changeExecuteDepth(17);
+                } else if (obj == item25) {
+                    start.changeExecuteDepth(19);
                 }
 
             }
@@ -147,6 +160,11 @@ public class GobangJFrame extends JFrame {
         item13.addActionListener(my);
         item14.addActionListener(my);
 
+        item21.addActionListener(my);
+        item22.addActionListener(my);
+        item23.addActionListener(my);
+        item25.addActionListener(my);
+
 
         btn1.addActionListener(my);
         btn2.addActionListener(my);
@@ -161,6 +179,7 @@ public class GobangJFrame extends JFrame {
         // TODO Auto-generated method stub
 
         EventQueue.invokeLater(new Runnable() {
+            @Override
             public void run() {
                 try {
                     GobangJFrame frm = new GobangJFrame("五子棋游戏");

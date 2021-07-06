@@ -21,12 +21,12 @@ public class GobangScoreCalculatorV2 extends GobangScoreCalculatorBase {
 
         //连续棋子的个数
         int count = 0;
-        //在跳空前的数量
-        int score;
 
 
         int blockCount = 0;
         boolean continuous = true;
+        int countBeforeJump = 0;
+        int countAfterJump = 0;
 
 
         for (x = xIndex + xDirection, y = yIndex + yDirection;
@@ -34,6 +34,7 @@ public class GobangScoreCalculatorV2 extends GobangScoreCalculatorBase {
              x = x + xDirection, y = y + yDirection) {
             if (tryChess[x][y] == calculateColor) {
                 count++;
+                countBeforeJump++;
             } else {
                 if (tryChess[x][y] != 0) {
                     blockCount++;
@@ -53,6 +54,12 @@ public class GobangScoreCalculatorV2 extends GobangScoreCalculatorBase {
 
             if (tryChess[x][y] == calculateColor) {
                 count++;
+                if (continuous) {
+                    countBeforeJump++;
+                }else {
+                    countAfterJump++;
+                }
+
             } else {
                 if (continuous && tryChess[x][y] == 0
                         && GobangOperation.isInside(x - xDirection, y - yDirection)
@@ -65,21 +72,18 @@ public class GobangScoreCalculatorV2 extends GobangScoreCalculatorBase {
                 if (tryChess[x][y] != 0) {
                     blockCount++;
                 }
-
                 break;
-
             }
         }
         if (!GobangOperation.isInside(x, y)) {
             blockCount++;
         }
 
-        score = getPointScore(count, continuous, blockCount);
-        return score;
+        return getPointScore(count, continuous, blockCount, countBeforeJump, countAfterJump);
 
     }
 
-    private int getPointScore(int count, boolean continuous, int blockCount) {
+    private int getPointScore(int count, boolean continuous, int blockCount, int countBeforeJump, int countAfterJump) {
 
         switch (count) {
             case 0:
@@ -131,12 +135,16 @@ public class GobangScoreCalculatorV2 extends GobangScoreCalculatorBase {
                 } else {
                     return 1000;
                 }
-            //case 4
+                //case 4
             default:
                 if (continuous) {
                     return GobangConstants.WIN_SCORE;
                 } else {
-                    return 10000;
+                    if (countBeforeJump >= 4 || countAfterJump >= 5) {
+                        return GobangConstants.WIN_SCORE;
+                    } else {
+                        return 10000;
+                    }
                 }
         }
     }
