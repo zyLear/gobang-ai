@@ -1,14 +1,13 @@
 package com.zylear.gobangai.ui;
 
 
-import com.zylear.gobangai.Point;
+import com.zylear.gobangai.bean.Point;
 import com.zylear.gobangai.bean.GobangConstants;
 import com.zylear.gobangai.bean.RecordPoint;
 import com.zylear.gobangai.bean.network.GobangOptimize;
 import com.zylear.gobangai.bean.network.GobangResponse;
 import com.zylear.gobangai.cache.GobangCache;
 import com.zylear.gobangai.core.*;
-import com.zylear.gobangai.core.calculator.*;
 import com.zylear.gobangai.util.JsonUtil;
 import com.zylear.gobangai.util.OkHttpUtil;
 import okhttp3.Response;
@@ -92,7 +91,7 @@ public class GobangPanel extends JPanel implements MouseListener {
     private int strategy = 5;
 
     int begin = 1;
-    com.zylear.gobangai.Point[] chessList = new com.zylear.gobangai.Point[(ROWS + 1) * (COLS + 1)];//初始每个数组元素为null
+    Point[] chessList = new Point[(ROWS + 1) * (COLS + 1)];//初始每个数组元素为null
 
 
     int[][] tryChess = new int[15][15];
@@ -128,7 +127,7 @@ public class GobangPanel extends JPanel implements MouseListener {
 
     public GobangPanel() {
         noti.setFont(new Font("宋体", Font.PLAIN, 20));
-        com.zylear.gobangai.Point ch = new com.zylear.gobangai.Point(7, 7, Color.white);
+        Point ch = new Point(7, 7, Color.white);
         //  chessList[0]=ch;
         // setBackground(Color.blue);//设置背景色为橘黄色
         //		   img=Toolkit.getDefaultToolkit().getImage("board.jpg");
@@ -171,7 +170,7 @@ public class GobangPanel extends JPanel implements MouseListener {
 
     protected boolean findChess(int x1, int y1) {
 
-        for (com.zylear.gobangai.Point c : chessList) {
+        for (Point c : chessList) {
             if (c != null && x1 == c.getX() && y1 == c.getY()) {
                 return true;
             }
@@ -182,7 +181,7 @@ public class GobangPanel extends JPanel implements MouseListener {
 
     protected boolean getChess(int x, int y, Color c) {
 
-        for (com.zylear.gobangai.Point p : chessList) {
+        for (Point p : chessList) {
             if (p != null && p.getX() == x && p.getY() == y && p.getColor() == c) {
                 return true;
             }
@@ -216,7 +215,7 @@ public class GobangPanel extends JPanel implements MouseListener {
             allChess = new int[15][15];
             chessCount = 1;
 
-            com.zylear.gobangai.Point ch = new com.zylear.gobangai.Point(7, 7, Color.black);
+            Point ch = new Point(7, 7, Color.black);
             chessList[0] = ch;
             allChess[7][7] = BLACK;
 
@@ -241,9 +240,9 @@ public class GobangPanel extends JPanel implements MouseListener {
 //            System.out.println("response : " + response.body().string());
 
             GobangResponse records = JsonUtil.getObjectFromJson(response.body().string(), GobangResponse.class);
-            HashMap<String, BestPoint> map = new HashMap<>(records.getList().size());
+            HashMap<String, Point> map = new HashMap<>(records.getList().size());
             for (GobangOptimize gobangOptimize : records.getList()) {
-                BestPoint bestPoint = new BestPoint();
+                Point bestPoint = new Point();
                 bestPoint.x = gobangOptimize.getX();
                 bestPoint.y = gobangOptimize.getY();
                 bestPoint.score = gobangOptimize.getScore();
@@ -328,7 +327,7 @@ public class GobangPanel extends JPanel implements MouseListener {
 
 
         //可以进行时的处理
-        com.zylear.gobangai.Point ch = new com.zylear.gobangai.Point(xIndex, yIndex, isBlack ? Color.black : Color.white);
+        Point ch = new Point(xIndex, yIndex, isBlack ? Color.black : Color.white);
         chessList[chessCount++] = ch;
         int color = isBlack ? BLACK : WHITE;
         allChess[xIndex][yIndex] = color;
@@ -404,14 +403,14 @@ public class GobangPanel extends JPanel implements MouseListener {
             //g.drawImage(shadows, xPos-Point.DIAMETER/2, yPos-Point.DIAMETER/2, Point.DIAMETER, Point.DIAMETER, null);
             colortemp = chessList[i].getColor();
             if (colortemp == Color.black) {
-                RadialGradientPaint paint = new RadialGradientPaint(xPos - com.zylear.gobangai.Point.DIAMETER / 2 + 25, yPos - com.zylear.gobangai.Point.DIAMETER / 2 + 10, 20, new float[]{0f, 1f}
+                RadialGradientPaint paint = new RadialGradientPaint(xPos - Point.DIAMETER / 2 + 25, yPos - Point.DIAMETER / 2 + 10, 20, new float[]{0f, 1f}
                         , new Color[]{Color.WHITE, Color.BLACK});
                 ((Graphics2D) g).setPaint(paint);
                 ((Graphics2D) g).setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
                 ((Graphics2D) g).setRenderingHint(RenderingHints.KEY_ALPHA_INTERPOLATION, RenderingHints.VALUE_ALPHA_INTERPOLATION_DEFAULT);
 
             } else if (colortemp == Color.white) {
-                RadialGradientPaint paint = new RadialGradientPaint(xPos - com.zylear.gobangai.Point.DIAMETER / 2 + 25, yPos - com.zylear.gobangai.Point.DIAMETER / 2 + 10, 70, new float[]{0f, 1f}
+                RadialGradientPaint paint = new RadialGradientPaint(xPos - Point.DIAMETER / 2 + 25, yPos - Point.DIAMETER / 2 + 10, 70, new float[]{0f, 1f}
                         , new Color[]{Color.WHITE, Color.BLACK});
                 ((Graphics2D) g).setPaint(paint);
                 ((Graphics2D) g).setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
@@ -419,14 +418,14 @@ public class GobangPanel extends JPanel implements MouseListener {
 
             }
 
-            Ellipse2D e = new Ellipse2D.Float(xPos - com.zylear.gobangai.Point.DIAMETER / 2, yPos - com.zylear.gobangai.Point.DIAMETER / 2, 34, 35);
+            Ellipse2D e = new Ellipse2D.Float(xPos - Point.DIAMETER / 2, yPos - Point.DIAMETER / 2, 34, 35);
             ((Graphics2D) g).fill(e);
             //标记最后一个棋子的红矩形框
 
 
             if (i == chessCount - 1) {//如果是最后一个棋子
                 g.setColor(Color.red);
-                g.drawRect(xPos - com.zylear.gobangai.Point.DIAMETER / 2, yPos - com.zylear.gobangai.Point.DIAMETER / 2,
+                g.drawRect(xPos - Point.DIAMETER / 2, yPos - Point.DIAMETER / 2,
                         34, 35);
             }
 
@@ -447,7 +446,7 @@ public class GobangPanel extends JPanel implements MouseListener {
 
         pressMark = true;
         String info;
-        com.zylear.gobangai.Point ch;
+        Point ch;
         String colorName = null;
         for (int x = 0; x < FIFTEEN; x++) {
             for (int y = 0; y < FIFTEEN; y++) {
@@ -463,9 +462,9 @@ public class GobangPanel extends JPanel implements MouseListener {
             color = isBlack ? BLACK : WHITE;
             if (isNull(chessList[0].x - 1, chessList[0].y - 1)) {
                 allChess[chessList[0].x - 1][chessList[0].y - 1] = color;
-                ch = new com.zylear.gobangai.Point(chessList[0].x - 1, chessList[0].y - 1, isBlack ? Color.black : Color.white);
+                ch = new Point(chessList[0].x - 1, chessList[0].y - 1, isBlack ? Color.black : Color.white);
             } else {
-                ch = new com.zylear.gobangai.Point(chessList[0].x - 1, chessList[0].y + 1, isBlack ? Color.black : Color.white);
+                ch = new Point(chessList[0].x - 1, chessList[0].y + 1, isBlack ? Color.black : Color.white);
                 allChess[chessList[0].x - 1][chessList[0].y + 1] = color;
             }
             chessList[chessCount++] = ch;
@@ -483,7 +482,7 @@ public class GobangPanel extends JPanel implements MouseListener {
                 }
             }
 
-            BestPoint bestPoint;
+            Point bestPoint;
             long currentTime = System.currentTimeMillis();
             System.out.println();
             System.out.println("电脑正在思考.....");
@@ -524,7 +523,7 @@ public class GobangPanel extends JPanel implements MouseListener {
 
     }
 
-    private RecordPoint formRecordPoint(BestPoint bestPoint, String uniqueKeyV2) {
+    private RecordPoint formRecordPoint(Point bestPoint, String uniqueKeyV2) {
         RecordPoint recordPoint = new RecordPoint();
         recordPoint.x = bestPoint.x;
         recordPoint.y = bestPoint.y;
@@ -557,20 +556,9 @@ public class GobangPanel extends JPanel implements MouseListener {
 
     }
 
-    private BestPoint calculate() {
+    private Point calculate() {
         switch (strategy) {
             default:
-//            case 1:
-//                return GobangCore.calculate(tryChess, gameDepth, executeDepth, computerColor);
-//            case 2:
-//                return GobangCoreV2.calculate(tryChess, gameDepth, executeDepth, computerColor);
-//            case 3:
-//                return GobangCoreV3.calculate(tryChess, gameDepth, executeDepth, computerColor);
-//            case 4:
-//                return GobangCoreV4.calculate(tryChess, gameDepth, executeDepth, computerColor);
-//            case 5:
-//                return GobangCoreV5.calculate(tryChess, 7, 13, computerColor);
-
                 return GobangStrategy.getGobangRobot("ai-v1")
                         .think(tryChess, gameDepth, executeDepth, computerColor);
 

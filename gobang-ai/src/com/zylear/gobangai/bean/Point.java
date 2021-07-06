@@ -1,4 +1,4 @@
-package com.zylear.gobangai;
+package com.zylear.gobangai.bean;
 
 
 import java.awt.*;

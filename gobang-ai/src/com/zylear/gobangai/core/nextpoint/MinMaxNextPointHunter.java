@@ -1,6 +1,6 @@
 package com.zylear.gobangai.core.nextpoint;
 
-import com.zylear.gobangai.Point;
+import com.zylear.gobangai.bean.Point;
 import com.zylear.gobangai.bean.GobangConstants;
 import com.zylear.gobangai.bean.NextPointHuntBean;
 import com.zylear.gobangai.core.GobangOperation;

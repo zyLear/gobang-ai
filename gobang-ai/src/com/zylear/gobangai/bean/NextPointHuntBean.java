@@ -1,7 +1,5 @@
 package com.zylear.gobangai.bean;
 
-import com.zylear.gobangai.Point;
-
 import java.util.List;
 
 /**

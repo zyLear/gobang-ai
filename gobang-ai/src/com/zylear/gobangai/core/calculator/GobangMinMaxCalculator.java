@@ -1,13 +1,14 @@
 package com.zylear.gobangai.core.calculator;
 
-import com.zylear.gobangai.Point;
+import com.zylear.gobangai.bean.Point;
 import com.zylear.gobangai.bean.GobangConstants;
 import com.zylear.gobangai.bean.NextPointHuntBean;
-import com.zylear.gobangai.core.score.ScoreCalculator;
 import com.zylear.gobangai.core.nextpoint.NextPointHunter;
-import com.zylear.gobangai.ui.GobangPanel.BestPoint;
+import com.zylear.gobangai.core.score.ScoreCalculator;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * @author xiezongyu
@@ -19,8 +20,8 @@ public class GobangMinMaxCalculator implements MinMaxCalculator {
     private ScoreCalculator scoreCalculator;
     private NextPointHunter nextPointHunter;
 
-    private BestPoint defaultPoint = new BestPoint();
-    private List<BestPoint> resultPoints = new ArrayList<>(30);
+    private Point defaultPoint = new Point();
+    private List<Point> resultPoints = new ArrayList<>(30);
     private LinkedList<Point> record = new LinkedList<>();
 
     public GobangMinMaxCalculator(ScoreCalculator scoreCalculator, NextPointHunter nextPointHunter) {
@@ -30,7 +31,7 @@ public class GobangMinMaxCalculator implements MinMaxCalculator {
 
 
     @Override
-    public BestPoint getBestPoint(int[][] tryChess, int maxDepth, int calculateColor) {
+    public Point getBestPoint(int[][] tryChess, int maxDepth, int calculateColor) {
 
         defaultPoint.x = 0;
         defaultPoint.y = 0;
@@ -175,7 +176,7 @@ public class GobangMinMaxCalculator implements MinMaxCalculator {
     }
 
     private void addPoint(int alpha, Point point) {
-        BestPoint bestPoint = new BestPoint();
+        Point bestPoint = new Point();
         bestPoint.x = point.x;
         bestPoint.y = point.y;
         bestPoint.score = alpha;

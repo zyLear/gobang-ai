@@ -1,10 +1,10 @@
 package com.zylear.gobangai.core.robot;
 
+import com.zylear.gobangai.bean.Point;
 import com.zylear.gobangai.bean.GobangConstants;
 import com.zylear.gobangai.cache.GobangCache;
 import com.zylear.gobangai.core.GobangStatistic;
 import com.zylear.gobangai.core.calculator.MinMaxCalculator;
-import com.zylear.gobangai.ui.GobangPanel.BestPoint;
 
 /**
  * 算杀机器人
@@ -28,10 +28,10 @@ public class GobangExecuteRobot implements GobangRobot {
     }
 
     @Override
-    public BestPoint think(int[][] tryChess, int gameDepth, int executeDepth, int calculateColor) {
+    public Point think(int[][] tryChess, int gameDepth, int executeDepth, int calculateColor) {
 
 
-        BestPoint bestPoint = executeMinMaxCalculator.getBestPoint(tryChess, executeDepth, calculateColor);
+        Point bestPoint = executeMinMaxCalculator.getBestPoint(tryChess, executeDepth, calculateColor);
         if (bestPoint.score != GobangConstants.WIN_SCORE) {
             System.out.println("算杀失败，正常博弈...");
             GobangStatistic.init();
