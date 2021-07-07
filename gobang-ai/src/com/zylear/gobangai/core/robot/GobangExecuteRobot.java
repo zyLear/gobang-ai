@@ -19,8 +19,8 @@ public class GobangExecuteRobot implements GobangRobot {
         this.executeMinMaxCalculator = executeMinMaxCalculator;
     }
 
-    private MinMaxCalculator minMaxCalculator;
-    private MinMaxCalculator executeMinMaxCalculator;
+    private final MinMaxCalculator minMaxCalculator;
+    private final MinMaxCalculator executeMinMaxCalculator;
 
     @Override
     public String key() {

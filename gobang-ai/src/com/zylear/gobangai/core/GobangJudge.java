@@ -1,15 +1,19 @@
 package com.zylear.gobangai.core;
 
+import com.zylear.gobangai.bean.GobangConstants;
+
 /**
  * Created by xiezongyu on 2018/9/6.
  */
 public class GobangJudge {
 
-    private static boolean isWin(int[][] chessBoard, int originX, int originY, int xSign, int ySign, int color) {
+    private static boolean isWin(int[][] chessBoard, int originX, int originY, int xDirection, int yDirection, int color) {
         int x;
         int y;
         int continueCount = 1;
-        for (x = originX + xSign, y = originY + ySign; x >= 0 && x <= 14 && y >= 0 && y <= 14; x = x + xSign, y = y + ySign) {
+        for (x = originX + xDirection, y = originY + yDirection;
+             x >= 0 && x <= 14 && y >= 0 && y <= 14;
+             x = x + xDirection, y = y + yDirection) {
             if (chessBoard[x][y] == color) {
                 continueCount++;
             } else {
@@ -21,7 +25,9 @@ public class GobangJudge {
             }
         }
 
-        for (x = originX - xSign, y = originY - ySign; x >= 0 && x <= 14 && y >= 0 && y <= 14; x = x - xSign, y = y - ySign) {
+        for (x = originX - xDirection, y = originY - yDirection;
+             x >= 0 && x <= 14 && y >= 0 && y <= 14;
+             x = x - xDirection, y = y - yDirection) {
             if (chessBoard[x][y] == color) {
                 continueCount++;
             } else {
@@ -37,21 +43,13 @@ public class GobangJudge {
     }
 
     public static boolean isWin(int[][] chessBoard, int x, int y, int color) {
-        //判断东西方向
-        if (isWin(chessBoard, x, y, 1, 0, color)) {
-            return true;
-        }
-        //判断南北方向
-        if (isWin(chessBoard, x, y, 0, 1, color)) {
-            return true;
-        }
-        //判断西北-东南方向
-        if (isWin(chessBoard, x, y, 1, 1, color)) {
-            return true;
-        }
-        //判断东北-西南方向
-        if (isWin(chessBoard, x, y, 1, -1, color)) {
-            return true;
+
+        for (int[] ints : GobangConstants.DERECTIONS) {
+            int xDirection = ints[0];
+            int yDirection = ints[1];
+            if (isWin(chessBoard, x, y, xDirection, yDirection, color)) {
+                return true;
+            }
         }
 
         return false;

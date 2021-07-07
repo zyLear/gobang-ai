@@ -17,11 +17,11 @@ import java.util.List;
 public class GobangMinMaxCalculator implements MinMaxCalculator {
 
 
-    private ScoreCalculator scoreCalculator;
-    private NextPointHunter nextPointHunter;
+    private final ScoreCalculator scoreCalculator;
+    private final NextPointHunter nextPointHunter;
 
     private Point defaultPoint = new Point();
-    private List<Point> resultPoints = new ArrayList<>(30);
+    private final List<Point> resultPoints = new ArrayList<>(30);
     private LinkedList<Point> record = new LinkedList<>();
 
     public GobangMinMaxCalculator(ScoreCalculator scoreCalculator, NextPointHunter nextPointHunter) {

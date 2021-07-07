@@ -12,9 +12,6 @@ import com.zylear.gobangai.core.score.ScoreCalculator;
  */
 abstract public class GobangScoreCalculatorBase implements ScoreCalculator {
 
-    private int[][] tryList = {
-            {1, 1}, {1, -1}, {1, 0}, {0, 1}
-    };
 
     @Override
     public int getChessScore(int[][] tryChess, int calculateColor) {
@@ -52,7 +49,7 @@ abstract public class GobangScoreCalculatorBase implements ScoreCalculator {
 
         int score = 0;
 
-        for (int[] ints : tryList) {
+        for (int[] ints : GobangConstants.DERECTIONS) {
             int xDirection = ints[0];
             int yDirection = ints[1];
 

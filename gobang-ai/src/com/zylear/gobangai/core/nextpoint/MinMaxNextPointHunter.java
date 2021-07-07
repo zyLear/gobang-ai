@@ -17,7 +17,7 @@ public class MinMaxNextPointHunter implements NextPointHunter {
 
     private static final Integer SCAN_RANGE = 2;
 
-    private NextPointScoreCalculator nextPointScoreCalculator;
+    private final NextPointScoreCalculator nextPointScoreCalculator;
 
     public MinMaxNextPointHunter(NextPointScoreCalculator nextPointScoreCalculator) {
         this.nextPointScoreCalculator = nextPointScoreCalculator;
