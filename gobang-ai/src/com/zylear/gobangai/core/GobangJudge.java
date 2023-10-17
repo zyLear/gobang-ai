@@ -44,7 +44,7 @@ public class GobangJudge {
 
     public static boolean isWin(int[][] chessBoard, int x, int y, int color) {
 
-        for (int[] ints : GobangConstants.DERECTIONS) {
+        for (int[] ints : GobangConstants.DIRECTIONS) {
             int xDirection = ints[0];
             int yDirection = ints[1];
             if (isWin(chessBoard, x, y, xDirection, yDirection, color)) {

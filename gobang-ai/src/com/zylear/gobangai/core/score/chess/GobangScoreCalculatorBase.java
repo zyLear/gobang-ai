@@ -2,7 +2,6 @@ package com.zylear.gobangai.core.score.chess;
 
 import com.zylear.gobangai.bean.ChessColor;
 import com.zylear.gobangai.bean.GobangConstants;
-import com.zylear.gobangai.core.GobangOperation;
 import com.zylear.gobangai.core.GobangStatistic;
 import com.zylear.gobangai.core.score.ScoreCalculator;
 
@@ -49,7 +48,7 @@ abstract public class GobangScoreCalculatorBase implements ScoreCalculator {
 
         int score = 0;
 
-        for (int[] ints : GobangConstants.DERECTIONS) {
+        for (int[] ints : GobangConstants.DIRECTIONS) {
             int xDirection = ints[0];
             int yDirection = ints[1];
 

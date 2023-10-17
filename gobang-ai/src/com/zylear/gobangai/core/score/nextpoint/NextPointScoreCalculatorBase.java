@@ -1,7 +1,6 @@
 package com.zylear.gobangai.core.score.nextpoint;
 
 import com.zylear.gobangai.bean.GobangConstants;
-import com.zylear.gobangai.core.score.nextpoint.NextPointScoreCalculator;
 
 /**
  * @author xiezongyu
@@ -16,7 +15,7 @@ abstract public class NextPointScoreCalculatorBase implements NextPointScoreCalc
 
         int count = 0;
 
-        for (int[] direction : GobangConstants.DERECTIONS) {
+        for (int[] direction : GobangConstants.DIRECTIONS) {
             int xDirection = direction[0];
             int yDirection = direction[1];
 
